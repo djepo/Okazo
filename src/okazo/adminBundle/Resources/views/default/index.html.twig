@@ -1,57 +1,27 @@
-{% extends "::base.html.twig" %}
+{% extends "okazoadminBundle::layout.html.twig" %}
 
-{% block user%}
-    {% include 'okazoUserBundle:Blocks:userMenu.html.twig' %}
+{% block adminContent %}
+    <ul class="tabs left">
+        <li><a href="#tabr1"><i class="icon-group"></i>Administration Utilisateurs</a></li>
+        <li><a href="#tabr2"><i class="icon-book"></i>Administration Annonces</a></li>
+        <li><a href="#tabr3"><i class="icon-globe"></i>Administration Villes</a></li>
+        <li><a href="#tabr4">Autres</a></li>
+    </ul>
 
-    {#
-    <div class="align-right">    
-    {% if is_granted("IS_AUTHENTICATED_FULLY") %}
-        Welcome {{app.user.username}}
-        <a href="{{path('fos_user_security_logout')}}">Logout</a>		
-	{% else %}		
-        {% render "okazoUserBundle:Security:blockLogin" %}        		
-    {% endif %}
-     </div>
-     #}
-{% endblock %}
-
-{% block websiteHeader %}
-    <div class="col_2" style="margin-bottom: 0px;">
-        <a href="{{path('homepage')}}">
-            <img src="{{asset('bundles/okazomain/img/logo.png')}}" alt="Okazo" id="websiteLogo"></img>
-        </a>
+    <div id="tabr1" class="tab-content" style="overflow: auto; height: 580px;">
+        {{ render(controller('okazoadminBundle:admin:blockUserAdmin')) }}            
     </div>
-    <div class="col_10 center">
-        <h1>OKAZO ADMIN</h1>
+    <div id="tabr2" class="tab-content" style="overflow: auto; height: 580px;">            
+        {{ render(controller('okazoadminBundle:admin:blockAdsAdmin')) }}
     </div>
-{%endblock%}
+    <div id="tabr3" class="tab-content" style="overflow: auto; height: 580px;">            
 
-{% block body %}
-    <div class="mainContent" style="width: 1024px; margin: auto;">
-        <ul class="tabs left">
-            <li><a href="#tabr1"><i class="icon-group"></i>Administration Utilisateurs</a></li>
-            <li><a href="#tabr2"><i class="icon-book"></i>Administration Annonces</a></li>
-            <li><a href="#tabr3"><i class="icon-globe"></i>Administration Villes</a></li>
-            <li><a href="#tabr4">Autres</a></li>
-        </ul>
-
-        <div id="tabr1" class="tab-content" style="overflow: auto; height: 580px;">
-            {{ render(controller('okazoadminBundle:admin:blockUserAdmin')) }}            
-        </div>
-        <div id="tabr2" class="tab-content" style="overflow: auto; height: 580px;">            
-            {{ render(controller('okazoadminBundle:admin:blockAdsAdmin')) }}
-        </div>
-        <div id="tabr3" class="tab-content" style="overflow: auto; height: 580px;">            
-            
-        </div>
-        <div id="tabr4" class="tab-content" style="overflow: auto; height: 580px;">
-            <a href="{{path('adminClearCache')}}">clear Cache</a>
-            </br>
-            <a target="_blank" href="https://www.google.com/analytics/web/?hl=fr&pli=1#report/visitors-overview/a40959596w70297497p72481346/">Google Analytics</a>
-            </br>
-            <a href="{{path('testMail')}}">Test Mail</a>
-        </div>
-
-        
     </div>
-{% endblock %}
+    <div id="tabr4" class="tab-content" style="overflow: auto; height: 580px;">
+        <a href="{{path('adminClearCache')}}">clear Cache</a>
+        </br>
+        <a target="_blank" href="https://www.google.com/analytics/web/?hl=fr&pli=1#report/visitors-overview/a40959596w70297497p72481346/">Google Analytics</a>
+        </br>
+        <a href="{{path('testMail')}}">Test Mail</a>
+    </div>
+{% endblock adminContent%}
