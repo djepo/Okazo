@@ -7,7 +7,7 @@
                         <ul>
                             <li><a href="{{path('annonces_new')}}">{{'ui.header.postNewAd'|trans({}, 'okazoMainBundle')}}</a></li>
                             <hr style="margin: 0;"/>
-                            <li><a href="{{path('fos_user_profile_show')}}">{{'pages.showProfile.name'|trans({},'okazoMainBundle')|capitalize}}</a></li>
+                            <li><a href="{{path('fos_user_profile_edit')}}">{{'pages.showProfile.name'|trans({},'okazoMainBundle')|capitalize}}</a></li>
                             <li><a href="{{path('fos_user_change_password')}}">{{'change_password.submit'|trans({},'FOSUserBundle')|capitalize}}</a></li>                            
                             <li><a href="{{path('fos_user_security_logout')}}">{{'ui.header.logout'|trans({}, 'okazoMainBundle')}}</a></li>
                             {%if app.debug %}
