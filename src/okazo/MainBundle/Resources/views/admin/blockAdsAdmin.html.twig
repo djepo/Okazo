@@ -1,0 +1,68 @@
+<div id="ajaxAdsContent">
+{# Barre de navigation #}            
+<ul class="button-bar">
+    <li><a id="adsNavMinus"><i class="icon-caret-left"></i></a></li>
+    <li><a id="adsNavPlus" ><i class="icon-caret-right"></i></a></li>
+    <li><a>Page {{page}}</a></li>
+</ul>
+        
+
+
+<div id="ajaxAdsTable" style="height: 520px; overflow: auto;">
+    <table cellspacing="0" cellpadding="0">
+        <thead ><tr>
+                <th>id</th>
+                <th>Titre</th>
+                <th>Texte</th>
+                <th>Images</th>
+                <th>Actions</th>
+        </tr></thead>    
+        <tbody>
+            {% for ad in ads.annonces %}                        
+            <tr>
+                <form>
+                    <td>{{ ad.id }}</td>
+                    <td><input disabled readonly value="{{ ad.titre }}"></input></td>
+                    <td><textarea disabled readonly cols="50" rows="3" style="height: 100px; resize: none;">{{ ad.texte|raw }}</textarea></td>
+                    <td>{{ad.images|length}}</td>
+                    <td>
+                        <a href="{{path('annonces_edit',{'id': ad.id})}}"><i class="icon-edit icon-large"></i></a>
+                        <a href="#"><i class="icon-remove icon-large"></i></a>
+                    </td>
+                </form>
+            </tr>                    
+            {% endfor %}
+        </tbody>    
+    </table>
+</div>
+
+<script>
+    $("#adsNavMinus").click(function() {    
+        var requete = $.ajax({
+            url: "{{path('blockAdsAdmin')}}",
+            type: "post",
+            data: "page={{page-1}}",
+            success: function(data, textStatus, jqXHR){
+                $("#ajaxAdsContent").html(requete.responseText);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                alert ('AJAX error');
+            }
+            });
+    });
+    
+    $("#adsNavPlus").click(function() {    
+        var requete = $.ajax({
+            url: "{{path('blockAdsAdmin')}}",
+            type: "post",
+            data: "page={{page+1}}",
+            success: function(data, textStatus, jqXHR){
+                $("#ajaxAdsContent").html(requete.responseText);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                alert ('AJAX error');
+            }
+            });
+    });
+</script>
+</div>

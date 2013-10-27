@@ -1,0 +1,34 @@
+{% extends "::base.html.twig" %}
+
+{% block noScriptTest %}{%endblock%}    {#désactive la redirection en cas de javascript désactivé#}
+
+{% block header_javascripts %}
+{%endblock%}
+
+{% block body %}
+    <div class="mainContent">
+         {#
+        <div class="col_12 center">
+            <a href="{{path('homepage')}}">
+                <img src="{{asset('bundles/okazomain/img/logo.png')}}" alt="Okazo" id="websiteLogo"></img>
+            </a>
+        </div>
+           #} 
+        <div class="col_12 center">
+            <h1>{{'page.noscript.title'|trans({}, 'okazoMainBundle')}}</h1>
+            <h2>{{'page.noscript.subTitle1'|trans({}, 'okazoMainBundle')}}</h2>
+            <p>
+                {{'page.noscript.text1'|trans({}, 'okazoMainBundle')|raw}}
+            </p>
+            
+            <h2>{{'page.noscript.subTitle2'|trans({}, 'okazoMainBundle')|raw}}</h2>
+            <p>
+                {{'page.noscript.text2'|trans({}, 'okazoMainBundle')}}
+            </p>
+            
+            <h2>{{'page.noscript.subTitle3'|trans({}, 'okazoMainBundle')}}</h2>
+            <p>{{'page.noscript.text3'|trans({}, 'okazoMainBundle')|raw}}</p>
+            
+        </div>    
+    </div>
+{% endblock %}

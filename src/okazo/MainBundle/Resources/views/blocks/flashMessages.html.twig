@@ -1,0 +1,101 @@
+{#
+    Notifications d'erreur, warning ou success
+    sous symfony: les affichages des messages flash
+#}
+{#
+<div style="clear: both;">
+
+{% for type, messages in app.session.flashbag.all() %}
+    {% for key, message in messages %}
+        <div class="notice {{ type }}" style="width: 400px; margin-left:auto; margin-right: auto;">
+            {%if type=="error"%}
+                <i class="icon-remove-sign icon-large"></i>
+            {%elseif type=="warning"%}
+                <i class="icon-warning-sign icon-large"></i>
+            {%elseif type=="success"%}
+                <i class="icon-ok icon-large"></i>
+            {%else%}
+                type inconnu
+            {%endif%}
+
+             {{ message }}
+
+             <a href="#close" class="icon-remove"></a>
+
+        </div>
+    {% endfor %}
+{% endfor %}
+</div>
+#}
+<script>
+    $(document).ready(function(){
+        {% for type, messages in app.session.flashbag.all() %}
+            {% for key, message in messages %}
+                {%if type=="error"%}
+                    $.notific8('{%if message|length>87%}{{message|slice(0, 90)}}...{%else%}{{message}}{%endif%}', {
+                        life: 10000,
+                        heading: 'Error',
+                        theme: 'ruby',
+                        sticky: true,
+                        horizontalEdge: 'top',
+                        verticalEdge: 'right',
+                        zindex: 1500
+                    });
+                {%elseif type=="warning"%}
+                    $.notific8('{%if message|length>87%}{{message|slice(0, 90)}}...{%else%}{{message}}{%endif%}', {
+                        life: 10000,
+                        heading: 'Warning',
+                        theme: 'lemon',
+                        sticky: true,
+                        horizontalEdge: 'top',
+                        verticalEdge: 'right',
+                        zindex: 1500
+                    });
+                {%elseif type=="success"%}
+                    $.notific8('{%if message|length>87%}{{message|slice(0, 90)}}...{%else%}{{message}}{%endif%}', {
+                        life: 10000,
+                        heading: 'Success',
+                        theme: 'lime',
+                        sticky: true,
+                        horizontalEdge: 'top',
+                        verticalEdge: 'right',
+                        zindex: 1500
+                    });
+                {%else%}
+                    $.notific8('{%if message|length>87%}{{message|slice(0, 90)}}...{%else%}{{message}}{%endif%}', {
+                        life: 10000,
+                        heading: 'Information',
+                        theme: 'teal',
+                        sticky: true,
+                        horizontalEdge: 'top',
+                        verticalEdge: 'right',
+                        zindex: 1500
+                    });
+                {%endif%}
+            {% endfor %}
+        {% endfor %}
+ 
+                           $.notific8('Message de test', {
+                        life: 1000,
+                        heading: 'Information',
+                        theme: 'lemon',
+                        sticky: false,
+                        horizontalEdge: 'top',
+                        verticalEdge: 'right',
+                        zindex: 1500
+                    });
+    
+    
+        $.notific8('Message de test', {
+                        life: 100000,
+                        heading: 'Information',
+                        theme: 'teal',
+                        sticky: true,
+                        horizontalEdge: 'top',
+                        verticalEdge: 'right',
+                        zindex: 1500
+                    });
+                    
+     
+    });
+</script>

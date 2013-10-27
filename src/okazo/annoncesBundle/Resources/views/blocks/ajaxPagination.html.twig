@@ -1,0 +1,33 @@
+<div class="pagination col_12 center">        
+    
+</div>
+
+  <script type="text/javascript"> 
+    function computePaginator(){
+        //Appel au javascript maxmind en cas de coordonnées manquantes
+        if (document.getElementById("lat").value=="" || document.getElementById("long").value=="") {            
+            document.getElementById("lat").value =geoip_latitude();
+            document.getElementById("long").value =geoip_longitude();            
+                     
+        }
+    
+        //Appel ajax
+        jQuery.ajax({
+            type: 'POST',
+            dataType: 'json',
+            url: '{{path('ajaxPaginator')}}',
+            data: { lat: document.getElementById("lat").value,
+                    long: document.getElementById("long").value,
+                  },
+            success: function (data, textStatus, jqXHR) {
+                //document.getElementById("city").value=data[0][0]['citycp'] + " " + data[0][0]['cityname'];
+            },
+            error: function(jqXHR, textStatus, errorThrown) {        
+            }
+        });        
+    }
+    
+    $(document).ready(function(){
+        computePaginator();
+    });
+  </script>

@@ -1,9 +1,32 @@
+#netbeans
+/nbproject/*
+
+# Bootstrap
+app/bootstrap*
+
 # Symfony directories
 vendor/*
 */logs/*
 */cache/*
 web/uploads/*
 web/bundles/*
+public_html/uploads/*
+public_html/bundles/*
+public_html/css/*
+public_html/js/*
 
-#netbeans
-/nbproject/*
+# Configuration files
+app/config/parameters.ini
+app/config/parameters.yml
+
+composer.phar
+
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/

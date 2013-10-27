@@ -1,0 +1,85 @@
+{% extends "::base.html.twig" %}
+{% block stylesheets %}
+    {{parent()}}
+
+{%endblock%}
+
+{% block header%}
+    {{ parent() }}
+<style type="text/css">
+    #content {
+    width:300px;
+    margin:25px auto 0;
+    background-color:#fff;
+    padding:20px 15px;
+    border:7px solid #ccc;
+    border-bottom:10px solid #999;
+    border-top:5px solid #ddd;
+    border-radius:10px;
+    -webkit-border-radius:10px;
+    -moz-border-radius:10px;
+     
+    }
+    </style>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/jquery-ui.js"></script>
+{% endblock %}
+
+{% block websiteHeader %}
+    {% block leftLogo %}
+        {{ parent() }}
+    {%endblock%}
+
+    {% block search %}
+        <h1>Page de tests</h1>
+    {%endblock%}
+{%endblock%}
+
+{% block body %}
+    <div class="mainContent" style="width: 1024px; margin: auto;">
+        {% if app.debug %}
+            <h2>Tests Utilisateurs</h2>
+            {%if app.user %}
+                ID: {{app.user.id}}</br>
+                username: {{app.user}}</br>
+                email: {{app.user.email}}</br>
+                roles:
+                    {% for role in app.user.roles %}
+                        <li>{{ role }}</li>
+                    {% endfor %}            
+            {%else%}
+                Non connecté (anonyme)
+            {%endif%}
+            Possède roletest2: {%if is_granted('ROLE_TEST2')%} Oui {%else%}Non{%endif%}
+    {%else%}
+            Vous n'avez pas le droit d'accéder à cette page.
+    {%endif%}
+    </div>
+        
+            
+    <script type="text/javascript">
+    var colors = Array('#077bf4', '#fedf01', '#c43fcd', '#0099ff', '#000000', '#cccccc', '#ff0000'); //List the hex codes you want to loop through here.
+    var color_index = 0;
+    var interval = 5000; //How long the color blend transition lasts. (in milliseconds, 1000 = 1 second)
+     
+    function bg_color_tween() {
+        $('body').animate({ backgroundColor: colors[color_index] }, interval, 'linear', function() {
+            if(color_index == colors.length) { color_index = 0; } //If we are at the end of the colors array go back to the beginning.
+                else { color_index++; } //Lets move to the next color in the colors array.s
+            bg_color_tween();
+        });
+    }
+     
+    $(document).ready(function() {
+    if( $(window).width() > 1024 ) {
+    //Kicks off the background color tweening.
+    bg_color_tween();
+    }
+    });
+    </script>
+        
+        
+        
+{% endblock %}
+
+

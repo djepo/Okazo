@@ -1,0 +1,63 @@
+{% if websiteUseFacebookLogin %}
+    {{ facebook_initialize({'xfbml': true, 'fbAsyncInit': 'onFbInit();', 'culture': facebookLocale}) }}
+    <script>
+        function goLogIn(){
+            window.location = "{{ path('_security_check') }}";
+        }
+
+        function onFbInit() {
+            if (typeof(FB) != 'undefined' && FB != null ) {
+                FB.Event.subscribe('auth.statusChange', function(response) {
+                    if (response.session || response.authResponse) {
+                        setTimeout(goLogIn, 500);
+                    } else {
+                        window.location = "{{ path('_security_logout') }}";
+                    }
+                });
+            }
+        }
+    </script>
+{% endif %}
+{#
+{% if  error is defined %}
+    {%if error %}
+    <div class="notice error">
+        <span class="icon medium" data-icon="X" style="display: inline-block;"></span>
+        {{ error|trans({}, 'FOSUserBundle') }}
+        <a class="icon close" data-icon="x" href="#close" style="display: inline-block;"></a>
+    </div>
+    {%endif%}
+{% endif %}
+#}
+{% if websiteUseInternalLogin %}
+
+    {#
+    <form  class="col_12" action="{{ path("fos_user_security_check") }}" method="post">
+    #}
+    {#<form  class="col_12" action="{{ path("block_user_security_check", {"mode": "render_whole"}) }}" method="post">#}
+    <form  style="float: none;" class="" action="{{ path("fos_user_security_check") }}" method="post">    
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+        {#<label for="username">{{ 'security.login.username'|trans({}, 'FOSUserBundle') }}</label>#}
+        <input type="text" id="username" name="_username" value="{{ last_username }}" class="tooltip" title="{{'security.login.usernameOrMail'|trans({}, 'okazoMainBundle')}}" style="padding: 0;"/>
+        {#<label for="password">{{ 'security.login.password'|trans({}, 'FOSUserBundle') }}</label>#}
+        <input type="password" id="password" name="_password" class="tooltip" title="{{'security.login.password'|trans({}, 'okazoMainBundle')}}" style="padding: 0;"/>
+        <input type="checkbox" id="remember_me" name="_remember_me" value="on" class="tooltip" title="{{'security.login.remember_me'|trans({}, 'okazoMainBundle')}}"/>
+        <button class="small" type="submit" id="_submit" name="_submit" value="{{'security.login.submit'|trans({}, 'okazoMainBundle')}}" style="padding: 2px 1px" >{{'ui.header.login'|trans({}, 'okazoMainBundle')}}</button>
+        <div>
+            <a href="{{path('fos_user_registration_register')}}">{{'ui.header.goRegister'|trans({}, 'okazoMainBundle')}}</a>
+        </div>
+</form>
+{% endif %}
+
+{% if websiteUseFacebookLogin %}
+    <div class="fbLogin">
+        {#{{ facebook_login_button({'autologoutlink': false}) }}#}
+        <div class="fbConnect" style="display: inline-block">
+            <fb:login-button size="small"
+                onlogin="require('./log').info('onlogin callback')">
+                Connect
+            </fb:login-button>
+        </div>
+    </div>
+{% endif %}
+

@@ -1,0 +1,15 @@
+homepage:
+  path:  /
+  defaults: { _controller: okazoMainBundle:Default:index, _locale: en}
+
+categoriesList:
+  path: /categoriesList
+  defaults: { _controller: okazoMainBundle:Default:categoriesList }
+  
+noScript:
+  path: /noScript
+  defaults: { _controller: okazoMainBundle:Default:noScript }
+  
+test:
+  path: /test
+  defaults: { _controller: okazoMainBundle:Default:test }

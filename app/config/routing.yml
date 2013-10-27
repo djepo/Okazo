@@ -1,10 +1,52 @@
-coUserBundle:
-    resource: "@djepoUserBundle/Controller/"
+#okazoMainBundle:
+#    resource: "@okazoMainBundle/Controller/"
+#    type:     annotation
+#    prefix:   /
+
+# Point d'entrée du site. Va détecter la langue et redirige vers la page d'accueil avec la _locale renseignée
+# (basé sur les préférences du navigateur)
+entryPoint:
+    path: /
+    defaults: { _controller: okazoMainBundle:main:entryPoint }
+  
+setLocale:
+  path: /setLocale/{locale}
+  defaults: { _controller: okazoMainBundle:locale:setLocale }
+
+okazoMainBundle_Admin:
+    prefix:  /admin
+    resource: "@okazoMainBundle/Resources/config/adminRouting.yml"
+    
+error404:
+  path: /404
+  defaults:  { _controller: okazoMainBundle:errors:quatreCentQuatre}    
+
+#userMgmt:
+#    path: /{_locale}/user
+#    resource: "@okazoUserBundle/Resources/config/routing.yml"
+#    _locale: fr|en
+
+#tout ce qui est préfixé de {_locale} doit rester en bas
+okazoMainBundle:
+    prefix:  /{_locale}
+    resource: "@okazoMainBundle/Resources/config/routing.yml"    
+    requirements: 
+      _locale: fr|en
+    
+
+        
+okazogeo:
+    resource: "@okazogeoBundle/Controller/"
     type:     annotation
     prefix:   /
 
-coMainBundle:
-    resource: "@djepoMainBundle/Controller/"
+okazoannonces:
+    resource: "@okazoannoncesBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+okazoUserBundle:
+    resource: "@okazoUserBundle/Controller/"
     type:     annotation
     prefix:   /
     
@@ -13,21 +55,35 @@ _security_check:
 _security_logout:
     pattern:  /logout
       
+fos_user_security_login:
+    pattern: /{_locale}/login    
+    defaults:  { _controller: FOSUserBundle:Security:login }
 fos_user_security:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"
+    #prefix: /{_locale}/
+# Override de fos_user_security, pour avoir la locale uniquement dans la route du login   
+
+#fos_user_security_check:
+#    pattern: /login_check
+#    defaults:  { _controller: FOSUserBundle:Security:check }
+#    requirements:
+#        _method:  POST
+#fos_user_security_logout:
+#    pattern: /logout
+#    defaults:  { _controller: FOSUserBundle:Security:logout }
 
 fos_user_profile:
     resource: "@FOSUserBundle/Resources/config/routing/profile.xml"
-    prefix: /profile
+    prefix: /{_locale}/profile
 
 fos_user_register:
     resource: "@FOSUserBundle/Resources/config/routing/registration.xml"
-    prefix: /register
+    prefix: /{_locale}/register
 
 fos_user_resetting:
     resource: "@FOSUserBundle/Resources/config/routing/resetting.xml"
-    prefix: /resetting
+    prefix: /{_locale}/resetting
 
 fos_user_change_password:
     resource: "@FOSUserBundle/Resources/config/routing/change_password.xml"
-    prefix: /profile
+    prefix: /{_locale}/profile

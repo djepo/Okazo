@@ -1,0 +1,65 @@
+<div class="pagination col_12 center">
+    {%if page>1%}
+        <a class="paginate first" href="{{url('homepage',{'page':1, 'q': getQuery, 'distance': getDistance, 'sortby': getSortBy, 'sortdirection': getSortDirection, 'lat': getLatitude, 'long': getLongitude, 'cat': categorieId})}}">
+            <span class="arrowLeft" style="margin-right: -4px"></span>
+            <span class="arrowLeft"></span>
+        </a>
+        <a class="paginate previous" href="{{url('homepage',{'page':page-1, 'q': getQuery, 'distance': getDistance, 'sortby': getSortBy, 'sortdirection': getSortDirection, 'lat': getLatitude, 'long': getLongitude, 'cat': categorieId})}}">
+            <span class="arrowLeft"></span>
+        </a>
+    {%endif%}
+
+    {%if nombrePages==0%}
+        <b class="current">1</b>
+    {%else%}
+        {%if nombrePages<11%}
+            {# cas ou on a moins de 11 pages #}
+            {%for i in 1..nombrePages %}
+                {%if page==i%}
+                    <span class="current">{{i|number_format(0,","," ")}}</span>
+                {%else%}
+                    <a class="paginate page" href="{{url('homepage',{'page':i, 'q': getQuery, 'distance': getDistance, 'sortby': getSortBy, 'sortdirection': getSortDirection, 'lat': getLatitude, 'long': getLongitude, 'cat': categorieId})}}">{{i|number_format(0,","," ")}}</a>
+                {%endif%}
+            {%endfor%}
+        {%else%}
+            {%if page>6 and page<nombrePages-5%}
+                {#Pages de milieu de liste#}
+                {%for i in page-5..page+5 %}
+                    {%if page==i%}
+                        <span class="current">{{i|number_format(0,","," ")}}</span>
+                    {%else%}
+                        <a class="paginate page" href="{{url('homepage',{'page':i, 'q': getQuery, 'distance': getDistance, 'sortby': getSortBy, 'sortdirection': getSortDirection, 'lat': getLatitude, 'long': getLongitude, 'cat': categorieId})}}">{{i|number_format(0,","," ")}}</a>
+                    {%endif%}
+                {%endfor%}
+            {%elseif page>nombrePages-6%}
+                {#Pages de fin de liste#}
+                {%for i in nombrePages-10..nombrePages %}
+                    {%if page==i%}
+                        <span class="current">{{i|number_format(0,","," ")}}</span>
+                    {%else%}
+                        <a class="paginate page" href="{{url('homepage',{'page':i, 'q': getQuery, 'distance': getDistance, 'sortby': getSortBy, 'sortdirection': getSortDirection, 'lat': getLatitude, 'long': getLongitude, 'cat': categorieId})}}">{{i|number_format(0,","," ")}}</a>
+                    {%endif%}
+                {%endfor%}
+            {%else%}
+                {#Pages de début de liste#}
+                {%for i in 1..11 %}
+                    {%if page==i%}
+                        <span class="current">{{i|number_format(0,","," ")}}</span>
+                    {%else%}
+                        <a class="paginate page" href="{{url('homepage',{'page':i, 'q': getQuery, 'distance': getDistance, 'sortby': getSortBy, 'sortdirection': getSortDirection, 'lat': getLatitude, 'long': getLongitude, 'cat': categorieId})}}">{{i|number_format(0,","," ")}}</a>
+                    {%endif%}
+                {%endfor%}
+            {%endif%}
+        {%endif%}
+
+        {%if page<nombrePages%}
+            <a class="paginate next" href="{{url('homepage',{'page':page+1, 'q': getQuery, 'distance': getDistance, 'sortby': getSortBy, 'sortdirection': getSortDirection, 'lat': getLatitude, 'long': getLongitude, 'cat': categorieId})}}">
+                <span class="arrowRight"></span>
+            </a>
+            <a class="paginate last" href="{{url('homepage',{'page':nombrePages, 'q': getQuery, 'distance': getDistance, 'sortby': getSortBy, 'sortdirection': getSortDirection, 'lat': getLatitude, 'long': getLongitude, 'cat': categorieId})}}">
+                <span class="arrowRight"></span>
+                <span class="arrowRight"  style="margin-left: -4px"></span>
+            </a>
+        {%endif%}
+    {%endif%}
+</div>

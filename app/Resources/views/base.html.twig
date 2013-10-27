@@ -1,44 +1,178 @@
 <!DOCTYPE html>
-<html>
+<html style="overflow: auto !important;{#hack fancybox pour éviter des décalages de layout#}">
     <head>
+        {# redirection en cas de javascript désactivé #}
+        {% block noScriptTest %}
+            <noscript>
+                <meta http-equiv="refresh" content="0; URL={{url("noScript")}}">
+            </noscript>
+        {%endblock%}
+
         <meta charset="UTF-8" />
-        <title>{% block title %}{{websiteName}} | {{websiteSlogan}}{% endblock %}</title>
+        <meta http-equiv="Content-Language" content="{{app.request.locale}}" />
+        <meta name="msvalidate.01" content="8E58865EC5B5A70CB8C11C9CD0D959DC" />    {# Validation pour Bing #}
+
+        <title>{% block title %}{{websiteName}} | {{'website.slogan'|trans({}, 'okazoMainBundle')}}{% endblock %}</title>
+        <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
+
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
         {% block stylesheets %}
-            <link media="all" href="{{asset('bundles/djepoMain/css/KickStart/style.css')}}" type="text/css" rel="stylesheet">
-            <link media="all" href="{{asset('bundles/djepoMain/css/KickStart/css/kickstart.css')}}" type="text/css" rel="stylesheet">
+            {#
+            {% stylesheets  '@okazoMainBundle/Resources/public/js/jquery/ui/theme/cupertino/jquery-ui-1.10.3.custom.min.css'                            
+                            '@okazoMainBundle/Resources/public/css/KickStart/css/*.css'
+                            'bundles/okazomain/css/*.css'
+                            '@okazoMainBundle/Resources/public/js/fancybox/source/helpers/jquery.fancybox-buttons.css'
+                            '@okazoMainBundle/Resources/public/js/fancybox/source/helpers/jquery.fancybox-thumbs.css'
+                    filter='cssrewrite' %}
+                    <link rel="stylesheet" href="{{ asset_url }}" />
+            {% endstylesheets %}
+            #}<link media="all" href="{{asset('bundles/okazomain/css/KickStart/css/kickstart.css')}}" type="text/css" rel="stylesheet">
+            <link media="all" href="{{asset('bundles/okazomain/js/notific8/jquery.notific8.css')}}" type="text/css" rel="stylesheet">
+            <link media="all" href="{{asset('bundles/okazomain/css/style.css')}}" type="text/css" rel="stylesheet">            
+            {#<link media="all" href="{{asset('bundles/okazomain/js/jquery/ui/theme/cupertino/jquery-ui-1.10.3.custom.min.css')}}" type="text/css" rel="stylesheet">#}
+            
+            {#<link media="all" href="{{asset('bundles/okazomain/css/style.css')}}" type="text/css" rel="stylesheet">#}
+            
         {% endblock %}
         {% block header_javascripts %}
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js" type="text/javascript"></script>
-            <script src="{{asset('bundles/djepoMain/js/prettify.js')}}" type="text/javascript"></script>
-            <script src="{{asset('bundles/djepoMain/js/kickstart.js')}}" type="text/javascript"></script>
+            {# ESSAI ASSETIC #}                
+            <!-- jQuery library -->
+            <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+            <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+            {#<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>#}
+            
+            <!-- fancyBox -->
+            <script type="text/javascript" src="{{asset('bundles/okazomain/js/fancybox/source/jquery.fancybox.pack.js?v=2.1.5')}}"></script>
+            <link rel="stylesheet" href="{{asset('bundles/okazomain/js/fancybox/source/jquery.fancybox.css?v=2.1.5')}}" type="text/css" media="screen" />            
+            
+            <!-- Add mousewheel plugin (for FancyBox)-->            
+            <script type="text/javascript" src="{{asset('bundles/okazomain/js/fancybox/lib/jquery.mousewheel-3.0.6.pack.js')}}"></script>
+            
+            {#
+            {% javascripts  'http://code.jquery.com/jquery-latest.min.js'
+                            '@okazoMainBundle/Resources/public/js/fancybox/source/jquery.fancybox.pack.js'
+                            '@okazoMainBundle/Resources/public/js/fancybox/lib/jquery.mousewheel-3.0.6.pack.js'
+                            '@okazoMainBundle/Resources/public/js/fancybox/source/helpers/jquery.fancybox-buttons.js'
+                            '@okazoMainBundle/Resources/public/js/fancybox/source/helpers/jquery.fancybox-media.js'
+                            '@okazoMainBundle/Resources/public/js/fancybox/source/helpers/jquery.fancybox-thumbs.js'
+                            '@okazoMainBundle/Resources/public/js/jquery/ui/jquery-ui-1.10.3.custom.min.js'
+                            '@okazoMainBundle/Resources/public/css/KickStart/js/kickstart.js'
+                            filter='yui_js' %}
+                <script src="{{ asset_url }}"></script>
+            {% endjavascripts %}
+            #}
+            <!-- Optionally add helpers - button, thumbnail and/or media -->            
+            <link rel="stylesheet" href="{{asset('bundles/okazomain/js/fancybox/source/helpers/jquery.fancybox-buttons.css?v=1.0.5')}}" type="text/css" media="screen" />            
+            <script type="text/javascript" src="{{asset('bundles/okazomain/js/fancybox/source/helpers/jquery.fancybox-buttons.js?v=1.0.5')}}"></script>
+                                    
+            <script type="text/javascript" src="{{asset('bundles/okazomain/js/fancybox/source/helpers/jquery.fancybox-media.js?v=1.0.6')}}"></script>
+            
+            <link rel="stylesheet" href="{{asset('bundles/okazomain/js/fancybox/source/helpers/jquery.fancybox-thumbs.css?v=1.0.7')}}" type="text/css" media="screen" />
+            <script type="text/javascript" src="{{asset('bundles/okazomain/js/fancybox/source/helpers/jquery.fancybox-thumbs.js?v=1.0.7')}}"></script>
+            
+            {#<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" type="text/javascript"></script>#}
+            <!--[if lt IE 9]>
+                <script type="text/javascript" src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+            <![endif]-->
+            {#<script src="{{asset('bundles/okazomain/js/jquery/jquery-1.9.1.min.js')}}" type="text/javascript"></script>#}
+            {#<script src="{{asset('bundles/okazomain/js/jquery/ui/jquery-ui-1.10.3.custom.min.js')}}" type="text/javascript"></script>#}
+            
+            <script src="{{asset('bundles/okazomain/css/KickStart/js/kickstart.js')}}" type="text/javascript"></script>
+            
+            <script src="{{asset('bundles/okazomain/js/notific8/jquery.notific8.js')}}" type="text/javascript"></script>
         {% endblock %}
-        <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
+
+        {% block metaSEO %}
+            <meta name="description" content="{{'website.description'|trans({}, 'okazoMainBundle')}}">
+            <meta property="og:image" content="http://okazo.eu/bundles/okazomain/img/logo.png"/>
+            <meta property="og:title" content="{{websiteName}} | {{'website.slogan'|trans({}, 'okazoMainBundle')}}"/>
+            <meta property="og:description" content="{{'website.description'|trans({}, 'okazoMainBundle')}}"/>
+            <meta property="og:url" content="{{app.request.uri}}"/>
+            <meta property="og:site_name" content="{{websiteName}}"/>
+            <meta property="og:type" content="website"/>
+            <meta property="fb:admins" content="100002583175945" />
+            <meta property="fb:app_id" content="125464904285037" />
+         {%endblock%}
+
     </head>
     <body>
         <a id="top-of-page"></a>
-        <div id="wrap" class="clearfix">            
-            <div id="websiteHeader">                
-                <h1 id="websiteName"><a href="{{ path('homepage')}}">{{websiteName}}</a></h1>
-                <h6 id="websiteSlogan"><a href="{{ path('homepage')}}">{{websiteSlogan}}</a></h6>                
-            </div>            
-                
-            {% for key, message in app.session.getFlashes() %}
-                <div class="{{ key }}">
-                    {{ message|trans({}, 'FOSUserBundle') }}
+            {% block content %}
+        
+                {#
+                <div id="navMinus" class="borderNav"></div>
+                <div id="navPlus" class="borderNav"></div>
+                <div class="clear"></div>
+                <style>
+                        .borderNav {
+                            display: block;
+                            width: 20px;
+                            height: 100%;
+                            position:fixed;
+                            /*display:none;*/
+                            background-color: transparent;
+                        }
+                        #navMinus {
+                            float: left;
+                            background-image:-moz-linear-gradient(left, black, white);
+                            left:0;
+                        }
+                        #navPlus {                    
+                            float: right;
+                            background-image:-moz-linear-gradient(left, white, black);
+                            right: 0;
+                        }
+                </style>
+                <script>
+                    $(document).ready(function(){
+                        $('.borderNav').height($(window).height());                
+                    });
+                    $('.borderNav').hover(function(){
+                        $(this).show();
+                    });
+                </script>
+                #}
+        
+                {% block header%}
+                    {% include 'okazoMainBundle:blocks:header.html.twig' %}
+                {% endblock %}
+
+                <div id="websiteHeader" class="col_12" {#style="width: 1024px; margin: auto;"#}>
+                    {% block websiteHeader %}
+                            {% block websiteHeader_Left %}
+                                {# Header par défaut pour les pages n'ayant pas la barre de recherche #}
+                                {# ie: Logo centré en largeur, en haut de la page #}
+                                <div class="col_2 hide-phone" style="margin-bottom: 0px;">
+                                    <a href="{{path('homepage')}}">
+                                        <img src="{{asset('bundles/okazomain/img/logo.png')}}" alt="Okazo" id="websiteLogo"></img>
+                                    </a>
+                                </div>
+                            {% endblock %}
+                            {% block websiteHeader_Right %}                        
+                            {% endblock %}
+                    {%endblock%}
                 </div>
-            {% endfor %}            
 
-            {% block body %}{% endblock %}
+                {# Affichage des messages Flash #}
+                {% include 'okazoMainBundle:blocks:flashMessages.html.twig' %}
 
-            <div id="footer">                
-                &copy; Copyright {%if "now"|date("Y")== websiteBirthYear %}{{websiteBirthYear}}{%else%}{{websiteBirthYear}}&ndash;{{"now"|date("Y")}}{%endif%} All Rights Reserved.</br>
-                This website is powered with <a href="http://symfony.com/">Symfony 2</a> using <a href="http://www.99lime.com/">HTMLKickStart</a> for templating, <a href="https://github.com/FriendsOfSymfony/FOSUserBundle">FOSUser</a> and <a href="https://github.com/FriendsOfSymfony/FOSFacebookBundle">FOSFacebook</a> bundles for user management.</br>
-                <a href="https://github.com/djepo/TemplateViergeSymfony2">Base template</a> by <a href="http://djepo.craym.eu">CAILBAUT Olivier</a> aka djepo.
-                <a id="link-top" href="#top-of-page">Top</a>
-            </div>
+                {# "Corps" du site #}
+                {% block body %}{% endblock %}
+
+                {# Footer du site #}
+                {%block footer%}
+                    <div id="footerSpace"></div>
+                    {% include 'okazoMainBundle:blocks:footer.html.twig' %}
+                {%endblock%}
+
+            {% endblock %}
         </div>
-        
+
+        {# Javascripts additionnels #}
         {% block javascripts %}{% endblock %}
-        
+
+        {# Inclusion de google Analytics #}
+        {% include 'okazoMainBundle:blocks:googleAnalytics.html.twig' %}
     </body>
 </html>

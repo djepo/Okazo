@@ -1,0 +1,26 @@
+{% block searchResult%}
+    <div class="col_12 center hide-tablet  hide-phone">
+        <em>
+        {% if nombreAnnonces==0 %}
+            Votre recherche n'a retournée aucun résultat.
+        {% else %}
+            Votre recherche à retourné {{nombreAnnonces|number_format(0,","," ")}} 
+            {% if nombreAnnonces==1 %}
+                résultat, trié 
+            {%else%}
+                résultats, triés 
+            {%endif%}
+            {%if getSortBy!="" %}
+                par {{getSortBy|lower}} 
+                {%if getSortDirection|upper=="ASC"%}
+                    ascendant.
+                {%else%}
+                    descendant.
+                {%endif%}
+            {%else%}
+                    date.
+            {%endif%}
+        {%endif%}
+        </em>
+    </div>
+{% endblock %}

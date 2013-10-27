@@ -1,0 +1,62 @@
+.pagination a.paginate {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #EEE5D0;
+    border-radius: 2px 2px 2px 2px;
+    color: #333333 !important;
+    display: inline-block;
+    float: none;
+    height: 20px;
+    line-height: 19px;
+    padding: 0px 6px !important;
+    text-align: center;
+    text-decoration: none;
+    font-family: 'Source Sans Pro',sans-serif;
+    font-size: 14px;
+    margin: 0;
+    padding: 0;
+}
+
+.pagination a.paginate span.arrowLeft {
+    border-color: transparent #333333 transparent transparent;
+    border-style: solid;
+    border-width: 5px 6px 5px 0;
+    bottom: -1px;
+    display: inline-block;
+    float: none;
+    height: 0;
+    padding: 0!important;
+    position: relative;
+    right: 1px;
+    width: 0;
+}
+
+.pagination a.paginate span.arrowRight {
+    border-color: transparent transparent transparent #333333;
+    border-style: solid;
+    border-width: 5px 0 5px 6px;
+    bottom: -1px;
+    display: inline-block;
+    float: none;
+    height: 0;
+    padding: 0 !important;
+    position: relative;
+    right: -1px;
+    width: 0;
+}
+
+.pagination span.current {
+    background-color: #EEE5D0;
+    border: 1px solid #a0a0a0;
+    border-radius: 2px 2px 2px 2px;
+    color: #696969;
+    display: inline-block;
+    float: none;
+    height: 20px;
+    line-height: 19px;
+    padding: 0 6px!important;
+    text-align: center;
+}
+
+.pagination a:hover, .pagination a:active {
+    border: 1px solid #a0a0a0;
+}

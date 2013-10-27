@@ -1,0 +1,24 @@
+<form action="{{ path('fos_user_registration_register') }}" {{ form_enctype(form) }} method="POST" class="fos_user_registration_register">
+    {{ form_widget(form) }}
+    <div>
+        <input type="submit" value="{{ 'registration.submit'|trans({}, 'FOSUserBundle') }}" />
+    </div>
+        {#
+        <iframe src="https://www.facebook.com/plugins/registration?client_id=263778820386586&redirect_uri=http://localhost/app_dev.php/okazo&fields=name,email,password,captcha"
+        scrolling="auto"
+        frameborder="no"
+        style="border:none"
+        allowTransparency="true"
+        width="100%"
+        height="330">
+    </iframe>
+        
+        #}
+        {#
+        <div class="center">
+            <div id="fb-root"></div>
+            <script src="https://connect.facebook.net/{{facebookLocale}}/all.js#appId={{facebookAppID}}&xfbml=1"></script>            
+            <fb:login-button registration-url="{{path('fos_user_registration_register')}}" />
+        </div>
+        #}
+</form>

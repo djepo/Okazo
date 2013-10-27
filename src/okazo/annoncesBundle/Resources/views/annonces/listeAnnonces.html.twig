@@ -1,0 +1,144 @@
+{%block searchResult %}
+    {% include 'okazoannoncesBundle:blocks:searchResult.html.twig' %}
+{%endblock%}
+
+
+
+{% if annonces|length>0 %}
+    {% block listeAnnonces %}
+    <div class="liste col_12"{# style="width: 751px; clear:both"#}>
+        <table class="annonces striped">
+            <thead class="">
+                <tr class="tableHeader">
+                    <th class="{#hide-phone#}"></th>   {# colonne images #}
+                    <th></th>   {# colonne annonce #}
+                    <th width="80" class="center">
+                        <a href="{{url('homepage',{'page':page, 'q': getQuery, 'distance': getDistance, 'sortby': 'prix', 'sortdirection': sortDirectionPrix, 'lat': getLatitude, 'long': getLongitude, 'cat': categorieId})}}" style="color: #000000; text-decoration: none;">
+                            {#<span class="icon gray small" data-icon="{%if sortDirectionPrix=="ASC"%}~{%else%}|{%endif%}"></span></a> Prix#}
+                            {%if getSortBy!="prix" %}
+                                <span class="tooltip" title="Trier du moins cher au plus cher"><i class="icon-sort"></i></span> Prix
+                            {% else %}
+                                {%if sortDirectionPrix=="ASC"%}
+                                    <span class="tooltip" title="Trier du moins cher au plus cher"><i class="icon-sort-down"></i> Prix
+                                {%else%}
+                                    <span class="tooltip" title="Trier du plus cher au moins cher"><i class="icon-sort-up"></i> Prix
+                                {%endif%}                                
+                            {%endif%}
+                        </a>
+                    </th>
+                    <th class="center">Ville</th>
+                    <th width="90" class="center">                                        
+                        <a id="linkSortByDistance" href="{{url('homepage',{'page':page, 'q': getQuery, 'distance': getDistance, 'sortby': 'distance', 'sortdirection': sortDirectionDistance, 'lat': getLatitude, 'long': getLongitude, 'cat': categorieId})}}" style="color: #000000; text-decoration: none;">
+                        {#<span class="{%if getLatitude=="" %} hide {%endif%} icon gray small" data-icon="{%if sortDirectionDistance=="ASC"%}~{%else%}|{%endif%}"></span></a> Distance#}
+                        {%if getSortBy!="distance" %}
+                                <span class="tooltip" title="Trier du moins loin au plus loin"><i id="distanceSort" class="icon-sort"></i></span> Distance
+                            {% else %}
+                                {%if sortDirectionDistance=="ASC"%}
+                                    <span class="tooltip" title="Trier du moins loin au plus loin"><i id="distanceSort" class="icon-sort-down"></i> Distance
+                                {%else%}
+                                    <span class="tooltip" title="Trier du plus loin au moins loin"><i id="distanceSort" class="icon-sort-up"></i> Distance
+                                {%endif%}                                
+                            {%endif%}
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="">
+                {%set annonceNumber=1%}
+                {% for annonce in annonces %}                
+                    <tr itemscope itemtype="http://schema.org/Product">                    
+                        <td class="imageAnnonce">
+                            {% if annonce['images']|length>0 %}
+                                <div class="gallery">                                
+                                    {%set i=0%}
+                                    {%for image in annonce['images']%}  
+                                        {#Normalisation des url d'images#}
+                                        {# Des variables imageThumbURL et imageFullURL sont créée et représenteront les url normalisées #}
+                                        {#Miniature#}
+
+                                        {% set imageThumb=image.thumbURL|split('http://') %}
+                                        {%if imageThumb|length==2 %}  {# Test de la présence de http:// en début de lien pour voir si on doit l'ajouter ou non #}
+
+                                            {%set imageThumbURL=image.thumbURL%}
+                                        {%else%}
+                                            {%set imageThumbURL="http://"~image.thumbURL%}
+                                        {%endif%}
+                                        {#Image pleine taille#}
+
+                                        {% set imageFull=image.imageURL|split('http://') %}
+                                        {%if imageFull|length==2 %}  {# Test de la présence de http:// en début de lien pour voir si on doit l'ajouter ou non #}
+
+                                            {%set imageFullURL=image.imageURL%}
+                                        {%else%}
+                                            {%set imageFullURL="http://"~image.imageURL%}
+                                        {%endif%}                                   
+                                        <a rel="{{'fancyGallery' ~ annonceNumber}}" class="fancyThumb" href="{{imageFullURL}}" {%if i>0%}style="display: none"{%endif%}>
+                                            <img alt="" itemprop="image" class="thumb" src="{{imageThumbURL}}" width="80" style="display: {%if i==0%}block{%else%}none{%endif%} !important"/>
+                                        </a>                      
+                                        {%set i=i+1%}
+                                    {%endfor%}
+                                </div>                        
+                            {%endif%}                                                 
+                        </td>
+
+                        <td class="Annonce">
+                            {% set lien=annonce.lien|split('http://') %}
+                            {%if lien|length==2 %}  {# Test de la présence de http:// en début de lien pour voir si on doit l'ajouter ou non #}
+                                <a itemprop="url" href="{{annonce.lien}}" target="_blank"><span itemprop="name">{{annonce.titre|upper}}</span></a>
+                            {%else%}
+                                <a itemprop="url" itemprop="name" href="http://{{annonce.lien}}" target="_blank"><span itemprop="name">{{annonce.titre|upper}}</span></a>
+                            {%endif%}                            
+                            {#<p style="color:green; font-size:smaller; margin-top: -5px;">Catégorie: {{annonce.categorie_id}}</p>#}
+                            <p>
+                                <span itemprop="description">
+                                    {{annonce.texte|capitalize|slice(0,400)}}
+                                    {% if annonce.texte|length>400 %}...{% endif %}</br>
+                                </span>
+                                {#<p  itemprop="offers" itemscope itemtype="http://schema.org/Offer" style="color:green; font-size:smaller">Source: <span itemprop="seller" itemscope itemtype="http://schema.org/Organization" itemprop="name">{{annonce.sourcename}}</span></p>#}
+                                <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+                                    <p style="color:green; font-size:smaller">Source:<span itemprop="seller" itemscope itemtype="http://schema.org/Organization"><span itemprop="name">{{annonce.sourcename}}</span></span></p>
+                                </div>
+                            </p>                        
+                        </td>     
+
+                        <td itemprop="offers" itemscope itemtype="http://schema.org/Offer"><p class="right"><span  itemprop="price" >{{annonce.prix|number_format(0,","," ")}}</span>€<span itemprop="priceCurrency" style="display: none;">EUR</span></p></td>
+                        <td itemscope itemtype="http://schema.org/Place"><p itemprop="address" itemscope itemtype="http://schema.org/PostalAddress" class="center"><span itemprop="addressLocality">{{annonce.citycp}}</span></br><span itemprop="postalCode">{{annonce.cityname}}</span></p></td>
+                        <td><p class="center">{{annonce.distance|number_format(0, '.', ' ')}} Km</p></td>                    
+                    </tr>
+                    {%set annonceNumber=annonceNumber+1%}
+                {%endfor%}
+            </tbody>
+        </table>
+                
+        <script type="text/javascript">
+            $(document).ready(function() {
+                    $(".fancyThumb").fancybox({                        
+                        openEffect	: 'elastic',
+                        closeEffect	: 'elastic',
+                        nextEffect      : 'none',
+                        prevEffect      : 'none',
+                        showEarly       : true,
+                        scrolling       : 'yes',
+                        mouseWheel      : false,                          
+                        helpers: {                            
+                            opacity  : 0.8,                            
+                            thumbs	: {
+				width	: 100,
+				height	: 100,
+                            },
+                            overlay : {
+                                showEarly  : true,
+                            },
+                        }
+                    });                    
+            });
+        </script>
+
+        {%block navCount %}            
+            {%include 'okazoannoncesBundle:blocks:pagination.html.twig'%}            
+            {#{%include 'okazoannoncesBundle:blocks:ajaxPagination.html.twig'%}#}
+        {%endblock%} 
+
+    </div>
+    {%endblock%}
+{% endif %}

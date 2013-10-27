@@ -1,0 +1,64 @@
+<?php
+
+namespace okazo\annoncesBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * test
+ *
+ * @ORM\Table()
+ * @ORM\Entity(repositoryClass="okazo\annoncesBundle\Entity\testRepository")
+ */
+class test
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="toto", type="string", length=255)
+     */
+    private $toto;
+
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set toto
+     *
+     * @param string $toto
+     * @return test
+     */
+    public function setToto($toto)
+    {
+        $this->toto = $toto;
+    
+        return $this;
+    }
+
+    /**
+     * Get toto
+     *
+     * @return string 
+     */
+    public function getToto()
+    {
+        return $this->toto;
+    }
+}

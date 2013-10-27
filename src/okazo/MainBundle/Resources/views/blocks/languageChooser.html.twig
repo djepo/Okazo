@@ -1,0 +1,11 @@
+{% if websiteShowLanguageChooser %}
+    <div style="float:left;">    
+        <div id="dropdown1" class="ddmenu left">
+            {{'words.language'|trans({},'okazoMainBundle')|capitalize}}: {{app.request.locale|upper}} <i class="icon-caret-down"></i>
+            <ul>
+                <li><a href="{{ path('setLocale', {'locale' : 'fr'}) }}">FR</a></li>
+                <li><a href="{{ path('setLocale', {'locale' : 'en'}) }}">EN</a></li>                        
+            </ul>
+        </div>                    
+    </div>
+{%endif%}

@@ -1,0 +1,96 @@
+{% extends "::base.html.twig" %}
+
+{% block header%}
+    {{ parent() }}
+{% endblock %}
+
+{% block websiteHeader %}
+    {% block websiteHeader_Left %}
+        {{ parent() }}
+    {%endblock%}
+
+    {% block websiteHeader_Right %}
+        <div class="col_10" style="margin-bottom: 0px;">
+            {#{% block search%}#}
+                {% include 'okazoannoncesBundle:blocks:search.html.twig' %}
+            {#{% endblock %}#}
+        </div>
+    {%endblock%}
+{%endblock%}
+
+{% block body %}
+    <style>
+            @media (min-width: 800px) {
+            #colonneDroite {
+                display: block;
+                }
+                #listeAnnonces {
+                width: 751px;
+            }
+            }        
+
+            @media (max-width: 800px) {
+                #colonneDroite {
+                    display: none;
+                    }
+                #listeAnnonces {
+                    width: 100%;
+                } 
+            }   
+    </style>
+
+    <div class="mainContent" style="width: 1024px; margin: auto;">
+        {# Publicité google du haut de page #}
+        {% include 'okazoMainBundle:blocks:adsGoogleHorizontalTop.html.twig' %}
+
+        {# Liste des annonces #}
+        <div class="{#col_9#}" style="{#width: 751px; #}float: left;" id="listeAnnonces">
+        {%block listeAnnonces %}        
+            {% include 'okazoannoncesBundle:annonces:listeAnnonces.html.twig' %}        
+        {%endblock%}
+        </div>
+
+        {# Colonne de droite #}
+        <div class="{#col_3#} {#right hide-phone hide-tablet#}" id="colonneDroite" style="width: 250px; float: right;">
+            <div id="fb-root"></div>
+            <script>
+                (function(d, s, id) {
+                    var js, fjs = d.getElementsByTagName(s)[0];
+                    if (d.getElementById(id)) return;
+                    js = d.createElement(s); js.id = id;
+                    js.src = "//connect.facebook.net/fr_FR/all.js#xfbml=1&appId=125464904285037";
+                    fjs.parentNode.insertBefore(js, fjs);
+                }(document, 'script', 'facebook-jssdk'));
+            </script>
+            {#<div class="fb-like" data-href="http://www.okazo.eu/" data-send="false" data-width="225" data-show-faces="true"></div>#}
+            <style>
+                /*Hack de la facebook like page pour l'avoir en responsive */
+                /* Cet élément block le script injecté dans l'iframe. On le cache */
+                #fb-root { display: none; }
+                /* on redéfini la taille du contenu */
+                .fb_iframe_widget, .fb_iframe_widget span, .fb_iframe_widget span iframe[style] { width: 100% !important; }
+            </style>
+            <style>
+                /*tests de modif pour avoir un design de colonnes responsive*/
+                #listeAnnonces {
+                    /*width: 73.333333333333%;    /*Comme col_9*/                
+                }
+
+                /*full screen*/
+                @media all and (min-width: 1024px) and (max-width: 1280px) {
+                    #listeAnnonces {
+                        /*width: 73.333333333333%;    /*Comme col_9*/
+                    }
+                    #colonneDroite {
+                        /*width: 23.333333333333%;    /*Comme col_3 */
+                    }
+                }            
+            </style>
+            <div style="padding-top: 40px; padding-bottom: 0; padding-left: 0; padding-right: 0;" class="hide-phone fb-like-box" data-href="https://www.facebook.com/pages/Okazo/613317148699358" data-width="292" data-show-faces="true" data-stream="false" data-show-border="false" data-header="true"></div>
+
+            {# Publicité google du côté droit #}
+            {% include 'okazoMainBundle:blocks:adsGoogleVerticalRight.html.twig' %}
+
+        </div>
+    </div>
+{% endblock %}

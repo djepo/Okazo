@@ -1,0 +1,100 @@
+{# Détection géographique en cas de non détection par le contrôleur #}
+{# En premier lieu, on va utiliser l'api du navigateur (surtout pour le gps sur les smartphones #}
+{# En cas d'échec, on utilisera l'api maxmind #}
+
+{% extends "::base.html.twig" %}
+
+{% block content %}
+    <h1 class="center" id="msgLigne1">Détection de votre position.</h1>
+    <h2 class="center" id="msgLigne2">Veuillez patienter svp...</h2>    
+    <div class="col_12 center" id="spinner">
+        <img src="{{asset('bundles/okazomain/img/big-spinner.gif')}}" class="center"></img>
+    </div>
+    <h3 id="timer" class="col_12 center"></h3>    
+{% endblock %}
+
+
+{% block javascripts %}
+    {# Intégration du JS maxmind #}
+    <script src="http://j.maxmind.com/app/geoip.js" charset="ISO-8859-1" type="text/javascript" ></script>
+
+  <script type="text/javascript">
+    function detectPosition(){    
+        if(navigator.geolocation) {
+            //Géolocalisation supportée, on tente de la localisation par gps, ou par navigateur
+            navigator.geolocation.getCurrentPosition(callbackDetectionPosition, callbackError, {enableHighAccuracy:true, timeout: 10000, maximumAge:600000});            
+        } else {
+            //Géolocalisation non supportée, on passe par l'api javascript maxmind
+            //alert("géolocalisation non supportée");
+            //document.getElementById("lat").value =geoip_latitude();
+            //document.getElementById("long").value =geoip_longitude();
+
+            //window.window.location.href="{{path('homepage')}}"+'?lat='+geoip_latitude()+'&long='+geoip_longitude();
+            redirection(geoip_latitude(), geoip_longitude());
+            return;            
+        }
+    }
+
+    /*
+     * Callback de la fonction intégrée au navigateur de détection de position (ou par gps si dispo)
+     */
+    function callbackDetectionPosition(position) {        
+        //alert("détection par navigateur");        
+        redirection(position.coords.latitude, position.coords.longitude);
+        //window.window.location.href="{{path('homepage')}}"+'?lat='+position.coords.latitude+'&long='+position.coords.longitude;
+        return;        
+    }
+
+    function callbackError(error) {
+        //Géolocalisation non supportée, on passe par l'api javascript maxmind
+        //alert("Appel API Maxmind");
+        //document.getElementById("lat").value =geoip_latitude();
+        //document.getElementById("long").value =geoip_longitude();        
+        redirection(geoip_latitude(), geoip_longitude());
+        //window.window.location.href="{{path('homepage')}}"+'?lat='+geoip_latitude()+'&long='+geoip_longitude();
+        return;        
+    }
+    
+    function redirection(latitude, longitude) {
+        $("#spinner").hide();        
+        //$("#msgLigne2").hide();
+        $("#msgLigne1").text("Redirection");
+        
+        window.window.location.href="{{path('homepage')}}"+'?lat='+latitude+'&long='+longitude;
+    }
+
+    var startTime=new Date();
+    var maxTime=10;
+    var timerState=1;
+    function timer() {        
+        currentTime=new Date();
+        dif=Math.round((currentTime-startTime)/1000);        
+                
+        if(maxTime-dif<=0) {
+            clearInterval(timerId);   //arrête le timer                        
+                        
+            timerId=setInterval(timer,100);
+            if (timerState===1) {
+                timerState=2;
+                startTime=new Date();
+                maxTime=10;
+                $("#msgLigne1").text("Deuxième tentative de détection de position...");                
+                redirection(geoip_latitude(), geoip_longitude());   //envoie les coordonnées maxmind
+            } else {
+                $("#msgLigne1").text("Echec de la géolocalisation. Rechargement.");
+                $("#timer").hide();
+                redirection(1000, 1000);   //envoie les coordonnées par défaut
+            }
+            
+        } else {
+            $("#timer").text(maxTime-dif + " secondes restantes.");
+        }
+        
+        return;
+    }
+    
+    detectPosition();
+    timerId=setInterval(timer,100);    //lance le timer permettant de rediriger vers la page d'acceuil en cas de non détection de la position
+
+  </script>
+{% endblock %}

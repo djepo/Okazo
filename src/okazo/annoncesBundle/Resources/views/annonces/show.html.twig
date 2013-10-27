@@ -1,0 +1,77 @@
+<h1>Annonces</h1>
+
+<table class="record_properties">
+    <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ entity.id }}</td>
+        </tr>
+        <tr>
+            <th>Foreignid</th>
+            <td>{{ entity.foreignId }}</td>
+        </tr>
+        <tr>
+            <th>Foreigntimestamp</th>
+            <td>{{ entity.foreignTimestamp|date('Y-m-d H:i:s') }}</td>
+        </tr>
+        <tr>
+            <th>Titre</th>
+            <td>{{ entity.titre }}</td>
+        </tr>
+        <tr>
+            <th>Texte</th>
+            <td>{{ entity.texte }}</td>
+        </tr>
+        <tr>
+            <th>Lien</th>
+            <td>{{ entity.lien }}</td>
+        </tr>
+        <tr>
+            <th>Websitecategorie</th>
+            <td>{{ entity.websiteCategorie }}</td>
+        </tr>
+        <tr>
+            <th>Prix</th>
+            <td>{{ entity.prix }}</td>
+        </tr>
+        <tr>
+            <th>Codepostal</th>
+            <td>{{ entity.codepostal }}</td>
+        </tr>
+        <tr>
+            <th>Ville</th>
+            <td>{{ entity.ville }}</td>
+        </tr>
+        <tr>
+            <th>Horodatageparse</th>
+            <td>{{ entity.horodatageparse|date('Y-m-d H:i:s') }}</td>
+        </tr>
+        <tr>
+            <th>Lastexistencecheck</th>
+            <td>{{ entity.lastexistencecheck|date('Y-m-d H:i:s') }}</td>
+        </tr>
+        <tr>
+            <th>Existe</th>
+            <td>{{ entity.existe }}</td>
+        </tr>
+    </tbody>
+</table>
+
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('annonces') }}">
+            Back to the list
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('annonces_edit', { 'id': entity.id }) }}">
+            Edit
+        </a>
+    </li>
+    <li>
+        <form action="{{ path('annonces_delete', { 'id': entity.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+            <button type="submit">Delete</button>
+        </form>
+    </li>
+</ul>

@@ -1,0 +1,4 @@
+404:
+    title: 404 error
+    subTitle: The page you are trying to access is unavailable, or you mis-typed the URL.
+    message: The page you are trying to access is unavailable, or you mis-typed the URL.

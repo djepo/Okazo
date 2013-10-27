@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>{%block metaTitle%}An Error Occurred: {{ status_text }}{%endblock metaTitle%}</title>
+
+        <style>
+            body {
+                font-family: Segoe UI;
+            }
+            h1 {
+                text-align: center;
+                font-size: 2em;
+                text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5)
+            }
+            h2 {
+                text-align: center;
+                font-size: 1.5em;
+                text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5)
+            }
+            p {
+                font-size: 11pt;
+                font-weight: 300;
+                letter-spacing: 0.02em;
+                line-height: 14pt;
+            }
+            a {
+                color: #000000;                
+                font-size: 11pt;
+                font-weight: 400;
+                line-height: 13pt;                
+            }
+            .center {
+                text-align: center;
+            }
+        </style>
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+
+        <script type="text/javascript">
+            var colors = Array('#077bf4', '#fedf01', '#c43fcd', '#0099ff', '#cccccc', '#ff0000'); //List the hex codes you want to loop through here.
+            var color_index = 0;
+            var interval = 5000; //How long the color blend transition lasts. (in milliseconds, 1000 = 1 second)
+
+            function bg_color_tween() {
+                $('body').animate({
+                    backgroundColor: colors[color_index]
+                    },
+                    interval, 'linear',
+                    function() {
+                        if(color_index === colors.length) {
+                            color_index = 0;  //If we are at the end of the colors array go back to the beginning.
+                        } else {
+                            color_index++;  //Lets move to the next color in the colors array.s
+                        }
+                        bg_color_tween();
+                    }
+                );
+            }
+
+            $(document).ready(function() {
+                if( $(window).width() > 1024 ) {
+                    //Kicks off the background color tweening.
+                    bg_color_tween();
+                }
+            });
+    </script>
+
+    </head>
+    <body>
+        <h1>{%block title%}{{status_code}}{%endblock title%}</h1>
+        <h2>{%block subTitle%}{{status_text}}{%endblock subTitle%}</h2>
+
+        {%block message%}
+            <p class="center">
+                Something is broken. Please e-mail us at <A HREF="mailto:contact@okazo.eu">contact@okazo.eu</A> and let us know
+                what you were doing when this error occurred. We will fix it as soon
+                as possible. Sorry for any inconvenience caused.
+            </p>            
+            <p class="center">
+                You may also want to return to our <a href="{{path('entryPoint')}}">homepage</a>.
+            </div>
+        {%endblock message%}
+        
+    </body>
+</html>

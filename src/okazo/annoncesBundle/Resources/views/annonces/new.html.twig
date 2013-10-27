@@ -1,0 +1,14 @@
+{% extends "okazoMainBundle:default:index.html.twig" %}
+
+{% block search%}{%endblock%} {# Pour ne pas afficher les champs de recherche durant la création d'annonce #}
+
+{% block body %}
+    <h1>Annonces creation</h1>
+
+    <form action="{{ path('annonces_create') }}" method="post" {{ form_enctype(form) }}>
+        {{ form_widget(form) }}
+        <p>
+            <button type="submit">Create</button>
+        </p>
+    </form>    
+{%endblock%}

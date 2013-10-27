@@ -1,0 +1,142 @@
+#Website
+website:
+    Title: "Okazo"
+    slogan: "Petites annonces géolocalisées"
+    description: "Moteur de recherche de petites annonces géolocalisées, Okazo simplifie vos recherche en vous offrant un large choix de sites référencés, et en les améliorant via la géolocalisation de leurs annonces."
+
+#UI
+ui:
+    header:
+        chooseLocale: "Langue:"
+        Welcome: "Bienvenue"
+        postNewAd: "Déposer une annonce"
+        login: "Connexion"
+        logout: "Déconnexion"
+        goRegister: "Pas encore de compte ?"
+        
+security:
+    login:
+        usernameOrMail: "Pseudo ou EMail"
+        username: "Pseudo"
+        password: "Mot de passe"
+        remember_me: "Se souvenir de moi"
+        submit: "Connexion"
+
+pages:
+    login:
+        name: "connexion"
+    contact:
+        name: "contact"
+    categories:
+        name: "catégories"
+    showProfile:
+        name: "Profil"
+        
+words:
+    top: "haut"
+    allrightsreserved: "tous droits réservés"
+    language: "langue"
+
+page:
+    noscript:
+        title: "JavaScript doit être activé sur ce site, pour pouvoir en profiter totalement."
+        subTitle1: "A quoi sers Javascript pour ce site ?"
+        text1: "Javascript est un language de programmation utilisé principalement pour les sites internet.<br/>                Pour Okazo, Javascript sers à créer un contenu dynamique et une interface plus claire pour vous.<br/>                Par exemple, la recherche des villes lorsque vous commencez à saisir le code postal utilise Javascript, et vous empêche d'avoir des erreurs si vous faites une faute de code postal ou de nom de Ville."
+        subTitle2: "Pourquoi Javascript est désactivé sur mon navigateur ?"
+        text2: "Javascript peut être désactivé par un bloqueur de publicité, installé en tant que module complémentaire sur votre navigateur par exemple, ou bien par votre administrateur système si vous êtes en entreprise.                En effet, certains sites peuvent utiliser Javascript de manière à détourner installer certains programmes, et par sécurité, il peut être désactivé dans les entreprises."
+        subTitle3: "Aucun risque pour Okazo alors ?"
+        text3: "Aucun risque, non. Vous pouvez autoriser Javascript pour Okazo, sans crainte."
+
+#search
+search:
+    enterYourSearchHere: "Saisissez votre recherche ici..."
+
+# Group
+group:
+    edit:
+        submit: Update group
+    show:
+        name: Group name
+    new:
+        submit: Create group
+    flash:
+        updated: The group has been updated
+        created: The group has been created
+        deleted: The group has been deleted
+
+# Security
+"Bad credentials": Invalid username or password
+
+# Profile
+profile:
+    show:
+        username: Username
+        email: Email
+    edit:
+        submit: Update
+    flash:
+        updated: The profile has been updated
+
+# Password change
+change_password:
+    submit: Change password
+    flash:
+        success: The password has been changed
+
+# Registration
+registration:
+    check_email: An email has been sent to %email%. It contains an activation link you must click to activate your account.
+    confirmed: Congrats %username%, your account is now activated.
+    back: Back to the originating page.
+    submit: Register
+    flash:
+        user_created: The user has been created successfully
+    email:
+        subject: Welcome %username%!
+        message: |
+            Hello %username%!
+
+            To finish activating your account - please visit %confirmationUrl%
+
+            Regards,
+            the Team.
+
+# Password resetting
+resetting:
+    password_already_requested: The password for this user has already been requested within the last 24 hours.
+    check_email: An email has been sent to %email%. It contains a link you must click to reset your password.
+    request:
+        invalid_username: The username or email address "%username%" does not exist.
+        username: "Username or email address:"
+        submit: Reset password
+    reset:
+        submit: Change password
+    flash:
+        success: The password has been reset successfully
+    email:
+        subject: Reset Password
+        message: |
+            Hello %username%!
+
+            To reset your password - please visit %confirmationUrl%
+
+            Regards,
+            the Team.
+
+# Global strings
+layout:
+    logout: Logout
+    login: Login
+    register: Register
+    logged_in_as: Logged in as %username%
+
+# Form field labels
+form:
+    group_name: "Group name:"
+    username: "Username:"
+    email: "Email:"
+    current_password: "Current password:"
+    password: "Password:"
+    password_confirmation: "Verification:"
+    new_password: "New password:"
+    new_password_confirmation: "Verification:"

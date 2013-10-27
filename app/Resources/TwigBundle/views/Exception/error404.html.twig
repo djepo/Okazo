@@ -1,0 +1,9 @@
+{% extends "::errorsLayout.html.twig" %}
+{%block metaTitle%}{{'404.title'|trans({})|capitalize}}{%endblock metaTitle%}
+
+{%block title%}{{'404.title'|trans({})|capitalize}}{%endblock title%}
+{%block subTitle%}{{'404.subTitle'|trans({})|capitalize}}{%endblock subTitle%}
+
+{%block message%}
+    {{parent()}}
+{%endblock message%}

@@ -1,0 +1,15 @@
+<div id="footer" class="hide-tablet hide-phone show-desktop">
+    <a id="link-top" href="#top-of-page">{{'words.top'|trans({}, 'okazoMainBundle')|capitalize}}</a>
+    
+    <span class="legal">        
+        &copy; {{websiteName|capitalize}} {%if "now"|date("Y")== websiteBirthYear %}{{websiteBirthYear}}{%else%}{{websiteBirthYear}}&ndash;{{"now"|date("Y")}}{%endif%} {{'words.allrightsreserved'|trans({}, 'okazoMainBundle')|capitalize}}.</br>
+    </span>
+    
+    <span class="footerLinks">
+        <a href="{{path("fos_user_security_login")}}">{{'pages.login.name'|trans({}, 'okazoMainBundle')|capitalize}}</a>
+         - 
+        <a href="{{path("categoriesList")}}">{{'pages.categories.name'|trans({}, 'okazoMainBundle')|capitalize}}</a>
+         - 
+        <a href="mailto:contact@okazo.eu">{{'pages.contact.name'|trans({}, 'okazoMainBundle')|capitalize}}</a>
+    </span>
+</div>
