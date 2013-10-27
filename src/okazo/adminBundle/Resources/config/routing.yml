@@ -1,0 +1,19 @@
+indexAdmin:
+  path: /
+  defaults: { _controller: okazoadminBundle:admin:indexAdmin }
+  
+blockUserAdmin:  
+  path: /blocks/userAdmin
+  defaults: { _controller: okazoadminBundle:admin:blockUserAdmin }
+  
+blockAdsAdmin:  
+  path: /blocks/adsAdmin
+  defaults: { _controller: okazoadminBundle:admin:blockAdsAdmin}
+  
+adminClearCache:
+  path: /clearCache
+  defaults: { _controller: okazoadminBundle:admin:ClearCache }
+  
+testMail:
+  path: /testMail
+  defaults: { _controller: okazoadminBundle:admin:testMail }

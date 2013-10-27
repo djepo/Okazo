@@ -1,6 +1,6 @@
 <?php
 
-namespace okazo\MainBundle\Controller;
+namespace okazo\adminBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -21,7 +21,7 @@ class adminController extends Controller {
         
         //$roleHierarchy=$this->container->getParameter('security.role_hierarchy.roles');
         
-        return $this->render('okazoMainBundle:admin:indexAdmin.html.twig');
+        return $this->render('okazoadminBundle:default:index.html.twig');
     }
     
     public function blockUserAdminAction() {
@@ -30,7 +30,7 @@ class adminController extends Controller {
         
         $roleHierarchy=$this->container->getParameter('security.role_hierarchy.roles');
         
-        return $this->render('okazoMainBundle:admin:blockUserAdmin.html.twig', array('users'=>$users, 'roleHierarchy'=>$roleHierarchy));
+        return $this->render('okazoadminBundle:blocks:blockUserAdmin.html.twig', array('users'=>$users, 'roleHierarchy'=>$roleHierarchy));
         
     }
     
@@ -53,7 +53,7 @@ class adminController extends Controller {
         
         $ads = $em->getRepository('okazoannoncesBundle:Annonces')->getClassifieds($categoriesId, $page, $getQuery, $getLongitude, $getLatitude, $getDistance, $getSortBy, $getSortDirection);
         //var_dump($ads);
-        return $this->render('okazoMainBundle:admin:blockAdsAdmin.html.twig', array('ads'=>$ads, 'page'=>$page));
+        return $this->render('okazoadminBundle:blocks:blockAdsAdmin.html.twig', array('ads'=>$ads, 'page'=>$page));
     }
     
     public function clearCacheAction() {
@@ -95,7 +95,7 @@ class adminController extends Controller {
     
         $this->get('mailer')->send($message);
 
-    return $this->render('okazoMainBundle:admin:indexAdmin.html.twig');
+    return $this->render('okazoadminBundle:default:index.html.twig');
     }
     
 }

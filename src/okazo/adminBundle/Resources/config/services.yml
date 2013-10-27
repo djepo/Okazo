@@ -1,0 +1,7 @@
+parameters:
+#    okazoadmin.example.class: okazo\adminBundle\Example
+
+services:
+#    okazoadmin.example:
+#        class: %okazoadmin.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

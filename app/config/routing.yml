@@ -1,3 +1,7 @@
+okazoadmin:
+    resource: "@okazoadminBundle/Resources/config/routing.yml"
+    prefix:   /admin/
+
 #okazoMainBundle:
 #    resource: "@okazoMainBundle/Controller/"
 #    type:     annotation
@@ -12,10 +16,6 @@ entryPoint:
 setLocale:
   path: /setLocale/{locale}
   defaults: { _controller: okazoMainBundle:locale:setLocale }
-
-okazoMainBundle_Admin:
-    prefix:  /admin
-    resource: "@okazoMainBundle/Resources/config/adminRouting.yml"
     
 error404:
   path: /404
