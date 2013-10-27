@@ -12,11 +12,19 @@ services:
             userManager: "@fos_user.user_manager"
             validator: "@validator"
             #container: "@service_container"
+    #Service pour transmettre la _locale utilisée dans tout le projet
     okazo_locale.locale_listener:
         class: okazo\MainBundle\EventListener\LocaleListener
         arguments: ["%kernel.default_locale%"]
         tags:
             - { name: kernel.event_subscriber }
+    #Service pour ajouter un mot clé Twig, permettant d'accéder aux paramètres stockés en base de donnée
+    okazo.twig.okazo_extension:
+        class: okazo\MainBundle\Twig\okazoTwigExtension
+        tags:
+            -  { name: twig.extension }
+        arguments:
+            em: "@doctrine.orm.entity_manager"
 
 framework:
     #esi:             ~

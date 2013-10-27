@@ -55,6 +55,13 @@
             Vous n'avez pas le droit d'accéder à cette page.
     {%endif%}
     </div>
+    
+        <div> 
+            <h2>Test paramètres via twig</h2>
+            {%for key, parameter in parameters%}
+                {{key}}:{{parameter}}</br>
+            {%endfor%}            
+        </div>
         
             
     <script type="text/javascript">
