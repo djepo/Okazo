@@ -6,27 +6,14 @@ parameters:
     database_name: okazoeeu_okazo
     database_user: okazoeeu_okazo
     database_password: 41434143a
-    
-    #Configuration swiftmailer
-    #transport: smtp, mail, sendmail, ou gmail
     mailer_transport: smtp
-    mailer_host: gimli.craym.net 
+    mailer_host: gimli.craym.net
     mailer_port: 465
-    #auth_mode (plain, login, or cram-md5)
     mailer_auth_mode: login
-    #spool
-    #    type (comment mettre les messages dans une queue, seulement file est supporté pour le moment)
-    #    path (où stocker les messages)
-    #mailer_spool:
-    #    type: memory
-    #    path:
-    #delivery_address (une adresse email où envoyer TOUS les emails)
-    mailer_delivery_address:
-    #disable_delivery (définir à true pour désactiver entièrement l'envoi des emails)
-    mailer_disable_delivery:
-    #encryption: tls ou ssl
+    mailer_delivery_address: null
+    mailer_disable_delivery: null
     mailer_encryption: ssl
     mailer_user: contact@djepo.craym.eu
     mailer_password: 41434143
     locale: en
-    secret: e73ab840398a24ffd7a0cb390f5f942af0379161    
+    secret: e73ab840398a24ffd7a0cb390f5f942af0379161

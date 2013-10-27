@@ -5,9 +5,14 @@ parameters:
     database_name:     okazoeeu_okazo
     database_user:     okazoeeu_okazo
     database_password: 41434143a
-
+#test commentaire
     mailer_transport:  smtp
     mailer_host:       127.0.0.1
+    mailer_port:       465
+    mailer_auth_mode:  login
+    mailer_delivery_address:
+    mailer_disable_delivery:
+    mailer_encryption: ssl
     mailer_user:       ~
     mailer_password:   ~
 
