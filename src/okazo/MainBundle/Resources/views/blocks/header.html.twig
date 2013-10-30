@@ -1,4 +1,5 @@
-{%if websiteShowHeader or websiteShowLanguageChooser or websiteShowLogin%}
+{#{%if websiteShowHeader or websiteShowLanguageChooser or websiteShowLogin%}#}
+{%if parameters['showHeader'] or parameters['showLanguageChooser'] or parameters['showLogin']%}
     <div class="headerUser">
         {% include 'okazoMainBundle:blocks:languageChooser.html.twig' %}
         {% include 'okazoUserBundle:blocks:userMenu.html.twig' %}

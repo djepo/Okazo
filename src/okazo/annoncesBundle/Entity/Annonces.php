@@ -485,7 +485,7 @@ class Annonces
      * @param \okazo\annoncesBundle\Entity\FosUser $fosUser
      * @return Annonces
      */
-    public function setFosUser(\okazo\annoncesBundle\Entity\FosUser $fosUser = null)
+    public function setFosUser(\okazo\annoncesBundle\Entity\User $fosUser = null)
     {
         $this->fosUser = $fosUser;
     

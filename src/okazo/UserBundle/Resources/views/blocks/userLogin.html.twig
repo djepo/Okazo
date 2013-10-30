@@ -1,4 +1,5 @@
-{% if websiteUseFacebookLogin %}
+{#{% if websiteUseFacebookLogin %}#}
+{%if parameters['useFacebookLogin']%}
     {{ facebook_initialize({'xfbml': true, 'fbAsyncInit': 'onFbInit();', 'culture': facebookLocale}) }}
     <script>
         function goLogIn(){
@@ -29,7 +30,8 @@
     {%endif%}
 {% endif %}
 #}
-{% if websiteUseInternalLogin %}
+{#{% if websiteUseInternalLogin %}#}
+{%if parameters['useInternalLogin']%}
 
     {#
     <form  class="col_12" action="{{ path("fos_user_security_check") }}" method="post">
@@ -49,7 +51,8 @@
 </form>
 {% endif %}
 
-{% if websiteUseFacebookLogin %}
+{#{% if websiteUseFacebookLogin %}#}
+{%if parameters['useFacebookLogin']%}
     <div class="fbLogin">
         {#{{ facebook_login_button({'autologoutlink': false}) }}#}
         <div class="fbConnect" style="display: inline-block">

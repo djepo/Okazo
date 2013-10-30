@@ -5,7 +5,8 @@
 {% endblock %}
 
 {% block fos_user_content %}
-    {% if websiteUseFacebookLogin %}
+    {#{% if websiteUseFacebookLogin %}#}
+    {%if parameters['useFacebookLogin']%}
         {{ facebook_initialize({'xfbml': true, 'fbAsyncInit': 'onFbInit();', 'culture': facebookLocale}) }}
         <script>
             function goLogIn(){
@@ -52,7 +53,8 @@
         <p><a href="{{path('fos_user_resetting_request')}}">Mot de passe oublié ?</a></p>
     </div>
         
-    {% if websiteUseFacebookLogin %}
+    {#{% if websiteUseFacebookLogin %}#}
+    {%if parameters['useFacebookLogin']%}
         <div class="col_6">
             <div id="social_login">        
                 {{ facebook_login_button({'autologoutlink': false}) }}        

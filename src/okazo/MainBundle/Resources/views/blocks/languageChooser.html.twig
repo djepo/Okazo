@@ -1,4 +1,5 @@
-{% if websiteShowLanguageChooser %}
+{#{% if websiteShowLanguageChooser %}#}
+{%if parameters['showLanguageChooser']%}
     <div style="float:left;">    
         <div id="dropdown1" class="ddmenu left">
             {{'words.language'|trans({},'okazoMainBundle')|capitalize}}: {{app.request.locale|upper}} <i class="icon-caret-down"></i>

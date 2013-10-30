@@ -1,5 +1,6 @@
 {%if app.environment!="dev"%}
-    {% if websiteUseGoogleAnalytics %}
+    {#{% if websiteUseGoogleAnalytics %}#}
+    {%if parameters['useGoogleAnalytics']%}
         <script type="text/javascript">
             var _gaq = _gaq || [];
             _gaq.push(['_setAccount', 'UA-40959596-1']);
