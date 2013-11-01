@@ -1,19 +1,30 @@
 indexAdmin:
   path: /
   defaults: { _controller: okazoadminBundle:admin:indexAdmin }
-  
-blockUserAdmin:  
+
+blockUserAdmin:
   path: /blocks/userAdmin
   defaults: { _controller: okazoadminBundle:admin:blockUserAdmin }
-  
-blockAdsAdmin:  
+
+blockAdsAdmin:
   path: /blocks/adsAdmin
   defaults: { _controller: okazoadminBundle:admin:blockAdsAdmin}
-  
+
+blockAdsAdmin:
+  path: /blocks/websiteParameters
+  defaults: { _controller: okazoadminBundle:admin:blockWebsiteParameters}
+
 adminClearCache:
   path: /clearCache
   defaults: { _controller: okazoadminBundle:admin:ClearCache }
-  
+
 testMail:
   path: /testMail
   defaults: { _controller: okazoadminBundle:admin:testMail }
+
+#AJAX CALLS
+ajaxChangeParameter:
+  path: /ajax/changeParameter
+  defaults: { _controller: okazoadminBundle:ajax:ajaxChangeParameter}
+  requirements:
+        _method:  POST

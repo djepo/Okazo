@@ -1,11 +1,12 @@
 {% extends "okazoadminBundle::layout.html.twig" %}
 
 {% block adminContent %}
-    <ul class="tabs left">
+    <ul class="tabs left">        
         <li><a href="#tabr1"><i class="icon-group"></i>Administration Utilisateurs</a></li>
         <li><a href="#tabr2"><i class="icon-book"></i>Administration Annonces</a></li>
         <li><a href="#tabr3"><i class="icon-globe"></i>Administration Villes</a></li>
         <li><a href="#tabr4">Autres</a></li>
+        <li><a href="#tabr5">Paramètres du site</a></li>
     </ul>
 
     <div id="tabr1" class="tab-content" style="overflow: auto; height: 580px;">
@@ -23,5 +24,8 @@
         <a target="_blank" href="https://www.google.com/analytics/web/?hl=fr&pli=1#report/visitors-overview/a40959596w70297497p72481346/">Google Analytics</a>
         </br>
         <a href="{{path('testMail')}}">Test Mail</a>
+    </div>
+    <div id="tabr5" class="tab-content" style="overflow: auto; height: 580px;"
+         {{ render(controller('okazoadminBundle:admin:blockWebsiteParameters')) }}            
     </div>
 {% endblock adminContent%}

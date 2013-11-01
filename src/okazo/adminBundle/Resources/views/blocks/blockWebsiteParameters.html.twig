@@ -1,0 +1,65 @@
+<div>
+    <form>
+        <fieldset>
+            {#<legend>Checkboxes</legend>#}
+            {%for key, param in parameters%}
+                {%if key!='id'%}
+            <input id="parameter_{{key}}" type="checkbox" name="{{key}}" value="{{param}}" {{param?'checked':''}}> {{key}}<br>
+                {%endif%}
+            {%endfor%}
+        </fieldset>
+    </form>
+</div>
+
+<script>
+    $("[id^='parameter_']").change(function() {
+        var parameter = $(this).attr('name');
+        var value = $(this).is(':checked');
+
+        $.ajax({
+            url: '{{url('ajaxChangeParameter')}}',
+            type: 'post',
+            data: {'parameter': parameter,
+                'value': value
+            },
+            success: function(data, textStatus, jqXHR) {
+                var ret = JSON.parse(data);                     //parse json return
+                ret.value==1?ret.value=true:ret.value=false;    //normalize
+                //check if the memorized value is equals to wanted value
+                
+                
+                if (ret.value === value) {
+                    $.notific8('Parameter "' + parameter + '" updated with value ' + value.toString().toUpperCase(), {
+                        life: 100,
+                        theme: 'lime',
+                        heading: "Success",
+                        sticky: false,
+                        horizontalEdge: 'bottom',
+                        verticalEdge: 'left'
+                    });
+                } else {
+                    $.notific8('La valeur mémorisée ne correspond pas à la valeur demandée.', {
+                        life: 100,
+                        theme: 'ruby',
+                        heading: 'Ajax Error',
+                        sticky: false,
+                        horizontalEdge: 'bottom',
+                        verticalEdge: 'left'
+                    });
+                }
+                ;
+
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                $.notific8(errorThrown, {
+                    life: 100,
+                    theme: 'ruby',
+                    heading: 'Ajax Error',
+                    sticky: false,
+                    horizontalEdge: 'bottom',
+                    verticalEdge: 'left'
+                });
+            }
+        });
+    });
+</script>

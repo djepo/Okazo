@@ -34,6 +34,16 @@ class adminController extends Controller {
         
     }
     
+    public function blockWebsiteParametersAction() {
+        $em = $this->getDoctrine()->getManager();      
+             
+        $sql = "SELECT * FROM parameters LIMIT 1";
+        $arrayParameters=$em->getConnection()->fetchAll($sql);
+        $parameters=$arrayParameters[0];
+        
+        return $this->render('okazoadminBundle:blocks:blockWebsiteParameters.html.twig', array('parameters'=>$parameters));        
+    }
+    
     public function BlockAdsAdminAction() {
         $request = $this->getRequest();                
         $page = $request->get('page', 1);
