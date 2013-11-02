@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html style="overflow: auto !important;{#hack fancybox pour éviter des décalages de layout#}">
+<html lang="{{app.request.locale}}" style="overflow: auto !important;{#hack fancybox pour éviter des décalages de layout#}">
     <head>
         {# redirection en cas de javascript désactivé #}
         {% block noScriptTest %}
@@ -9,7 +9,7 @@
         {%endblock%}
 
         <meta charset="UTF-8" />
-        <meta http-equiv="Content-Language" content="{{app.request.locale}}" />
+        {#<meta http-equiv="Content-Language" content="{{app.request.locale}}" />#}
         <meta name="msvalidate.01" content="8E58865EC5B5A70CB8C11C9CD0D959DC" />    {# Validation pour Bing #}
 
         <title>{% block title %}{{websiteName}} | {{'website.slogan'|trans({}, 'okazoMainBundle')}}{% endblock %}</title>
@@ -145,7 +145,7 @@
                                 {# ie: Logo centré en largeur, en haut de la page #}
                                 <div class="col_2 hide-phone" style="margin-bottom: 0px;">
                                     <a href="{{path('homepage')}}">
-                                        <img src="{{asset('bundles/okazomain/img/logo.png')}}" alt="Okazo" id="websiteLogo"></img>
+                                        <img src="{{asset('bundles/okazomain/img/logo.png')}}" alt="Okazo" id="websiteLogo"/>
                                     </a>
                                 </div>
                             {% endblock %}
@@ -167,7 +167,7 @@
                 {%endblock%}
 
             {% endblock %}
-        </div>
+        
 
         {# Javascripts additionnels #}
         {% block javascripts %}{% endblock %}
