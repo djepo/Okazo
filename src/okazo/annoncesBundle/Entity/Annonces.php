@@ -482,10 +482,10 @@ class Annonces
     /**
      * Set fosUser
      *
-     * @param \okazo\annoncesBundle\Entity\FosUser $fosUser
+     * @param \okazo\UserBundle\Entity\FosUser $fosUser
      * @return Annonces
      */
-    public function setFosUser(\okazo\annoncesBundle\Entity\User $fosUser = null)
+    public function setFosUser(\okazo\UserBundle\Entity\User $fosUser = null)
     {
         $this->fosUser = $fosUser;
     
@@ -495,7 +495,7 @@ class Annonces
     /**
      * Get fosUser
      *
-     * @return \okazo\annoncesBundle\Entity\FosUser 
+     * @return \okazo\UserBundle\Entity\FosUser 
      */
     public function getFosUser()
     {
