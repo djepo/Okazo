@@ -24,6 +24,7 @@ class AppKernel extends Kernel
             new okazo\annoncesBundle\okazoannoncesBundle(),
             new okazo\geoBundle\okazogeoBundle(),
             new okazo\adminBundle\okazoadminBundle(),
+            new okazo\logBundle\okazologBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {            

@@ -1,6 +1,6 @@
 <?php
 
-namespace okazo\MainBundle\Entity;
+namespace okazo\logBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * log
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="okazo\MainBundle\Repository\logRepository")
+ * @ORM\Entity(repositoryClass="okazo\logBundle\Repository\logRepository")
  */
 class log
 {
@@ -27,11 +27,26 @@ class log
      * @ORM\Column(name="timestamp", type="datetime")
      */
     private $timestamp;
+    
+    /**
+     *
+     * @ORM\Column(name="ip", type="string", length=16, nullable=true)
+     */
+    private $ip;
+    
+    /**
+     * @ORM\Column(name="userAgent", type="string", length=255, nullable=true)
+     */
+    private $userAgent;
 
     /**
-     * @var string
+     * @ORM\Column(name="uri", type="string", length=255, nullable=true)
+     */
+    private $uri;
+    
+    /**    
      *
-     * @ORM\Column(name="message", type="string", length=255)
+     * @ORM\Column(name="message", type="string", length=255, nullable=true)
      */
     private $message;
 
@@ -39,9 +54,14 @@ class log
      *
      * @var string
      * 
-     * @ORM\Column(name="source", type="string", length=20)
+     * @ORM\Column(name="source", type="string", length=20, nullable=true)
      */
     private $source;
+    
+     /**         
+     * @ORM\Column(name="categorie", type="string", length=255, nullable=true)
+     */
+    private $categorie;
     
     /**
      * @var boolean

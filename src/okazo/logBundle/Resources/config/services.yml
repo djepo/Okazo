@@ -1,0 +1,9 @@
+parameters:
+    okazolog.class: okazo\logBundle\Services\log
+
+services:
+    okazo.log:
+        class: %okazolog.class%
+        arguments: [@doctrine.orm.entity_manager, @request]
+        scope: request
+        public: true

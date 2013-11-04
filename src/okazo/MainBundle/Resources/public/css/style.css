@@ -18,11 +18,11 @@
 ----------------------------------*/
 @font-face {
     font-family: 'Segoe';
-    src: url('/fonts/segoeui.eot');
-    src: url('/fonts/segoeui.eot?#iefix') format('embedded-opentype'),
-         url('/fonts/segoeui.woff') format('woff'),
-         url('/fonts/segoeui.ttf') format('truetype'),
-         url('/fonts/segoeui.svg#Segoe') format('svg');
+    src: url('fonts/segoeui.eot');
+    src: url('fonts/segoeui.eot?#iefix') format('embedded-opentype'),
+         url('fonts/segoeui.woff') format('woff'),
+         url('fonts/segoeui.ttf') format('truetype'),
+         url('fonts/segoeui.svg#Segoe') format('svg');
     font-weight: normal;
     font-style: normal;
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace okazo\MainBundle\Repository;
+namespace okazo\logBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 
