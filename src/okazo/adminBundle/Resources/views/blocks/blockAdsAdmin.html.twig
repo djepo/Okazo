@@ -1,68 +1,101 @@
 <div id="ajaxAdsContent">
-{# Barre de navigation #}            
-<ul class="button-bar">
-    <li><a id="adsNavMinus"><i class="icon-caret-left"></i></a></li>
-    <li><a id="adsNavPlus" ><i class="icon-caret-right"></i></a></li>
-    <li><a>Page {{page}}</a></li>
-</ul>
-        
+    <div>
+{# Barre de navigation #}
+        <ul class="button-bar">
+            <li><a id="adsNavMinus"><i class="icon-caret-left"></i></a></li>
+            <li><a id="adsNavPlus" ><i class="icon-caret-right"></i></a></li>
+            <li><a>Page {{page}}</a></li>
+        </ul>
+        <form style="display: inline-block; width: auto;"><input name="q" id="q" class="col_11" type="text" placeholder="Saisissez votre recherche ici..." value="{%if getQuery is defined %}{{getQuery}}{%endif%}" /></form>
+    </div>
 
 
-<div id="ajaxAdsTable" style="height: 520px; overflow: auto;">
-    <table cellspacing="0" cellpadding="0">
-        <thead ><tr>
-                <th>id</th>
-                <th>Titre</th>
-                <th>Texte</th>
-                <th>Images</th>
-                <th>Actions</th>
-        </tr></thead>    
-        <tbody>
-            {% for ad in ads.annonces %}                        
-            <tr>
-                <form>
-                    <td>{{ ad.id }}</td>
-                    <td><input disabled readonly value="{{ ad.titre }}"></input></td>
-                    <td><textarea disabled readonly cols="50" rows="3" style="height: 100px; resize: none;">{{ ad.texte|raw }}</textarea></td>
-                    <td>{{ad.images|length}}</td>
-                    <td>
-                        <a href="{{path('annonces_edit',{'id': ad.id})}}"><i class="icon-edit icon-large"></i></a>
-                        <a href="#"><i class="icon-remove icon-large"></i></a>
-                    </td>
-                </form>
-            </tr>                    
+    <div id="ajaxAdsTable" style="height: 520px; overflow: auto;">
+        <table cellspacing="0" cellpadding="0">
+            <thead ><tr>
+                    <th>id</th>
+                    <th>Titre</th>
+                    <th>Texte</th>
+                    <th>Images</th>
+                    <th>Actions</th>
+                </tr></thead>
+            <tbody>
+            {% for ad in ads.annonces %}
+                <tr id="{{ad.id}}">
+            <form>
+                <td>{{ ad.id }}</td>
+                <td><input disabled readonly value="{{ ad.titre }}"></input></td>
+                <td><textarea disabled readonly cols="50" rows="3" style="height: 100px; resize: none;">{{ ad.texte|raw }}</textarea></td>
+                <td>{{ad.images|length}}</td>
+                <td>
+                    <a href="{{path('annonces_edit',{'id': ad.id})}}"><i class="icon-edit icon-large"></i></a>
+                    <a id="{{ad.id}}" class="removeAdAction" href="#"><i class="icon-remove icon-large"></i></a>
+                </td>
+            </form>
+            </tr>
             {% endfor %}
-        </tbody>    
-    </table>
-</div>
+            </tbody>
+        </table>
+    </div>
 
-<script>
-    $("#adsNavMinus").click(function() {    
-        var requete = $.ajax({
-            url: "{{path('blockAdsAdmin')}}",
-            type: "post",
-            data: "page={{page-1}}",
-            success: function(data, textStatus, jqXHR){
-                $("#ajaxAdsContent").html(requete.responseText);
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                alert ('AJAX error');
-            }
+    <script>
+
+        $("#adsNavMinus").click(function() {
+            var requete = $.ajax({
+                url: "{{path('ajaxChangeClassifiedsPage')}}",
+                type: "post",
+                data: "page={{page-1}}",
+                success: function(data, textStatus, jqXHR) {
+                    $("#ajaxAdsContent").html(requete.responseText);
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    raiseError('Error','AJAX Error');
+                }
             });
-    });
-    
-    $("#adsNavPlus").click(function() {    
-        var requete = $.ajax({
-            url: "{{path('blockAdsAdmin')}}",
-            type: "post",
-            data: "page={{page+1}}",
-            success: function(data, textStatus, jqXHR){
-                $("#ajaxAdsContent").html(requete.responseText);
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                alert ('AJAX error');
-            }
+        });
+
+        $("#adsNavPlus").click(function() {
+            var requete = $.ajax({
+                url: "{{path('ajaxChangeClassifiedsPage')}}",
+                type: "post",
+                data: "page={{page+1}}",
+                success: function(data, textStatus, jqXHR) {
+                    $("#ajaxAdsContent").html(requete.responseText);
+                },
+                error: function(jqXHR, textStatus, errorThrown) {                    
+                    raiseError('Error','AJAX Error');
+                }
             });
-    });
-</script>
+        });
+
+        $(".removeAdAction").click(function() {
+            var id = $(this).attr('id');
+            var classifiedRow = $(this).parent().parent();
+
+            confirmBox('Voulez-vous vraiment effacer l\'annonce ' + id + ' ?').then(function(answer) {//then will run if Yes or No is clicked
+                if (answer.toLowerCase() === "yes") {
+                    raiseInformation('Information', 'Classified '+id+' will be erased.',1);
+                    $.ajax({
+                        url: "{{path('ajaxDeleteClassified')}}",
+                        type: "post",
+                        data: "id=" + id,
+                        success: function(data, textStatus, jqXHR) {
+                            //Notification de réussite
+                            raiseSuccess('Success', jqXHR.responseText);
+                            //on cache l'annonce effacée
+                            classifiedRow.animate({opacity: 0}, {
+                                duration: 2000,
+                                complete: function() {
+                                    classifiedRow.remove();
+                                }
+                            });
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            raiseError(jqXHR.status + " " + jqXHR.statusText, jqXHR.responseText);
+                        }
+                    });
+                }
+            });
+        });
+    </script>
 </div>

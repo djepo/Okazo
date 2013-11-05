@@ -27,4 +27,14 @@ ajaxChangeParameter:
   path: /ajax/changeParameter
   defaults: { _controller: okazoadminBundle:ajax:ajaxChangeParameter}
   requirements:
-        _method:  POST
+        _method:  POST        
+ajaxChangeClassifiedsPage:
+    path: /ajax/changeClassifiedsPage
+    defaults: { _controller: okazoadminBundle:ajax:ajaxChangeClassifiedsPage}
+    requirements:
+        _method: POST        
+ajaxDeleteClassified:
+    path: /ajax/ajaxDeleteClassified
+    defaults: { _controller: okazoadminBundle:ajax:ajaxDeleteClassified}
+    requirements:
+        _method: POST

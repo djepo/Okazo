@@ -24,7 +24,7 @@ services:
         tags:
             -  { name: twig.extension }
         arguments:
-            em: "@doctrine.orm.entity_manager"
+            em: "@doctrine.orm.entity_manager"    
 
 framework:
     #esi:             ~

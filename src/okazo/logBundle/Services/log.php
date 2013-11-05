@@ -14,7 +14,7 @@ class log extends ContainerAware {
         $this->request = $request;
     }
     
-    public function test($message, $categorie='') {
+    public function add($message, $categorie='') {
         $ip=$this->request->getClientIp();
         $uri=$this->request->getUri();
         $userAgent=$_SERVER[ "HTTP_USER_AGENT" ];

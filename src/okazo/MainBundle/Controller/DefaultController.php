@@ -32,7 +32,7 @@ class DefaultController extends Controller {
             } else {
                 $ip = '78.228.105.2';
             }
-                        
+                   
             //on se sers du fichier de maxmind et de leur api php pour traduire l'ip en coordonnées géographiques
             $geoip = $this->get('maxmind.geoip')->lookup($ip);
             if ($geoip) {
@@ -40,7 +40,7 @@ class DefaultController extends Controller {
                 $this->computedLongitude = $geoip->getLongitude();
             } else {
                 //mémorisation de l'adresse ip posant problème en log base de données
-                $this->container->get('okazo.log')->test("Adresse IP Non localisée dans okazo\MainBundle\Controller\findCoordinates()", "Erreur Localisation");
+                $this->container->get('okazo.log')->add("Adresse IP Non localisée dans okazo\MainBundle\Controller\findCoordinates()", "Erreur Localisation");
                 //$em = $this->getDoctrine()->getManager();                
                 //$sql = "INSERT INTO `log`(`timestamp`, `message`, `source`, `seen`) VALUES ('".date('Y-m-d H:i:s')."','Adresse  IP non localisée: ".$ip."', 'Server', false)";
                 //$em->getConnection()->executeUpdate($sql);
@@ -75,7 +75,7 @@ class DefaultController extends Controller {
             $logger->info('Robot d\'exploration: '.$_SERVER[ "HTTP_USER_AGENT" ]);
             
             //mémorisation de l'exploration
-            $this->container->get('okazo.log')->test("Exploration par Robot détectée dans okazo\MainBundle\Controller\indexAction()", "Exploration par robot");
+            $this->container->get('okazo.log')->add("Exploration par Robot détectée dans okazo\MainBundle\Controller\indexAction()", "Exploration par robot");
             //$em = $this->getDoctrine()->getManager();                
             //$sql = "INSERT INTO `log`(`timestamp`, `message`, `source`, `seen`) VALUES ('".date('Y-m-d H:i:s')."','Exploration du site par le Robot: ".$_SERVER[ "HTTP_USER_AGENT" ]."', 'Server', false)";
             //$em->getConnection()->executeUpdate($sql);

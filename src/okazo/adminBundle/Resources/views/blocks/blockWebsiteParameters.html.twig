@@ -25,9 +25,7 @@
             success: function(data, textStatus, jqXHR) {
                 var ret = JSON.parse(data);                     //parse json return
                 ret.value==1?ret.value=true:ret.value=false;    //normalize
-                //check if the memorized value is equals to wanted value
-                
-                
+                //check if the memorized value is equals to wanted value                
                 if (ret.value === value) {
                     $.notific8('Parameter "' + parameter + '" updated with value ' + value.toString().toUpperCase(), {
                         life: 100,
