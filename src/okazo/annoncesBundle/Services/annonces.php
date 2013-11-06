@@ -7,6 +7,7 @@ class annonces {
     protected $usersMediaPath;
     protected $rootPath;
     protected $em;
+    protected $categories;
 
     public function __construct($usersMediaPath, $rootPath, $em) {
         $this->usersMediaPath = $usersMediaPath;
@@ -84,6 +85,21 @@ class annonces {
         } else {
             return array('CODE' => 'Error', 'Message' => 'You must specify an id.');   //erreur en cas d'identifiant non spécifié
         }
+    }
+
+    /**
+     *
+     * @param boolean $hideInexistent Hide non existent categories (default=true)
+     * @param type $refresh Refresh the list if this one exists (default=false)
+     * @return array of categories, ordered
+     */
+    public function getCategories($hideInexistent = true, $refresh = false) {
+        //$em = $this->getDoctrine()->getManager(); //initialisation de l'entitymanager
+        if (empty($this->categories) || $refresh == true) {
+            $resultatsRequete = $this->em->getRepository('okazoannoncesBundle:Annonces')->getCategoriesExistantes($hideInexistent);
+            $this->categories = $resultatsRequete["categories"];
+        }
+        return $this->categories;
     }
 
 }

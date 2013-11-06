@@ -341,18 +341,24 @@ class annoncesRepository extends EntityRepository {
     /**
      * Retroune la liste des catégories existantes, triées par ordre hiérarchique (parents-enfants)
      */
-    public function getCategoriesExistantes() {
+    public function getCategoriesExistantes($hideInexistent = true) {
+
+        $sql = "SELECT * FROM categories";
+        if ($hideInexistent == true) {
+            $sql = $sql . " WHERE existe=TRUE";
+        }
+
         $stmt = $this->getEntityManager()
                 ->getConnection()
-                ->prepare("SELECT * FROM categories WHERE existe=TRUE");
+                ->prepare($sql);
         $stmt->execute();
         $tmpCategories = $stmt->fetchAll();
+        
+        //Tri par poids
+        $tmpCategories=$this->sortCategories($tmpCategories);
 
-        //var_dump($tmpCategories);
-        //var_dump("<br/><br/>********************<br/><br/>");
-
+        //Classement des catégories parentes/enfant
         $categories = [];
-
         foreach ($tmpCategories as $categorie) {
             if ($categorie['categorie_parente_id'] == null) {
                 $categories[] = $categorie;   //mémorisation de la catégorie parente
@@ -362,8 +368,23 @@ class annoncesRepository extends EntityRepository {
                     }
                 }
             }
-        }
+        }        
         return array("categories" => $categories);
+    }
+
+    private function sortCategories($array) {
+        $sortArray = array();
+        foreach ($array as $arrayRow) {
+            foreach ($arrayRow as $key => $value) {
+                if (!isset($sortArray[$key])) {
+                    $sortArray[$key] = array();
+                }
+                $sortArray[$key][] = $value;
+            }
+        }
+        array_multisort($sortArray['weight'], SORT_ASC, $array);
+        
+        return $array;
     }
 
 }

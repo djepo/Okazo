@@ -27,6 +27,14 @@ class Categories
      * @ORM\Column(name="libelle", type="string", length=100, nullable=false)
      */
     private $libelle;
+    
+    /**
+     *
+     * @var integer
+     * 
+     * @ORM\Column(name="weight", type="integer", nullable=true)
+     */
+    private $weight;
 
     /**
      * @var boolean
