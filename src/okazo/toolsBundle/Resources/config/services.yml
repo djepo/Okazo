@@ -1,0 +1,10 @@
+parameters:
+    okazo.tools.class: okazo\toolsBundle\Services\tools
+
+services:
+    okazo.tools:
+        class: %okazo.tools.class%
+        #arguments: [@service_id, "plain_value", %parameter%]
+        arguments: [%locale%]
+        public: true
+        #scope: request

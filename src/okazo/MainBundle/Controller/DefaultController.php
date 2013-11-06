@@ -65,13 +65,8 @@ class DefaultController extends Controller {
         $getCategorieId = $request->get('cat', 0);
 
         //Détection des Robots
-        //(contient bot, spider ou yahoo dans le user agent)
-        $crawler = 0;
-        if (preg_match('/(bot|spider|yahoo)/i', $_SERVER["HTTP_USER_AGENT"])) {
-            $crawler = 1;
-            $logger = $this->get('logger');
-            $logger->info('Robot d\'exploration: ' . $_SERVER["HTTP_USER_AGENT"]);
-
+        //(contient bot, spider ou yahoo dans le user agent)        
+        if ($this->get('okazo.tools')->isBot()) {
             //mémorisation de l'exploration
             $this->container->get('okazo.log')->add("Exploration par Robot détectée dans okazo\MainBundle\Controller\indexAction()", "Exploration par robot");
         }
@@ -88,7 +83,7 @@ class DefaultController extends Controller {
         if (empty($getDistance)) {
             $getDistance = 0;
         }
-        if ($crawler === 1) {
+        if ($this->get('okazo.tools')->isBot() === true) {
             $getDistance = 50000;
         }    //Si c'est un robot qui visite, on affiche toutes les annonces de la terre
         //   
