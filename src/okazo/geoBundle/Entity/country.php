@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * country
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="okazo\geoBundle\Entity\countryRepository")
+ * @ORM\Entity(repositoryClass="okazo\geoBundle\Repository\countryRepository")
  */
 class country
 {
@@ -42,6 +42,10 @@ class country
      */
     private $en;
 
+    /**
+     *@ORM\OneToMany(targetEntity="city", mappedBy="id")     
+     */
+    private $cities;
 
     /**
      * Get id

@@ -1,7 +1,3 @@
-okazotools:
-    resource: "@okazotoolsBundle/Resources/config/routing.yml"
-    prefix:   /
-
 okazoadmin:
     resource: "@okazoadminBundle/Resources/config/routing.yml"
     prefix:   /admin/

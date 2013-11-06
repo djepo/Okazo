@@ -1,6 +1,6 @@
 <?php
 
-namespace okazo\geoBundle\Entity;
+namespace okazo\geoBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 

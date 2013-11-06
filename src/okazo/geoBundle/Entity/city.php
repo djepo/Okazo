@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  *                     @ORM\Index(name="citylongitude_idx", columns={"citylongitude"})
  *                    }
  *           )
- * @ORM\Entity(repositoryClass="okazo\geoBundle\Entity\cityRepository")
+ * @ORM\Entity(repositoryClass="okazo\geoBundle\Repository\cityRepository")
  */
 class city
 {
@@ -59,6 +59,21 @@ class city
      */
     private $cityurl;
     
+    /**
+     * @ORM\ManyToOne(targetEntity="country", inversedBy="id")     
+     * @ORM\JoinColumn(name="countryId", nullable=true)
+     */
+    private $country;    
+    
+    /**
+     * @ORM\Column(name="ipStart", type="bigint", nullable=true)
+     */
+    private $ipStart;
+    
+    /**
+     * @ORM\Column(name="ipEnd", type="bigint", nullable=true)
+     */
+    private $ipEnd;
     
     /**
     *@ORM\OneToMany(targetEntity="okazo\annoncesBundle\Entity\Annonces", mappedBy="city", cascade={"remove", "persist"})
