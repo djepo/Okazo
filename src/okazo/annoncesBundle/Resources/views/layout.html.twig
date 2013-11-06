@@ -1,0 +1,24 @@
+{% extends "::base.html.twig" %}
+
+{% block user%}
+    {% include 'okazoUserBundle:Blocks:userMenu.html.twig' %}
+{% endblock %}
+
+{% block websiteHeader %}
+    <div class="col_2" style="margin-bottom: 0px;">
+        <a href="{{path('homepage')}}">
+            <img src="{{asset('bundles/okazomain/img/logo.png')}}" alt="Okazo" id="websiteLogo"></img>
+        </a>
+    </div>
+    <div class="col_10 center">
+        <h1>Annonces</h1>
+    </div>
+{%endblock%}
+
+{% block body %}
+    <div class="mainContent" style="width: 1024px; margin: auto;">
+        {%block adminContent%}
+            no content
+        {%endblock adminContent%}
+    </div>
+{% endblock body%}        

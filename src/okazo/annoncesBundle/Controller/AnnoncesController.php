@@ -65,10 +65,14 @@ class AnnoncesController extends Controller
      * @Template()
      */
     public function newAction()
-    {
+    {        
+        $fosUser=$this->getUser();
+        
         $annonce = new Annonces();
+        $annonce->setFosUser($fosUser);
         
         $form   = $this->createForm(new AnnoncesType(), $annonce);
+        
 
         return array(
             'entity' => $annonce,
