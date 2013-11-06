@@ -20,7 +20,9 @@
         "incenteev/composer-parameter-handler": "~2.0",
         "friendsofsymfony/user-bundle": "~2.0@dev",
         "friendsofsymfony/facebook-bundle": "1.2.*",
-        "maxmind/geoip": "dev-master"
+        "maxmind/geoip": "dev-master",
+        "sonata-project/admin-bundle": "dev-master",
+        "sonata-project/doctrine-orm-admin-bundle": "dev-master"
   },
     "scripts": {
         "post-install-cmd": [
