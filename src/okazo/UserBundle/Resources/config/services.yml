@@ -1,0 +1,8 @@
+#parameters:
+#    okazoannonces.class: okazo\annoncesBundle\Services\annonces
+
+#services:
+#    okazo.annonces:
+#        class: %okazoannonces.class%
+#        arguments: [%okazo.usersMediaPath%, %kernel.root_dir%, @doctrine.orm.entity_manager]
+#        public: true

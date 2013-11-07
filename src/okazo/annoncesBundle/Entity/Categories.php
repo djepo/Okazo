@@ -10,8 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="categories")
  * @ORM\Entity
  */
-class Categories
-{
+class Categories {
+
     /**
      * @var integer
      *
@@ -27,11 +27,11 @@ class Categories
      * @ORM\Column(name="libelle", type="string", length=100, nullable=false)
      */
     private $libelle;
-    
+
     /**
      *
      * @var integer
-     * 
+     *
      * @ORM\Column(name="weight", type="integer", nullable=true)
      */
     private $weight;
@@ -63,19 +63,20 @@ class Categories
     /**
      * Constructor
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->attribut = new \Doctrine\Common\Collections\ArrayCollection();
     }
-    
+
+    public function __toString() {
+        return $this->getLibelle() ? : '';
+    }
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -85,20 +86,18 @@ class Categories
      * @param string $libelle
      * @return Categories
      */
-    public function setLibelle($libelle)
-    {
+    public function setLibelle($libelle) {
         $this->libelle = $libelle;
-    
+
         return $this;
     }
 
     /**
      * Get libelle
      *
-     * @return string 
+     * @return string
      */
-    public function getLibelle()
-    {
+    public function getLibelle() {
         return $this->libelle;
     }
 
@@ -108,20 +107,18 @@ class Categories
      * @param boolean $existe
      * @return Categories
      */
-    public function setExiste($existe)
-    {
+    public function setExiste($existe) {
         $this->existe = $existe;
-    
+
         return $this;
     }
 
     /**
      * Get existe
      *
-     * @return boolean 
+     * @return boolean
      */
-    public function getExiste()
-    {
+    public function getExiste() {
         return $this->existe;
     }
 
@@ -131,10 +128,9 @@ class Categories
      * @param \okazo\annoncesBundle\Entity\Attributs $attribut
      * @return Categories
      */
-    public function addAttribut(\okazo\annoncesBundle\Entity\Attributs $attribut)
-    {
+    public function addAttribut(\okazo\annoncesBundle\Entity\Attributs $attribut) {
         $this->attribut[] = $attribut;
-    
+
         return $this;
     }
 
@@ -143,18 +139,16 @@ class Categories
      *
      * @param \okazo\annoncesBundle\Entity\Attributs $attribut
      */
-    public function removeAttribut(\okazo\annoncesBundle\Entity\Attributs $attribut)
-    {
+    public function removeAttribut(\okazo\annoncesBundle\Entity\Attributs $attribut) {
         $this->attribut->removeElement($attribut);
     }
 
     /**
      * Get attribut
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
-    public function getAttribut()
-    {
+    public function getAttribut() {
         return $this->attribut;
     }
 
@@ -164,20 +158,44 @@ class Categories
      * @param \okazo\annoncesBundle\Entity\Categories $categorieParente
      * @return Categories
      */
-    public function setCategorieParente(\okazo\annoncesBundle\Entity\Categories $categorieParente = null)
-    {
+    public function setCategorieParente(\okazo\annoncesBundle\Entity\Categories $categorieParente = null) {
         $this->categorieParente = $categorieParente;
-    
+
         return $this;
     }
 
     /**
      * Get categorieParente
      *
-     * @return \okazo\annoncesBundle\Entity\Categories 
+     * @return \okazo\annoncesBundle\Entity\Categories
      */
-    public function getCategorieParente()
-    {
+    public function getCategorieParente() {
         return $this->categorieParente;
     }
+
+    /**
+     * Set weight
+     *
+     * @param integer $weight
+     * @return Categories
+     */
+    public function setWeight($weight) {
+        $this->weight = $weight;
+
+        return $this;
+    }
+
+    /**
+     * Get weight
+     *
+     * @return integer
+     */
+    public function getWeight() {
+        return $this->weight;
+    }
+
+    /*
+      public function __toString() {
+      return ($this->categorieParente);
+      } */
 }

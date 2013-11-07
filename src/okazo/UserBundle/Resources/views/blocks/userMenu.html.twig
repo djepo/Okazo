@@ -16,7 +16,8 @@
                     {%endif%}
                     {%if is_granted("ROLE_ADMIN") %}
                         <hr style="margin: 0;"/>
-                        <li><a href="{{path('indexAdmin')}}">Administration</a></li>
+                        <li><a href="{{path('sonata_admin_dashboard')}}">Administration</a></li>
+                        {#<li><a href="{{path('indexAdmin')}}">Administration</a></li>#}
                     {%endif%}
                 </ul>
             </div>

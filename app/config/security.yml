@@ -37,11 +37,27 @@ security:
         - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/, role: ROLE_ADMIN }
+        
     role_hierarchy:
         ROLE_USER       : ROLE_USER
         ROLE_FACEBOOK   : ROLE_USER
-        ROLE_ADMIN      : ROLE_ADMIN, ROLE_USER
-        ROLE_SUPER_ADMIN: ROLE_SUPER_ADMIN, ROLE_ADMIN, ROLE_USER
-        ROLE_TEST: ROLE_USER
-        ROLE_TEST2: ROLE_USER
-        ROLE_TEST3: [ROLE_TEST2]
+        #ROLE_ADMIN      : ROLE_ADMIN, ROLE_USER
+        #ROLE_SUPER_ADMIN: ROLE_SUPER_ADMIN, ROLE_ADMIN, ROLE_USER        
+        # for convenience, I decided to gather Sonata roles here
+        ROLE_SONATA_ANNONCES_READER:
+            - ROLE_SONATA_ADMIN_OKAZO_ANNONCES_LIST
+            - ROLE_SONATA_ADMIN_OKAZO_ANNONCES_VIEW
+        ROLE_SONATA_ANNONCES_EDITOR:
+            - ROLE_SONATA_ADMIN_OKAZO_ANNONCES_CREATE
+            - ROLE_SONATA_ADMIN_OKAZO_ANNONCES_EDIT
+        ROLE_SONATA_ANNONCES_ADMIN:
+            - ROLE_SONATA_ADMIN_OKAZO_ANNONCES_DELETE
+            - ROLE_SONATA_ADMIN_OKAZO_ANNONCES_EXPORT
+        # those are the roles I will use (less verbose)
+        ROLE_STAFF:             [ROLE_USER, ROLE_SONATA_ANNONCES_READER]
+        ROLE_ADMIN:             [ROLE_STAFF, ROLE_SONATA_ANNONCES_EDITOR, ROLE_SONATA_ANNONCES_ADMIN]
+        ROLE_SUPER_ADMIN:       [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+
+    # set access_strategy to unanimous, else you may have unexpected behaviors
+    access_decision_manager:
+        strategy: unanimous

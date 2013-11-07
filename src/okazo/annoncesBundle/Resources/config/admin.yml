@@ -1,0 +1,21 @@
+services:
+    sonata.admin.okazo.annonces:
+        class: okazo\annoncesBundle\Admin\annoncesAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Annonces", label: "Annonces" }
+        arguments:
+            - ~
+            - okazo\annoncesBundle\Entity\annonces
+            - ~
+        calls:
+            - [ setTranslationDomain, [okazoAnnoncesBundle]]
+    sonata.admin.okazo.categories:
+        class: okazo\annoncesBundle\Admin\categoriesAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Annonces", label: "Catégories" }
+        arguments:
+            - ~
+            - okazo\annoncesBundle\Entity\Categories
+            - ~
+        calls:
+            - [ setTranslationDomain, [okazoAnnoncesBundle]]

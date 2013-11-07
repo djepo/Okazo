@@ -1,0 +1,11 @@
+services:
+    sonata.admin.okazo.parameters:
+        class: okazo\MainBundle\Admin\parametersAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Paramètres du site", label: "Paramètres globaux" }
+        arguments:
+            - ~
+            - okazo\MainBundle\Entity\parameters
+            - ~
+        calls:
+            - [ setTranslationDomain, [okazoMainBundle]]    
