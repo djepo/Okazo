@@ -10,11 +10,15 @@
     {%endblock%}
 
     {% block websiteHeader_Right %}
+        {{parent()}}
+        {#
         <div class="col_10" style="margin-bottom: 0px;">
-            {#{% block search%}#}
-                {% include 'okazoannoncesBundle:blocks:search.html.twig' %}
+            {#{%block search%}#}
+                {#{% include 'okazoannoncesBundle:blocks:search.html.twig' %}#}
             {#{% endblock %}#}
+        {#
         </div>
+        #}
     {%endblock%}
 {%endblock%}
 

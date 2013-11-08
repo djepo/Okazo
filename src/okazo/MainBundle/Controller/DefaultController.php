@@ -20,34 +20,8 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
  */
 class DefaultController extends Controller {
 
-    private $computedLatitude;
-    private $computedLongitude;
-
-    public function findCoordinates() {
-        $request = $this->getRequest();
-
-        if ($request->getHost() <> 'localhost') {  //si on est en local, on prends notre adresse ip, sinon, on prends l'adresse du client
-            $ip = $request->getClientIp();
-        } else {
-            $ip = '78.228.105.2';
-        }
-
-        //on se sers du fichier de maxmind et de leur api php pour traduire l'ip en coordonnées géographiques
-        $geoip = $this->get('maxmind.geoip')->lookup($ip);
-        if ($geoip) {
-            $this->computedLatitude = $geoip->getLatitude();
-            $this->computedLongitude = $geoip->getLongitude();
-        } else {
-            //mémorisation de l'adresse ip posant problème en log base de données
-            $this->container->get('okazo.log')->add("Adresse IP Non localisée dans okazo\MainBundle\Controller\findCoordinates()", "Erreur Localisation");
-            //$em = $this->getDoctrine()->getManager();
-            //$sql = "INSERT INTO `log`(`timestamp`, `message`, `source`, `seen`) VALUES ('".date('Y-m-d H:i:s')."','Adresse  IP non localisée: ".$ip."', 'Server', false)";
-            //$em->getConnection()->executeUpdate($sql);
-            //renvoie -1000 en latitude et longitude pour indiquer un problème
-            $this->computedLatitude = -1000;
-            $this->computedLongitude = -1000;
-        }
-    }
+    //private $computedLatitude;
+    //private $computedLongitude; 
 
     /**
      * @Route("home/", name="homepage")
@@ -64,12 +38,6 @@ class DefaultController extends Controller {
         $getLongitude = $request->get('long', null);
         $getCategorieId = $request->get('cat', 0);
 
-        //Détection des Robots
-        //(contient bot, spider ou yahoo dans le user agent)        
-        if ($this->get('okazo.tools')->isBot()) {
-            //mémorisation de l'exploration
-            $this->container->get('okazo.log')->add("Exploration par Robot détectée dans okazo\MainBundle\Controller\indexAction()", "Exploration par robot");
-        }
         //Fin de détection des robots
         //Ajouter ici des fonctions de normalisation des paramètres get
         if (!$getPage) {
@@ -84,15 +52,14 @@ class DefaultController extends Controller {
             $getDistance = 0;
         }
         if ($this->get('okazo.tools')->isBot() === true) {
+            $this->container->get('okazo.log')->add("Exploration par Robot détectée dans okazo\MainBundle\Controller\indexAction()", "Exploration par robot");
             $getDistance = 50000;
         }    //Si c'est un robot qui visite, on affiche toutes les annonces de la terre
         //   
-        //Nouvelle version de calcul des coordonnées, centralisée
-        //if ($getLatitude == -1000 || $getLongitude == -1000 || empty($getLatitude) || empty($getLongitude)) {
-        if (empty($getLatitude) || empty($getLongitude)) {
-            $this->findCoordinates();
-            $getLatitude = $this->computedLatitude;
-            $getLongitude = $this->computedLongitude;
+        //Nouvelle version de calcul des coordonnées, centralisée        
+        if (empty($getLatitude) || empty($getLongitude)) {            
+            $getLatitude=$this->get('okazo.geo')->getLatitude();
+            $getLongitude=$this->get('okazo.geo')->getLongitude();
         }
         //Fin Nouvelle version de calcul des coordonnées, centralisée
         
@@ -152,11 +119,9 @@ class DefaultController extends Controller {
     public function categoriesListAction() {
         $listeCategories = $this->get('okazo.annonces')->getCategories();
 
-        $this->findCoordinates();
-
         return $this->render("okazoannoncesBundle:pages:categoriesList.html.twig", array('listeCategories' => $listeCategories,
-                    'getLatitude' => $this->computedLatitude,
-                    'getLongitude' => $this->computedLongitude,
+                    'getLatitude' => $this->get('okazo.geo')->getLatitude(),
+                    'getLongitude' => $this->get('okazo.geo')->getLongitude(),
                     'getDistance' => "30"));
     }
 

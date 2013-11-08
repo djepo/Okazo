@@ -5,20 +5,22 @@
 {% endblock %}
 
 {% block websiteHeader %}
-    <div class="col_2" style="margin-bottom: 0px;">
-        <a href="{{path('homepage')}}">
-            <img src="{{asset('bundles/okazomain/img/logo.png')}}" alt="Okazo" id="websiteLogo"></img>
-        </a>
-    </div>
-    <div class="col_10 center">
-        <h1>Annonces</h1>
-    </div>
+    {% block websiteHeader_Left %}
+        {{parent()}}
+    {% endblock websiteHeader_Left %}
+    {% block websiteHeader_Right %}
+        {{parent()}}
+    {% endblock %}
 {%endblock%}
 
 {% block body %}
-    <div class="mainContent" style="width: 1024px; margin: auto;">
+<div class="mainContent" style="width: 1024px; margin: auto;">
         {%block adminContent%}
-            no content
+    no content
         {%endblock adminContent%}
-    </div>
-{% endblock body%}        
+</div>
+{% endblock body%}
+
+{% block javascripts %}
+    {{parent()}}
+{% endblock %}

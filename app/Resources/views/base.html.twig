@@ -41,6 +41,9 @@
             <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
             <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
             {#<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>#}
+
+            <!--hInclude -->
+            <script type="text/javascript" src="{{asset('bundles/okazomain/js/hinclude/hinclude.js')}}"></script>
             
             <!-- fancyBox -->
             <script type="text/javascript" src="{{asset('bundles/okazomain/js/fancybox/source/jquery.fancybox.pack.js?v=2.1.5')}}"></script>
@@ -149,7 +152,10 @@
                                     </a>
                                 </div>
                             {% endblock %}
-                            {% block websiteHeader_Right %}                        
+                            {% block websiteHeader_Right %}       
+                                <div class="col_10" style="margin-bottom: 0px;">                                    
+                                    {% render (controller("okazoannoncesBundle:searchBar:displaySearchBar")) %}
+                                </div>
                             {% endblock %}
                     {%endblock%}
                 </div>

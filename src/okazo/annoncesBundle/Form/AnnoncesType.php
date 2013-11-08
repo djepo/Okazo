@@ -11,24 +11,18 @@ class AnnoncesType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            //->add('foreignId')
-            //->add('foreignTimestamp')
+        $builder            
             ->add('titre', 'text', array('required'=>true))
-            ->add('texte', 'textarea')
-            //->add('lien')
-            //->add('websiteCategorie')
+            ->add('texte', 'textarea')            
             ->add('prix', 'money')
             ->add('codepostal', 'text')
-            ->add('ville', 'text')
-            //->add('horodatageparse')
-            //->add('lastexistencecheck')
-            //->add('existe')
-            //->add('websiteId')
+            //->add('ville', 'text')                        
             //->add('attribut')
             //->add('categorie')
-            //->add('city')
-            ->add('fosUser')
+            //->add('city')            
+            //->add('images', new ImagesType())
+            ->add('images', 'collection',array('type'=>new ImagesType(), 'allow_add'=>true, 'by_reference'=>false))
+            
         ;
     }
 

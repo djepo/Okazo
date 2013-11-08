@@ -9,35 +9,36 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="annonces")
  * @ORM\Entity(repositoryClass="okazo\annoncesBundle\Repository\annoncesRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
-class Annonces
-{
+class Annonces {
+
     /**
      * @var string
      *
      * @ORM\Column(name="id", type="string", length=30, nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\GeneratedValue(strategy="NONE")
      */
     private $id;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="foreign_id", type="text", nullable=false)
+     * @ORM\Column(name="foreign_id", type="text", nullable=true)
      */
     private $foreignId;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="foreign_timestamp", type="datetime", nullable=false)
+     * @ORM\Column(name="foreign_timestamp", type="datetime", nullable=true)
      */
     private $foreignTimestamp;
 
     /**
      * @var string
-     *     
+     *
      * @ORM\manyToOne(targetEntity="Sources", inversedBy="annonces")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="websiteId", referencedColumnName="id", nullable=true)
@@ -62,14 +63,14 @@ class Annonces
     /**
      * @var string
      *
-     * @ORM\Column(name="lien", type="string", length=255, nullable=false)
+     * @ORM\Column(name="lien", type="string", length=255, nullable=true)
      */
     private $lien;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="website_categorie", type="string", length=50, nullable=false)
+     * @ORM\Column(name="website_categorie", type="string", length=50, nullable=true)
      */
     private $websiteCategorie;
 
@@ -83,29 +84,29 @@ class Annonces
     /**
      * @var string
      *
-     * @ORM\Column(name="codepostal", type="string", length=5, nullable=false)
+     * @ORM\Column(name="codepostal", type="string", length=5, nullable=true)
      */
     private $codepostal;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="ville", type="string", length=50, nullable=false)
+     * @ORM\Column(name="ville", type="string", length=50, nullable=true)
      */
     private $ville;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="horodatageparse", type="datetime", nullable=false)
+     * @ORM\Column(name="horodatageparse", type="datetime", nullable=true)
      */
     private $horodatageparse;
-    
+
     /**
      * @ORM\Column(name="lastexistencecheck", type="datetime", nullable=true)
      */
     private $lastexistencecheck;
-    
+
     /**
      * @ORM\Column(name="existe", type="boolean", nullable=false)
      */
@@ -127,14 +128,14 @@ class Annonces
      * })
      */
     private $categorie;
-    
+
     /**
      * @ORM\ManyToOne(targetEntity="okazo\geoBundle\Entity\city", inversedBy="annonces", fetch="EAGER")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="cityid", referencedColumnName="id")
-     * })    
+     * })
      */
-    private $city;    
+    private $city;
 
     /**
      * @var \FosUser
@@ -145,29 +146,35 @@ class Annonces
      * })
      */
     private $fosUser;
-    
+
     /**
-     *@ORM\OneToMany(targetEntity="Images", mappedBy="annonceid", cascade={"remove"})     
+     * @ORM\OneToMany(targetEntity="Images", mappedBy="annonceid", cascade={"remove"})
      */
     private $images;
 
     /**
      * Constructor
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->attribut = new \Doctrine\Common\Collections\ArrayCollection();
     }
-    
 
     /**
      * Get id
      *
-     * @return string 
+     * @return string
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
+    }
+
+    public function setId($id = null) {
+        if ($id != null) {
+            $this->id = $id;
+        } else {
+            $objDateTime = new \DateTime('NOW');
+            $this->id = $objDateTime->format('YmdHis');
+        }
     }
 
     /**
@@ -176,20 +183,18 @@ class Annonces
      * @param string $foreignId
      * @return Annonces
      */
-    public function setForeignId($foreignId)
-    {
+    public function setForeignId($foreignId) {
         $this->foreignId = $foreignId;
-    
+
         return $this;
     }
 
     /**
      * Get foreignId
      *
-     * @return string 
+     * @return string
      */
-    public function getForeignId()
-    {
+    public function getForeignId() {
         return $this->foreignId;
     }
 
@@ -199,20 +204,18 @@ class Annonces
      * @param \DateTime $foreignTimestamp
      * @return Annonces
      */
-    public function setForeignTimestamp($foreignTimestamp)
-    {
+    public function setForeignTimestamp($foreignTimestamp) {
         $this->foreignTimestamp = $foreignTimestamp;
-    
+
         return $this;
     }
 
     /**
      * Get foreignTimestamp
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
-    public function getForeignTimestamp()
-    {
+    public function getForeignTimestamp() {
         return $this->foreignTimestamp;
     }
 
@@ -222,20 +225,18 @@ class Annonces
      * @param string $websiteId
      * @return Annonces
      */
-    public function setWebsiteId($websiteId)
-    {        
+    public function setWebsiteId($websiteId) {
         $this->websiteId = $websiteId;
-    
+
         return $this;
     }
 
     /**
      * Get websiteId
      *
-     * @return string 
+     * @return string
      */
-    public function getWebsiteId()
-    {
+    public function getWebsiteId() {
         return $this->websiteId;
     }
 
@@ -245,20 +246,18 @@ class Annonces
      * @param string $titre
      * @return Annonces
      */
-    public function setTitre($titre)
-    {
+    public function setTitre($titre) {
         $this->titre = $titre;
-    
+
         return $this;
     }
 
     /**
      * Get titre
      *
-     * @return string 
+     * @return string
      */
-    public function getTitre()
-    {
+    public function getTitre() {
         return $this->titre;
     }
 
@@ -268,20 +267,18 @@ class Annonces
      * @param string $texte
      * @return Annonces
      */
-    public function setTexte($texte)
-    {
+    public function setTexte($texte) {
         $this->texte = $texte;
-    
+
         return $this;
     }
 
     /**
      * Get texte
      *
-     * @return string 
+     * @return string
      */
-    public function getTexte()
-    {
+    public function getTexte() {
         return $this->texte;
     }
 
@@ -291,20 +288,18 @@ class Annonces
      * @param string $lien
      * @return Annonces
      */
-    public function setLien($lien)
-    {
+    public function setLien($lien) {
         $this->lien = $lien;
-    
+
         return $this;
     }
 
     /**
      * Get lien
      *
-     * @return string 
+     * @return string
      */
-    public function getLien()
-    {
+    public function getLien() {
         return $this->lien;
     }
 
@@ -314,20 +309,18 @@ class Annonces
      * @param string $websiteCategorie
      * @return Annonces
      */
-    public function setWebsiteCategorie($websiteCategorie)
-    {
+    public function setWebsiteCategorie($websiteCategorie) {
         $this->websiteCategorie = $websiteCategorie;
-    
+
         return $this;
     }
 
     /**
      * Get websiteCategorie
      *
-     * @return string 
+     * @return string
      */
-    public function getWebsiteCategorie()
-    {
+    public function getWebsiteCategorie() {
         return $this->websiteCategorie;
     }
 
@@ -337,20 +330,18 @@ class Annonces
      * @param integer $prix
      * @return Annonces
      */
-    public function setPrix($prix)
-    {
+    public function setPrix($prix) {
         $this->prix = $prix;
-    
+
         return $this;
     }
 
     /**
      * Get prix
      *
-     * @return integer 
+     * @return integer
      */
-    public function getPrix()
-    {
+    public function getPrix() {
         return $this->prix;
     }
 
@@ -360,20 +351,18 @@ class Annonces
      * @param string $codepostal
      * @return Annonces
      */
-    public function setCodepostal($codepostal)
-    {
+    public function setCodepostal($codepostal) {
         $this->codepostal = $codepostal;
-    
+
         return $this;
     }
 
     /**
      * Get codepostal
      *
-     * @return string 
+     * @return string
      */
-    public function getCodepostal()
-    {
+    public function getCodepostal() {
         return $this->codepostal;
     }
 
@@ -383,20 +372,18 @@ class Annonces
      * @param string $ville
      * @return Annonces
      */
-    public function setVille($ville)
-    {
+    public function setVille($ville) {
         $this->ville = $ville;
-    
+
         return $this;
     }
 
     /**
      * Get ville
      *
-     * @return string 
+     * @return string
      */
-    public function getVille()
-    {
+    public function getVille() {
         return $this->ville;
     }
 
@@ -406,20 +393,18 @@ class Annonces
      * @param \DateTime $horodatageparse
      * @return Annonces
      */
-    public function setHorodatageparse($horodatageparse)
-    {
+    public function setHorodatageparse($horodatageparse) {
         $this->horodatageparse = $horodatageparse;
-    
+
         return $this;
     }
 
     /**
      * Get horodatageparse
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
-    public function getHorodatageparse()
-    {
+    public function getHorodatageparse() {
         return $this->horodatageparse;
     }
 
@@ -429,10 +414,9 @@ class Annonces
      * @param \okazo\annoncesBundle\Entity\Attributs $attribut
      * @return Annonces
      */
-    public function addAttribut(\okazo\annoncesBundle\Entity\Attributs $attribut)
-    {
+    public function addAttribut(\okazo\annoncesBundle\Entity\Attributs $attribut) {
         $this->attribut[] = $attribut;
-    
+
         return $this;
     }
 
@@ -441,18 +425,16 @@ class Annonces
      *
      * @param \okazo\annoncesBundle\Entity\Attributs $attribut
      */
-    public function removeAttribut(\okazo\annoncesBundle\Entity\Attributs $attribut)
-    {
+    public function removeAttribut(\okazo\annoncesBundle\Entity\Attributs $attribut) {
         $this->attribut->removeElement($attribut);
     }
 
     /**
      * Get attribut
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
-    public function getAttribut()
-    {
+    public function getAttribut() {
         return $this->attribut;
     }
 
@@ -462,20 +444,18 @@ class Annonces
      * @param \okazo\annoncesBundle\Entity\Categories $categorie
      * @return Annonces
      */
-    public function setCategorie(\okazo\annoncesBundle\Entity\Categories $categorie = null)
-    {
+    public function setCategorie(\okazo\annoncesBundle\Entity\Categories $categorie = null) {
         $this->categorie = $categorie;
-    
+
         return $this;
     }
 
     /**
      * Get categorie
      *
-     * @return \okazo\annoncesBundle\Entity\Categories 
+     * @return \okazo\annoncesBundle\Entity\Categories
      */
-    public function getCategorie()
-    {
+    public function getCategorie() {
         return $this->categorie;
     }
 
@@ -485,43 +465,39 @@ class Annonces
      * @param \okazo\UserBundle\Entity\FosUser $fosUser
      * @return Annonces
      */
-    public function setFosUser(\okazo\UserBundle\Entity\User $fosUser = null)
-    {
+    public function setFosUser(\okazo\UserBundle\Entity\User $fosUser = null) {
         $this->fosUser = $fosUser;
-    
+
         return $this;
     }
 
     /**
      * Get fosUser
      *
-     * @return \okazo\UserBundle\Entity\FosUser 
+     * @return \okazo\UserBundle\Entity\FosUser
      */
-    public function getFosUser()
-    {
+    public function getFosUser() {
         return $this->fosUser;
     }
-    
+
     /**
      * Set fosUser
      *
      * @param \okazo\geoBundle\Entity\city $city
      * @return Annonces
      */
-    public function setCity(\okazo\geoBundle\Entity\city $city = null)
-    {
+    public function setCity(\okazo\geoBundle\Entity\city $city = null) {
         $this->city = $city;
-    
+
         return $this;
     }
 
     /**
      * Get city
      *
-     * @return \okazo\geoBundle\Entity\city 
+     * @return \okazo\geoBundle\Entity\city
      */
-    public function getCity()
-    {
+    public function getCity() {
         return $this->city;
     }
 
@@ -531,10 +507,9 @@ class Annonces
      * @param \okazo\annoncesBundle\Entity\images $images
      * @return Annonces
      */
-    public function addImage(\okazo\annoncesBundle\Entity\images $images)
-    {
+    public function addImage(\okazo\annoncesBundle\Entity\images $images) {
         $this->images[] = $images;
-    
+
         return $this;
     }
 
@@ -543,18 +518,16 @@ class Annonces
      *
      * @param \okazo\annoncesBundle\Entity\images $images
      */
-    public function removeImage(\okazo\annoncesBundle\Entity\images $images)
-    {
+    public function removeImage(\okazo\annoncesBundle\Entity\images $images) {
         $this->images->removeElement($images);
     }
 
     /**
      * Get images
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
-    public function getImages()
-    {
+    public function getImages() {
         return $this->images;
     }
 
@@ -564,20 +537,18 @@ class Annonces
      * @param \DateTime $lastexistencecheck
      * @return Annonces
      */
-    public function setLastexistencecheck($lastexistencecheck)
-    {
+    public function setLastexistencecheck($lastexistencecheck) {
         $this->lastexistencecheck = $lastexistencecheck;
-    
+
         return $this;
     }
 
     /**
      * Get lastexistencecheck
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
-    public function getLastexistencecheck()
-    {
+    public function getLastexistencecheck() {
         return $this->lastexistencecheck;
     }
 
@@ -587,20 +558,43 @@ class Annonces
      * @param boolean $existe
      * @return Annonces
      */
-    public function setExiste($existe)
-    {
+    public function setExiste($existe) {
         $this->existe = $existe;
-    
+
         return $this;
     }
 
     /**
      * Get existe
      *
-     * @return boolean 
+     * @return boolean
      */
-    public function getExiste()
-    {
+    public function getExiste() {
         return $this->existe;
     }
+
+    /** @ORM\PreRemove */
+    public function preRemove() {
+        global $kernel;
+        if ('AppCache' == get_class($kernel)) {
+            $kernel = $kernel->getKernel();
+        }
+        $em = $kernel->getContainer()->get('doctrine.orm.entity_manager');
+        $okazoAnnoncesServices = $kernel->getContainer()->get('okazo.annonces');
+        //before entity deletion, we will delete the pictures, if they exists
+        //recherche des éventuelles images liées à l'annonce
+        $pictures = $em->getConnection()->executeQuery("SELECT images.* FROM images WHERE images.annonceId='" . $this->getId() . "'")->fetchAll();
+
+        if ($pictures) {
+            $okazoAnnoncesServices->deletePictures($pictures);
+        }
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function prePersist() {
+        $this->id = uniqid();
+    }
+
 }

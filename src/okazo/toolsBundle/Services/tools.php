@@ -6,14 +6,16 @@ class tools {
 
     protected $locale;
     protected $isBot;
+    protected $container;
 
-    public function __construct($locale) {
+    public function __construct($locale, $container) {
         $this->locale = $locale;
+        $this->container=$container;
     }
 
     /**
      * Language Functions
-     */
+     */    
     function getDefaultLanguage() {
         if (isset($_SERVER["HTTP_ACCEPT_LANGUAGE"]))
             return $this->parseDefaultLanguage($_SERVER["HTTP_ACCEPT_LANGUAGE"]);

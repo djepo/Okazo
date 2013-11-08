@@ -63,7 +63,11 @@ class annonces {
             //$em = $this->getEntityManager();
 
             $classified = $this->em->getRepository('okazoannoncesBundle:Annonces')->find($id);
-
+            $this->em->remove($classified);
+            $this->em->flush();
+            
+            return array('CODE' => 'Success', 'Message' => 'TEST - Annonce ' . $id . ' correctement Supprimée de la base');  //annonce correctement supprimée de la base
+            
             if ($classified) {
                 //recherche des éventuelles images liées à l'annonce
                 $pictures = $this->em->getConnection()->executeQuery("SELECT images.* FROM images WHERE images.annonceId='" . $id . "'")->fetchAll();

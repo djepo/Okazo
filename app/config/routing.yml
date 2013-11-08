@@ -2,9 +2,9 @@ okazotools:
     resource: "@okazotoolsBundle/Resources/config/routing.yml"
     prefix:   /
 
-#okazoadmin:
-#    resource: "@okazoadminBundle/Resources/config/routing.yml"
-#    prefix:   /admin/
+okazoadmin:
+    resource: "@okazoadminBundle/Resources/config/routing.yml"
+    prefix:   /administration/
 admin:
     resource: '@SonataAdminBundle/Resources/config/routing/sonata_admin.xml'
     prefix: /admin

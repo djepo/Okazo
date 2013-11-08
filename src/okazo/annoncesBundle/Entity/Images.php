@@ -3,6 +3,7 @@
 namespace okazo\annoncesBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Images
@@ -10,8 +11,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="images")
  * @ORM\Entity
  */
-class Images
-{
+class Images {
+
     /**
      * @var integer
      *
@@ -34,6 +35,11 @@ class Images
      * @ORM\Column(name="imageURL", type="string", length=255, nullable=false)
      */
     private $imageurl;
+    
+     /**
+     * @Assert\File(maxSize="6000000")
+     */
+    public $file;
 
     /**
      * @var \Annonces
@@ -45,15 +51,12 @@ class Images
      */
     private $annonceid;
 
-
-
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -63,20 +66,18 @@ class Images
      * @param string $thumburl
      * @return Images
      */
-    public function setThumburl($thumburl)
-    {
+    public function setThumburl($thumburl) {
         $this->thumburl = $thumburl;
-    
+
         return $this;
     }
 
     /**
      * Get thumburl
      *
-     * @return string 
+     * @return string
      */
-    public function getThumburl()
-    {
+    public function getThumburl() {
         return $this->thumburl;
     }
 
@@ -86,20 +87,18 @@ class Images
      * @param string $imageurl
      * @return Images
      */
-    public function setImageurl($imageurl)
-    {
+    public function setImageurl($imageurl) {
         $this->imageurl = $imageurl;
-    
+
         return $this;
     }
 
     /**
      * Get imageurl
      *
-     * @return string 
+     * @return string
      */
-    public function getImageurl()
-    {
+    public function getImageurl() {
         return $this->imageurl;
     }
 
@@ -109,20 +108,43 @@ class Images
      * @param \okazo\annoncesBundle\Entity\Annonces $annonceid
      * @return Images
      */
-    public function setAnnonceid(\okazo\annoncesBundle\Entity\Annonces $annonceid = null)
-    {
+    public function setAnnonceid(\okazo\annoncesBundle\Entity\Annonces $annonceid = null) {
         $this->annonceid = $annonceid;
-    
+
         return $this;
     }
 
     /**
      * Get annonceid
      *
-     * @return \okazo\annoncesBundle\Entity\Annonces 
+     * @return \okazo\annoncesBundle\Entity\Annonces
      */
-    public function getAnnonceid()
-    {
+    public function getAnnonceid() {
         return $this->annonceid;
     }
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    public $path;
+
+    public function getAbsolutePath() {
+        return null === $this->path ? null : $this->getUploadRootDir() . '/' . $this->path;
+    }
+
+    public function getWebPath() {
+        return null === $this->path ? null : $this->getUploadDir() . '/' . $this->path;
+    }
+
+    protected function getUploadRootDir() {
+        // le chemin absolu du répertoire où les documents uploadés doivent être sauvegardés
+        return __DIR__ . '/../../../../public_html/' . $this->getUploadDir();
+    }
+
+    protected function getUploadDir() {
+        // on se débarrasse de « __DIR__ » afin de ne pas avoir de problème lorsqu'on affiche
+        // le document/image dans la vue.
+        return 'uploads/users/media';
+    }
+
 }

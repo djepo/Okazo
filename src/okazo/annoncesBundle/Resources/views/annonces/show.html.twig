@@ -1,3 +1,8 @@
+{% extends "okazoannoncesBundle::layout.html.twig" %}
+
+
+
+{% block body %}
 <h1>Annonces</h1>
 
 <table class="record_properties">
@@ -5,15 +10,7 @@
         <tr>
             <th>Id</th>
             <td>{{ entity.id }}</td>
-        </tr>
-        <tr>
-            <th>Foreignid</th>
-            <td>{{ entity.foreignId }}</td>
-        </tr>
-        <tr>
-            <th>Foreigntimestamp</th>
-            <td>{{ entity.foreignTimestamp|date('Y-m-d H:i:s') }}</td>
-        </tr>
+        </tr>        
         <tr>
             <th>Titre</th>
             <td>{{ entity.titre }}</td>
@@ -42,22 +39,11 @@
             <th>Ville</th>
             <td>{{ entity.ville }}</td>
         </tr>
-        <tr>
-            <th>Horodatageparse</th>
-            <td>{{ entity.horodatageparse|date('Y-m-d H:i:s') }}</td>
-        </tr>
-        <tr>
-            <th>Lastexistencecheck</th>
-            <td>{{ entity.lastexistencecheck|date('Y-m-d H:i:s') }}</td>
-        </tr>
-        <tr>
-            <th>Existe</th>
-            <td>{{ entity.existe }}</td>
-        </tr>
     </tbody>
 </table>
 
 <ul class="record_actions">
+    {#
     <li>
         <a href="{{ path('annonces') }}">
             Back to the list
@@ -74,4 +60,6 @@
             <button type="submit">Delete</button>
         </form>
     </li>
+#}
 </ul>
+{% endblock body %}

@@ -16,9 +16,8 @@ class mainController extends Controller {
      * et redirige vers la page d'accueil avec la locale renseignée automatiquement.
      * @route("/", name="entryPoint")
      */
-    public function entryPointAction() {
-        $autoLocale = $this->get('okazo.tools')->getDefaultLanguage();
-        //$autoLocale=$this->getDefaultLanguage();
+    public function entryPointAction() {        
+        $autoLocale = $this->get('okazo.tools')->getDefaultLanguage();        
         $url = $this->container->get('router')->generate('homepage', array('_locale' => $autoLocale));
 
         return new RedirectResponse($url);

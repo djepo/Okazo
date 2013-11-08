@@ -1,0 +1,9 @@
+parameters:
+    okazogeo.class: okazo\geoBundle\Services\geo
+
+services:
+    okazo.geo:
+        class: %okazogeo.class%
+        arguments: [@doctrine.orm.entity_manager, @maxmind.geoip, @service_container]        
+        #scope: request
+        public: true

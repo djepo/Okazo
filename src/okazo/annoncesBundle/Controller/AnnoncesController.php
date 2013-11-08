@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use okazo\annoncesBundle\Entity\Annonces;
+use okazo\annoncesBundle\Entity\Images;
 use okazo\annoncesBundle\Form\AnnoncesType;
 
 /**
@@ -15,24 +16,23 @@ use okazo\annoncesBundle\Form\AnnoncesType;
  *
  * @Route("/annonces")
  */
-class AnnoncesController extends Controller
-{
+class AnnoncesController extends Controller {
     /**
      * Lists all Annonces entities.
      *
      * @Route("/", name="annonces")
      * @Template()     
-    public function indexAction()
-    {
-        $em = $this->getDoctrine()->getManager();
+      public function indexAction()
+      {
+      $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('okazoannoncesBundle:Annonces')->findAll();
+      $entities = $em->getRepository('okazoannoncesBundle:Annonces')->findAll();
 
-        return array(
-            'entities' => $entities,
-        );
-    }     
-    */
+      return array(
+      'entities' => $entities,
+      );
+      }
+     */
 
     /**
      * Finds and displays a Annonces entity.
@@ -40,8 +40,7 @@ class AnnoncesController extends Controller
      * @Route("/{id}/show", name="annonces_show")
      * @Template()
      */
-    public function showAction($id)
-    {
+    public function showAction($id) {
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('okazoannoncesBundle:Annonces')->find($id);
@@ -53,7 +52,7 @@ class AnnoncesController extends Controller
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
-            'entity'      => $entity,
+            'entity' => $entity,
             'delete_form' => $deleteForm->createView(),
         );
     }
@@ -64,20 +63,31 @@ class AnnoncesController extends Controller
      * @Route("/new", name="annonces_new")
      * @Template()
      */
-    public function newAction()
-    {        
-        $fosUser=$this->getUser();
-        
+    public function newAction(Request $request) {
+        $fosUser = $this->getUser();
+
         $annonce = new Annonces();
         $annonce->setFosUser($fosUser);
-        
-        $form   = $this->createForm(new AnnoncesType(), $annonce);
-        
+        $annonce->setExiste(true);
 
-        return array(
-            'entity' => $annonce,
-            'form'   => $form->createView(),
-        );
+        $form = $this->createForm(new AnnoncesType(), $annonce);
+
+        if ($request->isMethod('POST')) {
+            $form->bind($request);
+            if ($form->isValid()) {
+                $annonce->setId();
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($annonce);
+                $em->flush();
+
+                return $this->redirect($this->generateUrl('annonces_show', array('id' => $annonce->getId())));
+            }
+        } else {
+            return array(
+                'entity' => $annonce,
+                'form' => $form->createView(),
+            );
+        }
     }
 
     /**
@@ -87,9 +97,9 @@ class AnnoncesController extends Controller
      * @Method("POST")
      * @Template("okazoannoncesBundle:Annonces:new.html.twig")
      */
-    public function createAction(Request $request)
-    {
-        $entity  = new Annonces();
+    /*
+    public function createAction(Request $request) {
+        $entity = new Annonces();
         $form = $this->createForm(new AnnoncesType(), $entity);
         $form->bind($request);
 
@@ -103,9 +113,11 @@ class AnnoncesController extends Controller
 
         return array(
             'entity' => $entity,
-            'form'   => $form->createView(),
+            'form' => $form->createView(),
         );
     }
+     * */
+     
 
     /**
      * Displays a form to edit an existing Annonces entity.
@@ -113,8 +125,7 @@ class AnnoncesController extends Controller
      * @Route("/{id}/edit", name="annonces_edit")
      * @Template()
      */
-    public function editAction($id)
-    {
+    public function editAction($id) {
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('okazoannoncesBundle:Annonces')->find($id);
@@ -127,8 +138,8 @@ class AnnoncesController extends Controller
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
+            'entity' => $entity,
+            'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
     }
@@ -140,8 +151,7 @@ class AnnoncesController extends Controller
      * @Method("POST")
      * @Template("okazoannoncesBundle:Annonces:edit.html.twig")
      */
-    public function updateAction(Request $request, $id)
-    {
+    public function updateAction(Request $request, $id) {
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('okazoannoncesBundle:Annonces')->find($id);
@@ -162,8 +172,8 @@ class AnnoncesController extends Controller
         }
 
         return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
+            'entity' => $entity,
+            'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
     }
@@ -174,8 +184,7 @@ class AnnoncesController extends Controller
      * @Route("/{id}/delete", name="annonces_delete")
      * @Method("POST")
      */
-    public function deleteAction(Request $request, $id)
-    {
+    public function deleteAction(Request $request, $id) {
         $form = $this->createDeleteForm($id);
         $form->bind($request);
 
@@ -194,11 +203,11 @@ class AnnoncesController extends Controller
         return $this->redirect($this->generateUrl('annonces'));
     }
 
-    private function createDeleteForm($id)
-    {
+    private function createDeleteForm($id) {
         return $this->createFormBuilder(array('id' => $id))
-            ->add('id', 'hidden')
-            ->getForm()
+                        ->add('id', 'hidden')
+                        ->getForm()
         ;
     }
+
 }
