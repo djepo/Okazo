@@ -102,7 +102,7 @@
                         </td>     
 
                         <td itemprop="offers" itemscope itemtype="http://schema.org/Offer"><p class="right"><span  itemprop="price" >{{annonce.prix|number_format(0,","," ")}}</span>€<span itemprop="priceCurrency" style="display: none;">EUR</span></p></td>
-                        <td itemscope itemtype="http://schema.org/Place"><p itemprop="address" itemscope itemtype="http://schema.org/PostalAddress" class="center"><span itemprop="addressLocality">{{annonce.citycp}}</span><br><span itemprop="postalCode">{{annonce.cityname}}</span></p></td>
+                        <td itemscope itemtype="http://schema.org/Place"><p itemprop="address" itemscope itemtype="http://schema.org/PostalAddress" class="center"><span itemprop="postalCode">{{annonce.citycp}}</span><br><span itemprop="addressLocality">{{annonce.cityname}}</span></p></td>
                         <td><p class="center">{{annonce.distance|number_format(0, '.', ' ')}} Km</p></td>                    
                     </tr>
                     {%set annonceNumber=annonceNumber+1%}
