@@ -31,6 +31,7 @@ class AppKernel extends Kernel
             new okazo\adminBundle\okazoadminBundle(),
             new okazo\logBundle\okazologBundle(),
             new okazo\toolsBundle\okazotoolsBundle(),
+            new Mopa\Bundle\BootstrapBundle\MopaBootstrapBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {            
