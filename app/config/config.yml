@@ -138,3 +138,7 @@ sonata_block:
         sonata.admin.block.admin_list:
             contexts:   [admin]
         # Your other blocks
+        
+mopa_bootstrap:
+    form:
+        show_legend: false
