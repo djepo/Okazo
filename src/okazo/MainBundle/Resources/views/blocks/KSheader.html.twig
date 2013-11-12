@@ -1,0 +1,56 @@
+{#{%if websiteShowHeader or websiteShowLanguageChooser or websiteShowLogin%}#}
+{%if parameters['showHeader'] or parameters['showLanguageChooser'] or parameters['showLogin']%}
+    <div class="headerUser">
+        {% include 'okazoMainBundle:blocks:languageChooser.html.twig' %}
+        {% include 'okazoUserBundle:blocks:userMenu.html.twig' %}
+    </div>        
+
+    {# Script du menu utilisateur #}
+    <script>
+        //Ferme tous les menus lors d'un clic quelque part sur le document
+        $(document).on("click", function(e) {
+           closeAll();
+        });
+        
+        //Lors d'un clic sur un des menus
+        $(".ddmenu").on("click", function(e){
+            closeAllBut($(this)); //on commence par fermer tous les menus ouverts
+            
+            if($(this).hasClass("open")) {
+                closeMenu($(this));
+                //$(this).removeClass("open");
+                //$(this).children("ul").slideUp("fast");
+            } else {
+                openMenu($(this));
+                //$(this).addClass("open");
+                //$(this).children("ul").slideDown("fast");
+            }
+            // stoppe l'évenement clic pour qu'il ne soit pas traité par le clic sur document (qui fermerais tous les menus)
+            if (e.stopPropagation) {
+              e.stopPropagation();
+            }
+            e.cancelBubble = true;
+        });
+        
+        function openMenu(obj) {
+            $(obj).addClass("open");
+            $(obj).children("ul").slideDown("fast");
+        }
+        function closeMenu(obj) {
+            $(obj).removeClass("open");
+            $(obj).children("ul").slideUp("fast");
+        }
+        function closeAll() {
+            $(".ddmenu").each(function(){
+               closeMenu($(this));
+           });
+        }
+        function closeAllBut(obj) {
+            $(".ddmenu").each(function(){
+                if($(this)[0]!==$(obj)[0]) {
+                    closeMenu($(this));
+                }
+           });
+        }        
+    </script>
+{%endif%}

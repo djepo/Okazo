@@ -1,7 +1,7 @@
 {% extends "okazoUserBundle::layout.html.twig" %}
 
 {% block websiteHeader_Right %}
-    <h1 class="text-center">Connexion à mon compte</h1>
+    <h1>Connexion à mon compte</h1>
 {% endblock %}
 
 {% block fos_user_content %}
@@ -35,28 +35,25 @@
         </div>
     {% endif %}
         
-    <div class="col-md-6">
+    <div class="col_6">
         <p>Pas encore de compte ? <a href="{{path('fos_user_registration_register')}}">Créez gratuitement un compte.</a>
-        <form  role="form" action="{{ path("fos_user_security_check") }}" method="post">    
-            <input class="form-control" type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
-            <label for="username">{{ 'security.login.username'|trans({}, 'FOSUserBundle') }}</label>
-            <input class="form-control" type="text" id="username" name="_username" value="{{ last_username }}" placeholder="{{ 'security.login.usernameOrMail'|trans({}, 'okazoMainBundle') }}"/>
+        <form  class="vertical" action="{{ path("fos_user_security_check") }}" method="post">    
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+            <label for="username">{{ 'security.login.username'|trans({}, 'FOSUserBundle') }}<span class="right">{{ 'security.login.usernameOrMail'|trans({}, 'okazoMainBundle') }}</span></label>
+            <input type="text" id="username" name="_username" value="{{ last_username }}" />
             <br/>
             <label for="password">{{ 'security.login.password'|trans({}, 'FOSUserBundle') }}</label>
-            <input class="form-control" type="password" id="password" name="_password" placeholder='{{ 'security.login.password'|trans({}, 'FOSUserBundle') }}'/>
+            <input type="password" id="password" name="_password" />
             <br/>
-            <div class="checkbox">
-                <label>
-                    <input type="checkbox" id="remember_me" name="_remember_me" value="on" />{{ 'security.login.remember_me'|trans({}, 'FOSUserBundle') }}
-                </label>
-            </div>            
-            <button class="btn btn-block btn-success" type="submit" id="_submit" name="_submit">{{ 'security.login.submit'|trans({}, 'FOSUserBundle') }}</button>
+            <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
+            <label for="remember_me" style="display: inline-block">{{ 'security.login.remember_me'|trans({}, 'FOSUserBundle') }}</label>
+            <br/>
+            <input type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans({}, 'FOSUserBundle') }}" />        
         </form>
-        <br/>
         <p><a href="{{path('fos_user_resetting_request')}}">Mot de passe oublié ?</a></p>
     </div>
-       
-    
+        
+    {#{% if websiteUseFacebookLogin %}#}
     {%if parameters['useFacebookLogin']%}
         <div class="col_6">
             <div id="social_login">        

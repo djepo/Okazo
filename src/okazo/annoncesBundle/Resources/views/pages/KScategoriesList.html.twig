@@ -1,7 +1,6 @@
 {% extends "::base.html.twig" %}
 
 {% block websiteHeader %}
-{#
         <div class="col_2" style="margin-bottom: 0px;">
             <a href="{{path('homepage')}}">
                 <img src="{{asset('bundles/okazomain/img/logo.png')}}" alt="Okazo" id="websiteLogo"></img>
@@ -13,24 +12,22 @@
                 {% include 'okazoannoncesBundle:blocks:search.html.twig' %}
             {% endblock %}
         </div>
-#}
-{{parent()}}
+
 {%endblock%}
 
 {% block body %}
-<div class="container">
-    <div class=row">
-    {#<table class="table">
+<div class="mainContent col_12">
+    <table class="tableStyle1">
         <tbody>
             <tr>
-                <td>                    
-#}
-                    <h1>Annonces par catégories</h1>
+                <td>
+                    <h1>Parcourir les annonces</h1>                  
+                    <h2 class="header_style_3">Annonces par catégories</h2>
                     
-                    <table class="table">                        
+                    <table class="tableStyle1">                        
                         <tbody>                           
                         {% for categorie in listeCategories %}
-                            <tr {% if categorie.categorie_parente_id==null %}class="active"{%endif%}>                               
+                            <tr>                               
                                 <td>
                                     {% if categorie.categorie_parente_id!=null %}                                    
                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -43,12 +40,10 @@
                         {% endfor %}
                         </tbody>
                     </table>
-  {#                  
+                    
                 </td>                
             </tr>                        
         </tbody>
     </table>
-#}
-    </div>
 </div>
 {% endblock %}

@@ -23,21 +23,39 @@
 {%endblock%}
 
 {% block body %}
-    <div class="mainContent">
+    <style>
+            @media (min-width: 800px) {
+            #colonneDroite {
+                display: block;
+                }
+                #listeAnnonces {
+                width: 751px;
+            }
+            }        
+
+            @media (max-width: 800px) {
+                #colonneDroite {
+                    display: none;
+                    }
+                #listeAnnonces {
+                    width: 100%;
+                } 
+            }   
+    </style>
+
+    <div class="mainContent" style="width: 1024px; margin: auto;">
         {# Publicité google du haut de page #}
-        {#
         {% include 'okazoMainBundle:blocks:adsGoogleHorizontalTop.html.twig' %}
-        #}
-        
+
         {# Liste des annonces #}
-        <div class="col-md-9{#col_9#}" style="{#width: 751px; float: left;#}" id="listeAnnonces">
+        <div class="{#col_9#}" style="{#width: 751px; #}float: left;" id="listeAnnonces">
         {%block listeAnnonces %}        
             {% include 'okazoannoncesBundle:annonces:listeAnnonces.html.twig' %}        
         {%endblock%}
-        </div>        
+        </div>
 
         {# Colonne de droite #}
-        <div class="col-md-3{#col_3#} {#right hide-phone hide-tablet#}" id="colonneDroite" style="{#width: 250px; float: right;#}">
+        <div class="{#col_3#} {#right hide-phone hide-tablet#}" id="colonneDroite" style="width: 250px; float: right;">
             <div id="fb-root"></div>
             <script>
                 (function(d, s, id) {
@@ -79,5 +97,4 @@
 
         </div>
     </div>
-{%block pagination %}{%endblock pagination %}
 {% endblock %}

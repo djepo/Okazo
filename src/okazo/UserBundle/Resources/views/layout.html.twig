@@ -1,11 +1,11 @@
 {% extends "::base.html.twig" %}
 
 {% block websiteHeader_Right %}
-    <h1>Users Layout</h1>
+    <h1 class="text-center">Users Layout</h1>
 {% endblock %}
 
 {% block body %}
-        <div style="width: 75%; margin: auto;">		
+        <div class="container">		
             {% block fos_user_content %}
             {% endblock fos_user_content %}		
         </div>

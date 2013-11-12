@@ -1,6 +1,6 @@
 {% block searchResult%}
-    <div class="text-left">
-        <small>
+    <div class="col_12 center hide-tablet  hide-phone">
+        <em>
         {% if nombreAnnonces==0 %}
             Votre recherche n'a retournée aucun résultat.
         {% else %}
@@ -21,6 +21,6 @@
                     date.
             {%endif%}
         {%endif%}
-        </small>
+        </em>
     </div>
 {% endblock %}

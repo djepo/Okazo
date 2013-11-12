@@ -1,24 +1,44 @@
 {% block search%}
-<form action="" method="get">
-    <input name="q" id="q" class="col_11" type="text" placeholder="Saisissez votre recherche ici..." value="{%if getQuery is defined %}{{getQuery}}{%endif%}" />
-        {#<div id="ajaxThrobberCategories" class="ajaxThrobber"></div>#}
-    <select name="cat" id="listeCategories" style="width: 220px;">
-        <option value="0" class="mainCategorie" {%if categorieId is defined %}{%if categorieId==0%} selected="selected"{%endif%}{%endif%}>Toutes les catégories</option>
-            {% for categorie in listeCategories %}
-                {%if categorie.categorie_parente_id==null%}
-        <option value="{{categorie.id}}" class="mainCategorie" {%if categorieId is defined %}{%if categorieId==categorie.id%} selected="selected"{%endif%}{%endif%}>{{categorie.libelle}}</option>
-                {%else%}
-        <option value="{{categorie.id}}" {%if categorieId is defined %}{%if categorieId==categorie.id%} selected="selected"{%endif%}{%endif%}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{categorie.libelle}}</option>
-                {%endif%}
-            {% endfor %}
-    </select>
-    <input name="city" id="city" class="col_4" type="text" placeholder="Ville" />
-    <div class="hide">
-        <input name="lat" id="lat" class="col_2 hidden" type="text" placeholder="Latitude" value="{%if getLatitude is defined %}{{getLatitude}}{%endif%}" />
-        <input name="long" id="long" class="col_2" type="text" placeholder="Longitude" value="{%if getLongitude is defined %}{{getLongitude}}{%endif%}"/>
+<form role="form" action="" method="get" class="form-horizontal col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <div class='col-lg-10 col-md-10 col-sm-10 col-xs-12'>
+        <div class="col-md-12">
+            <input name="q" id="q" class="form-control input-sm" type="text" placeholder="Saisissez votre recherche ici..." value="{%if getQuery is defined %}{{getQuery}}{%endif%}" />      
+        </div>
+        <div class="">
+            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
+                <select class="form-control input-sm" name="cat" id="listeCategories" >
+                    <option value="0" class="mainCategorie" {%if categorieId is defined %}{%if categorieId==0%} selected="selected"{%endif%}{%endif%}>Toutes les catégories</option>
+                {% for categorie in listeCategories %}
+                    {%if categorie.categorie_parente_id==null%}
+                    <option value="{{categorie.id}}" class="mainCategorie" {%if categorieId is defined %}{%if categorieId==categorie.id%} selected="selected"{%endif%}{%endif%}>{{categorie.libelle}}</option>
+                    {%else%}
+                    <option value="{{categorie.id}}" {%if categorieId is defined %}{%if categorieId==categorie.id%} selected="selected"{%endif%}{%endif%}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{categorie.libelle}}</option>
+                    {%endif%}
+                {% endfor %}
+                </select>
+            </div>
+            <div class="clearfix visible-xs"></div> {#reset pour les champs villes et distance sur les tailles xs#}
+            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-8">
+                <input name="city" id="city" class="form-control input-sm" type="text" placeholder="Ville" />
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-4">
+                <input name="distance" id="distance" class="form-control input-sm" type="number" placeholder="Distance" value="{%if getDistance is defined %}{{getDistance}}{%endif%}" />
+            </div>
+        </div>
+        <div class="hide">
+            <input name="lat" id="lat" class="col_2 hidden" type="text" placeholder="Latitude" value="{%if getLatitude is defined %}{{getLatitude}}{%endif%}" />
+            <input name="long" id="long" class="col_2" type="text" placeholder="Longitude" value="{%if getLongitude is defined %}{{getLongitude}}{%endif%}"/>
+        </div> 
     </div>
-    <input name="distance" id="distance" class="col_2" type="number" placeholder="Distance" value="{%if getDistance is defined %}{{getDistance}}{%endif%}" />
-    <button id="buttonValidSearch" class="small green" type="submit" style="margin-top: 8px; height: 27px;"><span class="icon small" data-icon="s"></span>Ok</button>
+    <div class="clearfix visible-xs"></div> {#reset pour le bouton sur les tailles xs#}
+    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 text-center">
+        <div class="col-xs-12">
+            <p class="form-control-static hidden-xs" style="color: transparent;">.</p>
+            <div class="clearfix hidden-xs"></div>
+            {#<button class="btn btn-sm" style="display:none;">dummy</button>#}
+            <button id="buttonValidSearch" class="btn btn-success btn-block btn-sm" type="submit"><span class="icon small" data-icon="s"></span>Ok</button>
+        </div>
+    </div>
 </form>
 
 {#<script src="http://j.maxmind.com/app/geoip.js" charset="ISO-8859-1" type="text/javascript" ></script>#}
@@ -30,7 +50,7 @@
 </style>
 #}
 <script type="text/javascript">
-    
+
     var villeProche;
     var autocompleteSelection;
     var autocompleteDisplayedList_cityname;
@@ -38,13 +58,15 @@
     var autocompleteDisplayedList_latitude;
     var selectedLong;
     var selectedLat;
-    
+
     {# On commence par détecter la ville la plus proche en fonction des coordonnées #}
     détectionVilleProche();
-        
+
     function detectPosition() {
-        if (console) {console.log('Détection de la position');}
-        
+        if (console) {
+            console.log('Détection de la position');
+        }
+
         //Appel au javascript maxmind en cas de coordonnées manquantes
         if (document.getElementById("lat").value === "" || document.getElementById("long").value === "" || document.getElementById("lat").value === "-1000" || document.getElementById("long").value === "-1000") {
 
@@ -54,69 +76,75 @@
 
     }
 
-    function détectionVilleProche() {    
+    function détectionVilleProche() {
         //Appel ajax permettant de trouver la ville.
-        if($("#lat").val()==="-1000"|$("#lat").val()==="-1000") {           
-            villeProche=null;
-            $("#city").val("");                        
+        if ($("#lat").val() === "-1000" | $("#lat").val() === "-1000") {
+            villeProche = null;
+            $("#city").val("");
         } else {
             jQuery.ajax({
                 type: 'POST',
                 dataType: 'json',
                 url: '{{path('ajaxFindCityByCoordinates')}}',
                 data: {lat: document.getElementById("lat").value,
-                       long: document.getElementById("long").value
+                    long: document.getElementById("long").value
                 },
-                success: function(data, textStatus, jqXHR) {                
-                    villeProche=data[0][0]['cityname'] + ", " + data[0][0]['citycp'];        
+                success: function(data, textStatus, jqXHR) {
+                    villeProche = data[0][0]['cityname'] + ", " + data[0][0]['citycp'];
                     document.getElementById("city").value = villeProche;
 
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
-                    villeProche=null;        
+                    villeProche = null;
                 }
             });
         }
     }
-    
-    $("#city").autocomplete({        
+
+    $("#city").autocomplete({
         source: function(request, response) {
             $.ajax({
                 url: "{{url('ajaxFindCityByName')}}",
                 dataType: "json",
-                cache: false,   //Pas de cache, l'autocomplete ne s'affiche pas dans tous les cas sans ca
+                cache: false, //Pas de cache, l'autocomplete ne s'affiche pas dans tous les cas sans ca
                 data: {
                     maxRows: 12,
                     startsWith: request.term
                 },
                 success: function(data) {
                     autocompleteSelection = null;           //rien n'est sélectionné pour le moment
-                    autocompleteDisplayedList_cityname=[];  //RAZ des différents tableaux avant mémorisation
-                    autocompleteDisplayedList_longitude=[];
-                    autocompleteDisplayedList_latitude=[];
+                    autocompleteDisplayedList_cityname = [];  //RAZ des différents tableaux avant mémorisation
+                    autocompleteDisplayedList_longitude = [];
+                    autocompleteDisplayedList_latitude = [];
                     if (data) {
-                        response($.map(data, function(item) {                                                        
-                            autocompleteDisplayedList_cityname.push(item.cityname+", "+item.citycp);     //Mémorisation villes
+                        response($.map(data, function(item) {
+                            autocompleteDisplayedList_cityname.push(item.cityname + ", " + item.citycp);     //Mémorisation villes
                             autocompleteDisplayedList_longitude.push(item.citylongitude);               //Mémorisation coordonnées
                             autocompleteDisplayedList_latitude.push(item.citylatitude);
-                            return {                                
+                            return {
                                 value: item.cityname + ", " + item.citycp                               //affichage de la liste autocomplete
                             };
                         }));
                     } else {
-                        if (console) {console.log('Aucune donnée retournée.');}
+                        if (console) {
+                            console.log('Aucune donnée retournée.');
+                        }
                         response();
                     }
                     return;
                 },
                 error: function(XMLHttpRequest, textStatus, errorThrown) {
                     autocompleteSelection = null;
-                    if(!XMLHttpRequest.getAllResponseHeaders()) {   //Si interrompu par utilisateur
-                        if (console) {console.log('Interruption par l\'utilisateur');}
-                    } else {                 
-                        if (console) {console.log("Une erreur s'est produite. La géolocalisation automatique de votre position va débuter.");}                    
+                    if (!XMLHttpRequest.getAllResponseHeaders()) {   //Si interrompu par utilisateur
+                        if (console) {
+                            console.log('Interruption par l\'utilisateur');
+                        }
+                    } else {
+                        if (console) {
+                            console.log("Une erreur s'est produite. La géolocalisation automatique de votre position va débuter.");
+                        }
                     }
-                    response();                    
+                    response();
                     $("#lat").val("-1000");
                     $("#long").val("-1000");
                     $("#city").val("");
@@ -126,14 +154,14 @@
         },
         minLength: 1,
         delay: 500,
-        select: function(event, ui) {            
+        select: function(event, ui) {
             autocompleteSelection = ui.item.value;
             //if (console) {console.log(ui.item.value + ' - Contenu Sélectionné (modif des coordonnées à implémenter): ' + autocompleteDisplayedList_cityname.indexOf(ui.item.value));}
-            index=autocompleteDisplayedList_cityname.indexOf(ui.item.value);
-            if (index>-1) {
-                selectedLong=autocompleteDisplayedList_longitude[index];
-                selectedLat=autocompleteDisplayedList_latitude[index];
-                villeProche=autocompleteSelection;
+            index = autocompleteDisplayedList_cityname.indexOf(ui.item.value);
+            if (index > -1) {
+                selectedLong = autocompleteDisplayedList_longitude[index];
+                selectedLat = autocompleteDisplayedList_latitude[index];
+                villeProche = autocompleteSelection;
                 $('#lat').val(selectedLat);
                 $('#long').val(selectedLong);
                 $('#city').val(villeProche);
@@ -143,7 +171,7 @@
             $(this).removeClass("ui-corner-all").addClass("ui-corner-top");
         },
         close: function() {
-            if (!autocompleteSelection) {                
+            if (!autocompleteSelection) {
                 //if (console) {console.log('Fermeture du menu sans sélection, on remet la valeur mémorisée au départ dans l\'input.');}                
                 $("#lat").val("-1000");
                 $("#long").val("-1000");
@@ -152,14 +180,16 @@
             $(this).removeClass("ui-corner-top").addClass("ui-corner-all");
         }
     });
-    
+
     {# Sur sortie de l'input des ville. Si celui-ci est vide, on désactive le bouton de recherche, sinon on le réactive. #}
-    $('#city').focusout(function(){
-        if(!$('#city').val()) {
-            if (console) {console.log('Aucune Ville de saisie.');}
+    $('#city').focusout(function() {
+        if (!$('#city').val()) {
+            if (console) {
+                console.log('Aucune Ville de saisie.');
+            }
             $("#lat").val("-1000");
             $("#long").val("-1000");
-            
+
             //$('#buttonValidSearch').attr('disabled', 'true');
             //$('#buttonValidSearch').removeClass("green");
             //$('#buttonValidSearch').addClass("disabled");            
@@ -168,7 +198,7 @@
             $('#buttonValidSearch').removeClass("disabled");
             $('#buttonValidSearch').addClass("green");
         }
-    });    
-    </script>
+    });
+</script>
 
 {% endblock %}
