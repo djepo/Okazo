@@ -1363,12 +1363,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sonata-project/SonataAdminBundle.git",
-                "reference": "afb14fad049c6e68d84ddc1cc4234f4772f0daf9"
+                "reference": "fabeb581b2b99b8a9b6a71ea4dab83819a15657d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sonata-project/SonataAdminBundle/zipball/afb14fad049c6e68d84ddc1cc4234f4772f0daf9",
-                "reference": "afb14fad049c6e68d84ddc1cc4234f4772f0daf9",
+                "url": "https://api.github.com/repos/sonata-project/SonataAdminBundle/zipball/fabeb581b2b99b8a9b6a71ea4dab83819a15657d",
+                "reference": "fabeb581b2b99b8a9b6a71ea4dab83819a15657d",
                 "shasum": ""
             },
             "require": {
@@ -1433,7 +1433,7 @@
                 "bootstrap",
                 "sonata"
             ],
-            "time": "2013-11-06 09:53:39"
+            "time": "2013-11-11 20:56:14"
         },
         {
             "name": "sonata-project/block-bundle",
