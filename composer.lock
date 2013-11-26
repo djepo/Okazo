@@ -610,22 +610,25 @@
         },
         {
             "name": "facebook/php-sdk",
-            "version": "v3.2.2",
+            "version": "v3.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/facebook/facebook-php-sdk.git",
-                "reference": "v3.2.2"
+                "reference": "6714042fa2f5979d4c64c7d11fb4bcab16bdf6cb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/facebook/facebook-php-sdk/zipball/v3.2.2",
-                "reference": "v3.2.2",
+                "url": "https://api.github.com/repos/facebook/facebook-php-sdk/zipball/6714042fa2f5979d4c64c7d11fb4bcab16bdf6cb",
+                "reference": "6714042fa2f5979d4c64c7d11fb4bcab16bdf6cb",
                 "shasum": ""
             },
             "require": {
                 "ext-curl": "*",
                 "ext-json": "*",
                 "php": ">=5.2.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "3.7.*"
             },
             "type": "library",
             "autoload": {
@@ -649,7 +652,7 @@
                 "facebook",
                 "sdk"
             ],
-            "time": "2013-01-15 21:37:15"
+            "time": "2013-11-19 23:11:14"
         },
         {
             "name": "friendsofsymfony/facebook-bundle",
@@ -718,12 +721,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSUserBundle.git",
-                "reference": "e543600e49216765315610b6281349ee86dfe87e"
+                "reference": "eb459d55bca10b51e7d44143ca6757fd999fce62"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/e543600e49216765315610b6281349ee86dfe87e",
-                "reference": "e543600e49216765315610b6281349ee86dfe87e",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/eb459d55bca10b51e7d44143ca6757fd999fce62",
+                "reference": "eb459d55bca10b51e7d44143ca6757fd999fce62",
                 "shasum": ""
             },
             "require": {
@@ -778,7 +781,7 @@
             "keywords": [
                 "User management"
             ],
-            "time": "2013-11-07 03:54:10"
+            "time": "2013-11-25 12:39:19"
         },
         {
             "name": "incenteev/composer-parameter-handler",
@@ -1070,12 +1073,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/IDCI-Consulting/Maxmind-GeoIp.git",
-                "reference": "55f3ba03783822278e9690b7c536f7cd1acf9c13"
+                "reference": "bee677d68bafb42c1614b49452a5d544fe10b9a8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/IDCI-Consulting/Maxmind-GeoIp/zipball/55f3ba03783822278e9690b7c536f7cd1acf9c13",
-                "reference": "55f3ba03783822278e9690b7c536f7cd1acf9c13",
+                "url": "https://api.github.com/repos/IDCI-Consulting/Maxmind-GeoIp/zipball/bee677d68bafb42c1614b49452a5d544fe10b9a8",
+                "reference": "bee677d68bafb42c1614b49452a5d544fe10b9a8",
                 "shasum": ""
             },
             "require": {
@@ -1113,7 +1116,7 @@
             "keywords": [
                 "maxmind geoip"
             ],
-            "time": "2012-10-23 17:43:03"
+            "time": "2013-11-18 00:45:32"
         },
         {
             "name": "monolog/monolog",
@@ -1189,12 +1192,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phiamo/MopaBootstrapBundle.git",
-                "reference": "c42ff7833529fb1d15d5e6530db188eab1961e04"
+                "reference": "6331ca53c5dc35a779dbb3a9065c420457e39a18"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phiamo/MopaBootstrapBundle/zipball/c42ff7833529fb1d15d5e6530db188eab1961e04",
-                "reference": "c42ff7833529fb1d15d5e6530db188eab1961e04",
+                "url": "https://api.github.com/repos/phiamo/MopaBootstrapBundle/zipball/6331ca53c5dc35a779dbb3a9065c420457e39a18",
+                "reference": "6331ca53c5dc35a779dbb3a9065c420457e39a18",
                 "shasum": ""
             },
             "require": {
@@ -1246,7 +1249,7 @@
                 "form",
                 "template"
             ],
-            "time": "2013-11-14 20:35:13"
+            "time": "2013-11-26 11:59:50"
         },
         {
             "name": "mopa/composer-bridge",
@@ -1485,12 +1488,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sonata-project/SonataAdminBundle.git",
-                "reference": "d7402590f87334f5bff49f9ec268d304c7d410c0"
+                "reference": "d02b7e0b5246556c338ba004050db4f456f06690"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sonata-project/SonataAdminBundle/zipball/d7402590f87334f5bff49f9ec268d304c7d410c0",
-                "reference": "d7402590f87334f5bff49f9ec268d304c7d410c0",
+                "url": "https://api.github.com/repos/sonata-project/SonataAdminBundle/zipball/d02b7e0b5246556c338ba004050db4f456f06690",
+                "reference": "d02b7e0b5246556c338ba004050db4f456f06690",
                 "shasum": ""
             },
             "require": {
@@ -1555,7 +1558,7 @@
                 "bootstrap",
                 "sonata"
             ],
-            "time": "2013-11-12 14:10:21"
+            "time": "2013-11-25 11:47:35"
         },
         {
             "name": "sonata-project/block-bundle",
