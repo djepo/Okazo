@@ -3,6 +3,7 @@
 namespace okazo\annoncesBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Annonces
@@ -14,8 +15,6 @@ use Doctrine\ORM\Mapping as ORM;
 class Annonces {
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="id", type="string", length=30, nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
@@ -23,22 +22,16 @@ class Annonces {
     private $id;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="foreign_id", type="text", nullable=true)
      */
     private $foreignId;
 
     /**
-     * @var \DateTime
-     *
      * @ORM\Column(name="foreign_timestamp", type="datetime", nullable=true)
      */
     private $foreignTimestamp;
 
     /**
-     * @var string
-     *
      * @ORM\ManyToOne(targetEntity="Sources", inversedBy="annonces")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="websiteId", referencedColumnName="id", nullable=true)
@@ -47,57 +40,36 @@ class Annonces {
     private $websiteId;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="titre", type="string", length=255, nullable=false)
      */
     private $titre;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="texte", type="text", nullable=false)
      */
     private $texte;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="lien", type="string", length=255, nullable=true)
      */
     private $lien;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="website_categorie", type="string", length=50, nullable=true)
      */
     private $websiteCategorie;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="prix", type="integer", nullable=false)
      */
     private $prix;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="codepostal", type="string", length=5, nullable=true)
+     *@ORM\Column(name="datecreated", type="datetime", nullable=true)
      */
-    private $codepostal;
+    private $datecreated;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="ville", type="string", length=50, nullable=true)
-     */
-    private $ville;
-
-    /**
-     * @var \DateTime
-     *
      * @ORM\Column(name="horodatageparse", type="datetime", nullable=true)
      */
     private $horodatageparse;
@@ -113,15 +85,11 @@ class Annonces {
     private $existe;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
      * @ORM\ManyToMany(targetEntity="Attributs", mappedBy="annonce")
      */
     private $attribut;
 
     /**
-     * @var \Categories
-     *
      * @ORM\ManyToOne(targetEntity="Categories")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="categorie_id", referencedColumnName="id")
@@ -138,8 +106,6 @@ class Annonces {
     private $city;
 
     /**
-     * @var \FosUser
-     *
      * @ORM\ManyToOne(targetEntity="okazo\UserBundle\Entity\User", fetch="EAGER")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="fos_user_id", referencedColumnName="id")
@@ -149,16 +115,19 @@ class Annonces {
 
     /**
      * @ORM\OneToMany(targetEntity="Images", mappedBy="annonce", cascade={"remove", "persist"})
+     * @Assert\Valid()
      */
     private $images;
-
+    
     /**
-     * Constructor
+     * @ORM\Column(name="latitude", type="decimal", precision=9, scale=6)      
      */
-    /*
-    public function __construct() {
-        $this->attribut = new \Doctrine\Common\Collections\ArrayCollection();        
-    }*/
+    private $latitude;
+    
+    /**
+     * @ORM\Column(name="longitude", type="decimal", precision=9, scale=6)      
+     */
+    private $longitude;
 
     /**
      * Get id
@@ -168,13 +137,12 @@ class Annonces {
     public function getId() {
         return $this->id;
     }
-
     public function setId($id = null) {
         if ($id != null) {
             $this->id = $id;
         } else {
             $objDateTime = new \DateTime('NOW');
-            $this->id = $objDateTime->format('YmdHis');
+            $this->id = $objDateTime->format('YmdHis').'-'.uniqid();
         }
     }
 
@@ -189,7 +157,6 @@ class Annonces {
 
         return $this;
     }
-
     /**
      * Get foreignId
      *
@@ -210,7 +177,6 @@ class Annonces {
 
         return $this;
     }
-
     /**
      * Get foreignTimestamp
      *
@@ -229,9 +195,7 @@ class Annonces {
     public function setWebsiteId($websiteId) {
         $this->websiteId = $websiteId;
 
-        return $this;
-    }
-
+        return $this;    }
     /**
      * Get websiteId
      *
@@ -252,7 +216,6 @@ class Annonces {
 
         return $this;
     }
-
     /**
      * Get titre
      *
@@ -273,7 +236,6 @@ class Annonces {
 
         return $this;
     }
-
     /**
      * Get texte
      *
@@ -294,7 +256,6 @@ class Annonces {
 
         return $this;
     }
-
     /**
      * Get lien
      *
@@ -315,7 +276,6 @@ class Annonces {
 
         return $this;
     }
-
     /**
      * Get websiteCategorie
      *
@@ -336,7 +296,6 @@ class Annonces {
 
         return $this;
     }
-
     /**
      * Get prix
      *
@@ -345,47 +304,12 @@ class Annonces {
     public function getPrix() {
         return $this->prix;
     }
-
-    /**
-     * Set codepostal
-     *
-     * @param string $codepostal
-     * @return Annonces
-     */
-    public function setCodepostal($codepostal) {
-        $this->codepostal = $codepostal;
-
-        return $this;
+    
+    public function setDateCreated($datecreated) {
+        $this->datecreated=$datecreated;
     }
-
-    /**
-     * Get codepostal
-     *
-     * @return string
-     */
-    public function getCodepostal() {
-        return $this->codepostal;
-    }
-
-    /**
-     * Set ville
-     *
-     * @param string $ville
-     * @return Annonces
-     */
-    public function setVille($ville) {
-        $this->ville = $ville;
-
-        return $this;
-    }
-
-    /**
-     * Get ville
-     *
-     * @return string
-     */
-    public function getVille() {
-        return $this->ville;
+    public function getDateCreated() {
+        return $this->datecreated;
     }
 
     /**
@@ -399,7 +323,6 @@ class Annonces {
 
         return $this;
     }
-
     /**
      * Get horodatageparse
      *
@@ -420,7 +343,6 @@ class Annonces {
 
         return $this;
     }
-
     /**
      * Remove attribut
      *
@@ -429,7 +351,6 @@ class Annonces {
     public function removeAttribut(\okazo\annoncesBundle\Entity\Attributs $attribut) {
         $this->attribut->removeElement($attribut);
     }
-
     /**
      * Get attribut
      *
@@ -450,7 +371,6 @@ class Annonces {
 
         return $this;
     }
-
     /**
      * Get categorie
      *
@@ -471,7 +391,6 @@ class Annonces {
 
         return $this;
     }
-
     /**
      * Get fosUser
      *
@@ -482,7 +401,7 @@ class Annonces {
     }
 
     /**
-     * Set fosUser
+     * Set City
      *
      * @param \okazo\geoBundle\Entity\city $city
      * @return Annonces
@@ -492,7 +411,6 @@ class Annonces {
 
         return $this;
     }
-
     /**
      * Get city
      *
@@ -508,22 +426,21 @@ class Annonces {
      * @param \okazo\annoncesBundle\Entity\images $images
      * @return Annonces
      */
-    public function addImage(\okazo\annoncesBundle\Entity\images $images) {
-        var_dump('Annonces->addImage<br>');                
-        $this->images[] = $images;
-
+    public function addImage(\okazo\annoncesBundle\Entity\images $image) {
+        if(!empty($image->file)) {                  //On teste que le formulaire ne nous renvoie pas de champ file vide.
+            $image->setAnnonce($this);
+            $this->images[] = $image;
+        }
         return $this;
     }
-
     /**
      * Remove images
      *
      * @param \okazo\annoncesBundle\Entity\images $images
      */
-    public function removeImage(\okazo\annoncesBundle\Entity\images $images) {
-        $this->images->removeElement($images);
+    public function removeImage(\okazo\annoncesBundle\Entity\images $image) {
+        $this->images->removeElement($image);
     }
-
     /**
      * Get images
      *
@@ -544,7 +461,6 @@ class Annonces {
 
         return $this;
     }
-
     /**
      * Get lastexistencecheck
      *
@@ -565,7 +481,6 @@ class Annonces {
 
         return $this;
     }
-
     /**
      * Get existe
      *
@@ -577,38 +492,45 @@ class Annonces {
 
     /** @ORM\PreRemove */
     public function preRemove() {
-        global $kernel;
-        if ('AppCache' == get_class($kernel)) {
-            $kernel = $kernel->getKernel();
-        }
-        $em = $kernel->getContainer()->get('doctrine.orm.entity_manager');
-        $okazoAnnoncesServices = $kernel->getContainer()->get('okazo.annonces');
+        //global $kernel;
+        //if ('AppCache' == get_class($kernel)) {
+        //    $kernel = $kernel->getKernel();
+        //}
+        //$em = $kernel->getContainer()->get('doctrine.orm.entity_manager');
+        //$okazoAnnoncesServices = $kernel->getContainer()->get('okazo.annonces');
         //before entity deletion, we will delete the pictures, if they exists
         //recherche des éventuelles images liées à l'annonce
-        $pictures = $em->getConnection()->executeQuery("SELECT images.* FROM images WHERE images.annonceId='" . $this->getId() . "'")->fetchAll();
+        //$pictures = $em->getConnection()->executeQuery("SELECT images.* FROM images WHERE images.annonceId='" . $this->getId() . "'")->fetchAll();
 
-        if ($pictures) {
-            $okazoAnnoncesServices->deletePictures($pictures);
-        }
+        //if ($pictures) {
+            //$okazoAnnoncesServices->deletePictures($pictures);
+        //}
     }
 
     /**
      * @ORM\PrePersist
      */
     public function prePersist() {
-        $this->id = uniqid();        
-        var_dump("Annonce PrePersist <br>");
+        //$this->id = uniqid();        dégagé dans addImage, car on en a besoin avant persist
+        //var_dump("Annonce PrePersist <br>");
     }
-    
+
     /**
      * @ORM\PostPersist
      */
     public function postPersist() {
-        var_dump('Annonce PostPersist <br>');
+        //var_dump('Annonce PostPersist <br>');
         //Envoi de l'identifiant de l'annonce dans le champ lié de l'entité image
         foreach ($this->images as $image) {
-            $image->setAnnonce($this);            
+            $image->setAnnonce($this);
         }
     }
 
+    /**
+     * Constructor
+     */
+    public function __construct() {
+        $this->attribut = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->images = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 }

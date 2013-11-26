@@ -15,8 +15,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Annonces {
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="id", type="string", length=30, nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
@@ -24,22 +22,16 @@ class Annonces {
     private $id;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="foreign_id", type="text", nullable=true)
      */
     private $foreignId;
 
     /**
-     * @var \DateTime
-     *
      * @ORM\Column(name="foreign_timestamp", type="datetime", nullable=true)
      */
     private $foreignTimestamp;
 
     /**
-     * @var string
-     *
      * @ORM\ManyToOne(targetEntity="Sources", inversedBy="annonces")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="websiteId", referencedColumnName="id", nullable=true)
@@ -48,57 +40,36 @@ class Annonces {
     private $websiteId;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="titre", type="string", length=255, nullable=false)
      */
     private $titre;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="texte", type="text", nullable=false)
      */
     private $texte;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="lien", type="string", length=255, nullable=true)
      */
     private $lien;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="website_categorie", type="string", length=50, nullable=true)
      */
     private $websiteCategorie;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="prix", type="integer", nullable=false)
      */
     private $prix;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="codepostal", type="string", length=5, nullable=true)
+     *@ORM\Column(name="datecreated", type="datetime", nullable=true)
      */
-    private $codepostal;
+    private $datecreated;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="ville", type="string", length=50, nullable=true)
-     */
-    private $ville;
-
-    /**
-     * @var \DateTime
-     *
      * @ORM\Column(name="horodatageparse", type="datetime", nullable=true)
      */
     private $horodatageparse;
@@ -114,15 +85,11 @@ class Annonces {
     private $existe;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
      * @ORM\ManyToMany(targetEntity="Attributs", mappedBy="annonce")
      */
     private $attribut;
 
     /**
-     * @var \Categories
-     *
      * @ORM\ManyToOne(targetEntity="Categories")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="categorie_id", referencedColumnName="id")
@@ -139,8 +106,6 @@ class Annonces {
     private $city;
 
     /**
-     * @var \FosUser
-     *
      * @ORM\ManyToOne(targetEntity="okazo\UserBundle\Entity\User", fetch="EAGER")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="fos_user_id", referencedColumnName="id")
@@ -153,6 +118,16 @@ class Annonces {
      * @Assert\Valid()
      */
     private $images;
+    
+    /**
+     * @ORM\Column(name="latitude", type="decimal", precision=9, scale=6)      
+     */
+    private $latitude;
+    
+    /**
+     * @ORM\Column(name="longitude", type="decimal", precision=9, scale=6)      
+     */
+    private $longitude;
 
     /**
      * Get id
@@ -162,7 +137,6 @@ class Annonces {
     public function getId() {
         return $this->id;
     }
-
     public function setId($id = null) {
         if ($id != null) {
             $this->id = $id;
@@ -183,7 +157,6 @@ class Annonces {
 
         return $this;
     }
-
     /**
      * Get foreignId
      *
@@ -204,7 +177,6 @@ class Annonces {
 
         return $this;
     }
-
     /**
      * Get foreignTimestamp
      *
@@ -223,9 +195,7 @@ class Annonces {
     public function setWebsiteId($websiteId) {
         $this->websiteId = $websiteId;
 
-        return $this;
-    }
-
+        return $this;    }
     /**
      * Get websiteId
      *
@@ -246,7 +216,6 @@ class Annonces {
 
         return $this;
     }
-
     /**
      * Get titre
      *
@@ -267,7 +236,6 @@ class Annonces {
 
         return $this;
     }
-
     /**
      * Get texte
      *
@@ -288,7 +256,6 @@ class Annonces {
 
         return $this;
     }
-
     /**
      * Get lien
      *
@@ -309,7 +276,6 @@ class Annonces {
 
         return $this;
     }
-
     /**
      * Get websiteCategorie
      *
@@ -330,7 +296,6 @@ class Annonces {
 
         return $this;
     }
-
     /**
      * Get prix
      *
@@ -338,48 +303,6 @@ class Annonces {
      */
     public function getPrix() {
         return $this->prix;
-    }
-
-    /**
-     * Set codepostal
-     *
-     * @param string $codepostal
-     * @return Annonces
-     */
-    public function setCodepostal($codepostal) {
-        $this->codepostal = $codepostal;
-
-        return $this;
-    }
-
-    /**
-     * Get codepostal
-     *
-     * @return string
-     */
-    public function getCodepostal() {
-        return $this->codepostal;
-    }
-
-    /**
-     * Set ville
-     *
-     * @param string $ville
-     * @return Annonces
-     */
-    public function setVille($ville) {
-        $this->ville = $ville;
-
-        return $this;
-    }
-
-    /**
-     * Get ville
-     *
-     * @return string
-     */
-    public function getVille() {
-        return $this->ville;
     }
 
     /**
@@ -393,7 +316,6 @@ class Annonces {
 
         return $this;
     }
-
     /**
      * Get horodatageparse
      *
@@ -414,7 +336,6 @@ class Annonces {
 
         return $this;
     }
-
     /**
      * Remove attribut
      *
@@ -423,7 +344,6 @@ class Annonces {
     public function removeAttribut(\okazo\annoncesBundle\Entity\Attributs $attribut) {
         $this->attribut->removeElement($attribut);
     }
-
     /**
      * Get attribut
      *
@@ -444,7 +364,6 @@ class Annonces {
 
         return $this;
     }
-
     /**
      * Get categorie
      *
@@ -465,7 +384,6 @@ class Annonces {
 
         return $this;
     }
-
     /**
      * Get fosUser
      *
@@ -476,7 +394,7 @@ class Annonces {
     }
 
     /**
-     * Set fosUser
+     * Set City
      *
      * @param \okazo\geoBundle\Entity\city $city
      * @return Annonces
@@ -486,7 +404,6 @@ class Annonces {
 
         return $this;
     }
-
     /**
      * Get city
      *
@@ -502,14 +419,13 @@ class Annonces {
      * @param \okazo\annoncesBundle\Entity\images $images
      * @return Annonces
      */
-    public function addImage(\okazo\annoncesBundle\Entity\images $image) {        
-        if(!empty($image->file)) {                  //On teste que le formulaire ne nous renvoie pas de champ file vide.            
+    public function addImage(\okazo\annoncesBundle\Entity\images $image) {
+        if(!empty($image->file)) {                  //On teste que le formulaire ne nous renvoie pas de champ file vide.
             $image->setAnnonce($this);
             $this->images[] = $image;
         }
         return $this;
     }
-
     /**
      * Remove images
      *
@@ -518,7 +434,6 @@ class Annonces {
     public function removeImage(\okazo\annoncesBundle\Entity\images $image) {
         $this->images->removeElement($image);
     }
-
     /**
      * Get images
      *
@@ -539,7 +454,6 @@ class Annonces {
 
         return $this;
     }
-
     /**
      * Get lastexistencecheck
      *
@@ -560,7 +474,6 @@ class Annonces {
 
         return $this;
     }
-
     /**
      * Get existe
      *
@@ -612,5 +525,71 @@ class Annonces {
     public function __construct() {
         $this->attribut = new \Doctrine\Common\Collections\ArrayCollection();
         $this->images = new \Doctrine\Common\Collections\ArrayCollection();
-    }    
+    }
+
+    /**
+     * Set datecreated
+     *
+     * @param \DateTime $datecreated
+     * @return Annonces
+     */
+    public function setDatecreated($datecreated)
+    {
+        $this->datecreated = $datecreated;
+    
+        return $this;
+    }
+    /**
+     * Get datecreated
+     *
+     * @return \DateTime 
+     */
+    public function getDatecreated()
+    {
+        return $this->datecreated;
+    }
+
+    /**
+     * Set latitude
+     *
+     * @param float $latitude
+     * @return Annonces
+     */
+    public function setLatitude($latitude)
+    {
+        $this->latitude = $latitude;
+    
+        return $this;
+    }
+    /**
+     * Get latitude
+     *
+     * @return float 
+     */
+    public function getLatitude()
+    {
+        return $this->latitude;
+    }
+
+    /**
+     * Set longitude
+     *
+     * @param float $longitude
+     * @return Annonces
+     */
+    public function setLongitude($longitude)
+    {
+        $this->longitude = $longitude;
+    
+        return $this;
+    }
+    /**
+     * Get longitude
+     *
+     * @return float 
+     */
+    public function getLongitude()
+    {
+        return $this->longitude;
+    }
 }
