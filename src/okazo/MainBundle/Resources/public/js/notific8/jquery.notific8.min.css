@@ -20,7 +20,8 @@
 .bottom .jquery-notific8-notification{margin-bottom:.625em}
 .jquery-notific8-notification.teal{border-color:#09c;background-color:#069}
 .jquery-notific8-notification.amethyst{border-color:#915faa;background-color:#5d2d77}
-.jquery-notific8-notification.ruby{border-color:#d10;background-color:#a10}
+/*.jquery-notific8-notification.ruby{border-color:#d10;background-color:#a10}*/
+.jquery-notific8-notification.ruby{border-color:#DDDDDD;background-color:#C71C22}
 .jquery-notific8-notification.tangerine{border-color:#ffb23f;background-color:#e88f00}
 .jquery-notific8-notification.lemon{border-color:#ffde00;background-color:#fc0;color:#333}
 .jquery-notific8-notification.lime{border-color:#38d315;background-color:#32b512}

@@ -10,9 +10,7 @@ use Symfony\Component\Form\TextField As TextField;
 class ImagesType extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
-        $builder
-                ->add('file')
-        ;
+        $builder->add('file');
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver) {

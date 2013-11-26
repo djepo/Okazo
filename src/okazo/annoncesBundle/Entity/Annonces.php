@@ -3,6 +3,7 @@
 namespace okazo\annoncesBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Annonces
@@ -39,7 +40,7 @@ class Annonces {
     /**
      * @var string
      *
-     * @ORM\manyToOne(targetEntity="Sources", inversedBy="annonces")
+     * @ORM\ManyToOne(targetEntity="Sources", inversedBy="annonces")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="websiteId", referencedColumnName="id", nullable=true)
      * })
@@ -148,16 +149,10 @@ class Annonces {
     private $fosUser;
 
     /**
-     * @ORM\OneToMany(targetEntity="Images", mappedBy="annonceid", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity="Images", mappedBy="annonce", cascade={"remove", "persist"})
+     * @Assert\Valid()
      */
     private $images;
-
-    /**
-     * Constructor
-     */
-    public function __construct() {
-        $this->attribut = new \Doctrine\Common\Collections\ArrayCollection();
-    }
 
     /**
      * Get id
@@ -173,7 +168,7 @@ class Annonces {
             $this->id = $id;
         } else {
             $objDateTime = new \DateTime('NOW');
-            $this->id = $objDateTime->format('YmdHis');
+            $this->id = $objDateTime->format('YmdHis').'-'.uniqid();
         }
     }
 
@@ -507,9 +502,11 @@ class Annonces {
      * @param \okazo\annoncesBundle\Entity\images $images
      * @return Annonces
      */
-    public function addImage(\okazo\annoncesBundle\Entity\images $images) {
-        $this->images[] = $images;
-
+    public function addImage(\okazo\annoncesBundle\Entity\images $image) {        
+        if(!empty($image->file)) {                  //On teste que le formulaire ne nous renvoie pas de champ file vide.            
+            $image->setAnnonce($this);
+            $this->images[] = $image;
+        }
         return $this;
     }
 
@@ -518,8 +515,8 @@ class Annonces {
      *
      * @param \okazo\annoncesBundle\Entity\images $images
      */
-    public function removeImage(\okazo\annoncesBundle\Entity\images $images) {
-        $this->images->removeElement($images);
+    public function removeImage(\okazo\annoncesBundle\Entity\images $image) {
+        $this->images->removeElement($image);
     }
 
     /**
@@ -575,26 +572,45 @@ class Annonces {
 
     /** @ORM\PreRemove */
     public function preRemove() {
-        global $kernel;
-        if ('AppCache' == get_class($kernel)) {
-            $kernel = $kernel->getKernel();
-        }
-        $em = $kernel->getContainer()->get('doctrine.orm.entity_manager');
-        $okazoAnnoncesServices = $kernel->getContainer()->get('okazo.annonces');
+        //global $kernel;
+        //if ('AppCache' == get_class($kernel)) {
+        //    $kernel = $kernel->getKernel();
+        //}
+        //$em = $kernel->getContainer()->get('doctrine.orm.entity_manager');
+        //$okazoAnnoncesServices = $kernel->getContainer()->get('okazo.annonces');
         //before entity deletion, we will delete the pictures, if they exists
         //recherche des éventuelles images liées à l'annonce
-        $pictures = $em->getConnection()->executeQuery("SELECT images.* FROM images WHERE images.annonceId='" . $this->getId() . "'")->fetchAll();
+        //$pictures = $em->getConnection()->executeQuery("SELECT images.* FROM images WHERE images.annonceId='" . $this->getId() . "'")->fetchAll();
 
-        if ($pictures) {
-            $okazoAnnoncesServices->deletePictures($pictures);
-        }
+        //if ($pictures) {
+            //$okazoAnnoncesServices->deletePictures($pictures);
+        //}
     }
 
     /**
      * @ORM\PrePersist
      */
     public function prePersist() {
-        $this->id = uniqid();
+        //$this->id = uniqid();        dégagé dans addImage, car on en a besoin avant persist
+        //var_dump("Annonce PrePersist <br>");
     }
 
+    /**
+     * @ORM\PostPersist
+     */
+    public function postPersist() {
+        //var_dump('Annonce PostPersist <br>');
+        //Envoi de l'identifiant de l'annonce dans le champ lié de l'entité image
+        foreach ($this->images as $image) {
+            $image->setAnnonce($this);
+        }
+    }
+
+    /**
+     * Constructor
+     */
+    public function __construct() {
+        $this->attribut = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->images = new \Doctrine\Common\Collections\ArrayCollection();
+    }    
 }

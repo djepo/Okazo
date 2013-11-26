@@ -1,0 +1,30 @@
+{# The go to top button with his script #}
+{# You have to put this script just after the body #}
+<a id="top"></a>
+
+<div class="gotop">
+    <a class="top" href="#top">Go Top</a>
+</div>
+
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("a[href='#top']").hide();
+
+        $("a[href='#top']").click(function() {
+            $("html, body").animate({scrollTop: 0}, "slow");
+            //$("a[href='#top']").hide();
+            return false;
+        });
+        
+        $(window).scroll(function() {
+            ($(window).scrollTop());
+            if ($(window).scrollTop() > 200) {
+                $("a[href='#top']").fadeIn(500);
+            } else {
+                $("a[href='#top']").fadeOut(500);
+            }
+        });
+    });
+</script>
+

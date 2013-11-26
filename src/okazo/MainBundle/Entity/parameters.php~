@@ -62,6 +62,17 @@ class parameters
      * @ORM\Column(name="useGoogleAnalytics", type="boolean")
      */
     private $useGoogleAnalytics;
+    
+    /**
+     *
+     * @ORM\Column(name="logBots", type="boolean")
+     */
+    private $logBots;
+    
+    /**
+     * @ORM\Column(name="currentParameters", type="boolean")
+     */
+    private $currentParameters;
 
 
     /**

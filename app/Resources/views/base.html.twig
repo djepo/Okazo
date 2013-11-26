@@ -19,8 +19,9 @@
 
         {% block stylesheets %}
             <!-- Bootstrap -->
+            
             <link href="{{asset('bundles/okazomain/bootstrap/css/bootstrap.css')}}" rel="stylesheet">
-            <link href="{{asset('bundles/okazomain/bootstrap/css/bootstrap-okazo-theme.css')}}" rel="stylesheet">
+            {#<link href="{{asset('bundles/okazomain/bootstrap/css/bootstrap-okazo-theme.css')}}" rel="stylesheet">#}
                         
             <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
             <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -33,6 +34,7 @@
             <link media="all" href="{{asset('bundles/okazomain/js/notific8/jquery.notific8.css')}}" type="text/css" rel="stylesheet">
             <link media="all" href="{{asset('bundles/okazomain/css/style.css')}}" type="text/css" rel="stylesheet">            
             <link media="all" href="{{asset('bundles/okazomain/css/jquery-ui/css/cupertino/jquery-ui-1.10.3.custom.min.css')}}" type="text/css" rel="stylesheet">
+            {#<link href="//code.jquery.com/ui/1.10.3/themes/cupertino/jquery-ui.css" type="text/css" rel="Stylesheet" />            #}
             
             {#<link media="all" href="{{asset('bundles/okazomain/css/style.css')}}" type="text/css" rel="stylesheet">#}
             
@@ -40,12 +42,18 @@
         {% block header_javascripts %}            
             {# ESSAI ASSETIC #}                
             <!-- jQuery library -->
-            <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-            <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+            <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>            
             {#<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>#}
 
+            <script type="text/javascript" src="{{asset('bundles/okazomain/js/okazo.js')}}"></script>
+            
             <!-- Bootstrap -->
             <script src="{{asset('bundles/okazomain/bootstrap/js/bootstrap.js')}}"></script>
+            
+            {#Javascripts additionnels de bootstrap (via le bundle MopaBootstrap) #}
+            <script type="text/javascript" src="{{asset('bundles/mopabootstrap/bootstrap/js/tooltip.js')}}"></script>
+            <script type="text/javascript" src="{{asset('bundles/mopabootstrap/bootstrap/js/popover.js')}}"></script>
+            <script type="text/javascript" src="{{asset('bundles/mopabootstrap/bootstrap/js/tab.js')}}"></script>
             
             <!--hInclude -->
             <script type="text/javascript" src="{{asset('bundles/okazomain/js/hinclude/hinclude.js')}}"></script>
@@ -57,6 +65,8 @@
             <!-- Add mousewheel plugin (for FancyBox)-->            
             <script type="text/javascript" src="{{asset('bundles/okazomain/js/fancybox/lib/jquery.mousewheel-3.0.6.pack.js')}}"></script>
             
+            
+            <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
             {#
             {% javascripts  'http://code.jquery.com/jquery-latest.min.js'
                             '@okazoMainBundle/Resources/public/js/fancybox/source/jquery.fancybox.pack.js'
@@ -107,8 +117,9 @@
     <body class="" style="">
         {%include 'okazoMainBundle:blocks:bootstrapSizeDebuger.html.twig'%}
                         
-        <div id="wrap">
-        <a id="top-of-page"></a>
+        <div id="wrap">        
+            {% include 'okazoMainBundle:blocks:goTop.html.twig' %}
+            
             {% block content %}        
                 {% block header%}
                     {% include 'okazoMainBundle:blocks:header.html.twig' %}
@@ -126,9 +137,15 @@
                                         </a>
                                     </div>
                                 {% endblock %}
-                                {% block websiteHeader_Right %}       
+                                {% block websiteHeader_Right %}                             
                                     <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
-                                        {% render (controller("okazoannoncesBundle:searchBar:displaySearchBar")) %}
+                                        {% render (controller("okazoannoncesBundle:searchBar:displaySearchBar",{
+                                            'getQuery': getQuery?getQuery:null,
+                                            'getDistance': getDistance?getDistance:null,
+                                            'getLatitude': getLatitude?getLatitude:null,
+                                            'getLongitude':getLongitude?getLongitude:null,
+                                            'getCategorieId': categorieId?categorieId:null
+                                        })) %}
                                     </div>
                                 {% endblock %}
                         {%endblock%}
@@ -150,7 +167,15 @@
             {% endblock %}        
 
         {# Javascripts additionnels #}
-        {% block javascripts %}{% endblock %}
+        {% block javascripts %}
+            {#Initialisation des tooltips et popovers de twitter bootstrap#}
+            <script>
+                $(document).ready(function () {
+                    $('[data-toggle="tooltip"]').tooltip();
+                    $('[data-toggle="popover"]').popover();
+                });                
+            </script>
+        {% endblock %}
 
         {# Inclusion de google Analytics #}
         {% include 'okazoMainBundle:blocks:googleAnalytics.html.twig' %}

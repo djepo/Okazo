@@ -25,8 +25,8 @@ services:
         class: okazo\MainBundle\Twig\okazoTwigExtension
         tags:
             -  { name: twig.extension }
-        arguments:
-            em: "@doctrine.orm.entity_manager"
+        arguments: [@service_container]
+            
 
 framework:
     #esi:             ~

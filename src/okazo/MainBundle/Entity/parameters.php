@@ -62,6 +62,17 @@ class parameters
      * @ORM\Column(name="useGoogleAnalytics", type="boolean")
      */
     private $useGoogleAnalytics;
+    
+    /**
+     *
+     * @ORM\Column(name="logBots", type="boolean")
+     */
+    private $logBots;
+    
+    /**
+     * @ORM\Column(name="currentParameters", type="boolean")
+     */
+    private $currentParameters;
 
 
     /**
@@ -210,5 +221,51 @@ class parameters
     public function getUseGoogleAnalytics()
     {
         return $this->useGoogleAnalytics;
+    }
+
+    /**
+     * Set logBots
+     *
+     * @param boolean $logBots
+     * @return parameters
+     */
+    public function setLogBots($logBots)
+    {
+        $this->logBots = $logBots;
+    
+        return $this;
+    }
+
+    /**
+     * Get logBots
+     *
+     * @return boolean 
+     */
+    public function getLogBots()
+    {
+        return $this->logBots;
+    }
+
+    /**
+     * Set currentParameters
+     *
+     * @param boolean $currentParameters
+     * @return parameters
+     */
+    public function setCurrentParameters($currentParameters)
+    {
+        $this->currentParameters = $currentParameters;
+    
+        return $this;
+    }
+
+    /**
+     * Get currentParameters
+     *
+     * @return boolean 
+     */
+    public function getCurrentParameters()
+    {
+        return $this->currentParameters;
     }
 }

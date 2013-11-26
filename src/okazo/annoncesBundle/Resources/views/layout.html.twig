@@ -1,4 +1,7 @@
 {% extends "::base.html.twig" %}
+{% block header_javascripts %}     
+    {{parent()}}
+{% endblock header_javascripts %}     
 
 {% block user%}
     {% include 'okazoUserBundle:Blocks:userMenu.html.twig' %}
@@ -14,11 +17,7 @@
 {%endblock%}
 
 {% block body %}
-    <div class="mainContent" style="width: 1024px; margin: auto;">
-            {%block adminContent%}
-        no content
-            {%endblock adminContent%}
-    </div>
+    no content, this is the layout !
 {% endblock body%}
 
 {% block javascripts %}

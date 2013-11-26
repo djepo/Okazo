@@ -1,30 +1,47 @@
 {% extends "okazoannoncesBundle::layout.html.twig" %}
 
-{% block search%}{%endblock%} {# Pour ne pas afficher les champs de recherche durant la création d'annonce #}
+{% block header_javascripts %}
+    {{parent()}}
+    <script type="text/javascript" src="{{asset('bundles/mopabootstrap/js/mopabootstrap-collection.js')}}"></script>
+{% endblock header_javascripts %}
+
+{% block websiteHeader_Right %}
+    <h1>Nouvelle Annonce</h1>
+{% endblock websiteHeader_Right %}
 
 {% block body %}
-<h1>Annonces creation</h1>
+    <div class="container">
+        <div class="col-lg-9 col-centered">
+            {%if form is defined %}
+            <form action="{{ path('annonces_new') }}" method="post" {{ form_enctype(form) }}>
+                <div class="row well">
+                {{ form_errors(form) }}
+                {{ form_row(form.titre) }}
+                {{ form_row(form.texte) }}
+                {{ form_row(form.prix) }}
+                {{ form_row(form.codepostal) }}
+                {{form_row(form.images)}}
+        {#
+            <h3>Images</h3>
+            <ul class="images" data-prototype="{{ form_widget(form.images.vars.prototype)|e}}">
+                {# itère sur chaque tag existant et affiche son unique champ : name #}
+            {#
+                {% for image in form.images %}
+                    <li>{{ form_row(image.file) }}</li>
+                {% endfor %}
+            </ul>
+        #}
+                {{ form_rest(form) }}
+                </div>
+                <div class="row text-right">
+                    <button class="btn btn-success" type="submit">Create</button>
+                </div>
 
-<form action="{{ path('annonces_new') }}" method="post" {{ form_enctype(form) }}>
-
-    {{ form_row(form.titre) }}
-    {{ form_row(form.texte) }}
-
-    <h3>Images</h3>
-    <ul class="images" data-prototype="{{ form_widget(form.images.vars.prototype)|e}}">
-        {# itère sur chaque tag existant et affiche son unique champ : name #}
-        {% for image in form.images %}
-        <li>{{ form_row(image.file) }}</li>
-        {% endfor %}
-    </ul>
-
-    {{ form_rest(form) }}
-
-    <p>
-        <button type="submit">Create</button>
-    </p>
-</form>
-
+            </form>
+            {%endif%}
+        </div>
+    </div>
+{#
 <script>
 // Récupère le div qui contient la collection de tags
     var collectionHolder = $('ul.images');
@@ -60,6 +77,6 @@
     }
 
 </script>
-
+#}
 {%endblock%}
 

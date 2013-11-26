@@ -60,7 +60,7 @@ class city
     private $cityurl;
     
     /**
-     * @ORM\ManyToOne(targetEntity="country", inversedBy="id")     
+     * @ORM\ManyToOne(targetEntity="country", inversedBy="cities")          
      * @ORM\JoinColumn(name="countryId", nullable=true)
      */
     private $country;    

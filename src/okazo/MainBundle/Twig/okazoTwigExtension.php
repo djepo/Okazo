@@ -3,13 +3,12 @@
 namespace okazo\MainBundle\Twig;
  
 class okazoTwigExtension extends \Twig_Extension
-{
-    private $em;
-    private $conn;
+{    
+    protected $container;    
  
-    public function __construct(\Doctrine\ORM\EntityManager $em) {
-        $this->em = $em;
-        $this->conn = $em->getConnection();
+    public function __construct($container) {        
+        $this->container=$container;
+        
     }
  /*
     public function getFunctions()
@@ -21,11 +20,15 @@ class okazoTwigExtension extends \Twig_Extension
  */
     public function getParameters()
     {
+        /*
         $sql = "SELECT * FROM parameters LIMIT 1";
         $arrayParameters=$this->conn->fetchAll($sql);
         $parameters=$arrayParameters[0];
         
         return $parameters;
+         * */
+         
+        return $this->container->get('okazo.parameters')->getParameters();
     }
  
     public function getGlobals()

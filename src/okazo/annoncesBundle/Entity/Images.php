@@ -10,6 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="images")
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks
  */
 class Images {
 
@@ -32,25 +33,26 @@ class Images {
     /**
      * @var string
      *
-     * @ORM\Column(name="imageURL", type="string", length=255, nullable=false)
+     * @ORM\Column(name="imageURL", type="string", length=255, nullable=true)
      */
     private $imageurl;
-    
-     /**
-     * @Assert\File(maxSize="6000000")
+
+    /**
+     * @Assert\File(maxSize="4M",
+     *              mimeTypes = {"image/jpg", "image/jpeg", "image/gif", "image/png"})
      */
-    public $file;
+    private $file;
 
     /**
      * @var \Annonces
      *
      * @ORM\ManyToOne(targetEntity="Annonces", inversedBy="images")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="annonceid", referencedColumnName="id", onDelete="CASCADE")
+     *   @ORM\JoinColumn(name="annonceId", referencedColumnName="id", onDelete="CASCADE")
      * })
      */
-    private $annonceid;
-
+    private $annonce;
+    
     /**
      * Get id
      *
@@ -108,8 +110,8 @@ class Images {
      * @param \okazo\annoncesBundle\Entity\Annonces $annonceid
      * @return Images
      */
-    public function setAnnonceid(\okazo\annoncesBundle\Entity\Annonces $annonceid = null) {
-        $this->annonceid = $annonceid;
+    public function setAnnonce(\okazo\annoncesBundle\Entity\Annonces $annonce = null) {
+        $this->annonce = $annonce;
 
         return $this;
     }
@@ -119,14 +121,12 @@ class Images {
      *
      * @return \okazo\annoncesBundle\Entity\Annonces
      */
-    public function getAnnonceid() {
-        return $this->annonceid;
+    public function getAnnonce() {
+        return $this->annonce;
     }
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    public $path;
+
+    protected $path;
 
     public function getAbsolutePath() {
         return null === $this->path ? null : $this->getUploadRootDir() . '/' . $this->path;
@@ -145,6 +145,100 @@ class Images {
         // on se débarrasse de « __DIR__ » afin de ne pas avoir de problème lorsqu'on affiche
         // le document/image dans la vue.
         return 'uploads/users/media';
+    }
+
+    /**
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function preUpload() {
+        var_dump("Image preUpload (PrePersist et PreUpdate) <br>");
+
+        if (null !== $this->file) {
+            // faites ce que vous voulez pour générer un nom unique
+            $this->path = sha1(uniqid(mt_rand(), true)) . '.' . $this->file->guessExtension();
+            $this->setImageurl($this->getUploadDir() . '/' . $this->path);
+            $this->setThumburl($this->getUploadDir() . '/thumbs/' . $this->path);
+            //$this->path = $this->file->guessExtension();
+            //var_dump($this->annonce);
+        }
+        //$this->get('test');
+    }
+
+    /**
+     * @ORM\PostPersist()
+     * @ORM\PostUpdate()
+     */
+    public function upload() {
+        if (null === $this->file) {
+            return;
+        }
+
+        // s'il y a une erreur lors du déplacement du fichier, une exception
+        // va automatiquement être lancée par la méthode move(). Cela va empêcher
+        // proprement l'entité d'être persistée dans la base de données si
+        // erreur il y a        
+        $this->annonce = $this->annonce->getId();
+
+        $this->file->move($this->getUploadRootDir(), $this->path);
+
+        //create thumb
+        $this->createThumbs($this->getAbsolutePath(), $this->getUploadRootDir() . "/thumbs/" . $this->path, 100);
+
+        unset($this->file);
+    }
+
+    /**
+     * @ORM\PreRemove()
+     */
+    public function preRemove() {     
+        //efface physiquement l'image
+        if ($this->getImageurl()) {            
+            unlink(__DIR__ . '/../../../../public_html/'.$this->getImageurl());
+        }
+        //efface physiquement l'image miniature
+        if ($this->getThumburl()) {            
+            unlink(__DIR__ . '/../../../../public_html/'.$this->getThumburl());
+        }
+    }
+
+    function createThumbs($pathToImage, $pathToThumb, $thumbnail_width = 80, $thumbnail_height = 80) {
+        //Create the thumbs directory if it not exists
+        if (!file_exists($this->getUploadRootDir() . '/thumbs')) {
+            mkdir($this->getUploadRootDir() . '/thumbs', 0777, true);
+        }
+   
+        $arr_image_details = getimagesize($pathToImage);
+        $original_width = $arr_image_details[0];
+        $original_height = $arr_image_details[1];
+        
+        if ($original_width > $original_height) {
+            $new_width = $thumbnail_width;
+            $new_height = intval($original_height * ($new_width / $original_width));
+        } else {
+            $new_height = $thumbnail_height;
+            $new_width = intval($original_width * ($new_height / $original_height));
+        }
+        $dest_x = intval(($thumbnail_width - $new_width) / 2);
+        $dest_y = intval(($thumbnail_height - $new_height) / 2);
+        if ($arr_image_details[2] == 1) {
+            $imgt = "ImageGIF";
+            $imgcreatefrom = "ImageCreateFromGIF";
+        }
+        if ($arr_image_details[2] == 2) {
+            $imgt = "ImageJPEG";
+            $imgcreatefrom = "ImageCreateFromJPEG";
+        }
+        if ($arr_image_details[2] == 3) {
+            $imgt = "ImagePNG";
+            $imgcreatefrom = "ImageCreateFromPNG";
+        }
+        if ($imgt) {
+            $old_image = $imgcreatefrom($pathToImage);
+            $new_image = imagecreatetruecolor($thumbnail_width, $thumbnail_height);
+            imagecopyresized($new_image, $old_image, $dest_x, $dest_y, 0, 0, $new_width, $new_height, $original_width, $original_height);
+            $imgt($new_image, $pathToThumb);
+        }
     }
 
 }

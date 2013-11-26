@@ -1,27 +1,41 @@
 {% extends "okazoannoncesBundle::layout.html.twig" %}
 
-
+{% block websiteHeader_Right %}
+<h1>{{ entity.titre }}</h1>
+{% endblock websiteHeader_Right %}
 
 {% block body %}
-<h1>Annonces</h1>
+<div class="container">
+    {%if is_granted("ROLE_ADMIN")%}
+    <div class="row">
+        <button id="btnRemove" class="btn btn-danger">
+            <span class="glyphicon glyphicon-trash"></span> Supprimer
+        </button>
+    </div>
+    {%endif%}
+    <table class="record_properties">
+        <tbody>
+        {%if app.debug%}
+            <tr>
+                <th>Id</th>
+                <td>{{ entity.id }}</td>
+            </tr>
+        {%endif%}
 
-<table class="record_properties">
-    <tbody>
-        <tr>
-            <th>Id</th>
-            <td>{{ entity.id }}</td>
-        </tr>        
-        <tr>
-            <th>Titre</th>
-            <td>{{ entity.titre }}</td>
-        </tr>
+        {%if entity.images|length>0%}
+        <div class="row">
+                {%for image in entity.images%}
+            <div class="col-sm-6 col-md-3">
+                <a href="#" class="thumbnail">
+                    <img src="{{app.request.basePath~'/'~image.imageurl}}" data-src="{{app.request.basePath~'/'~image.imageurl}}">
+                </a>
+            </div>
+                {%endfor%}
+        </div>
+        {%endif%}
         <tr>
             <th>Texte</th>
             <td>{{ entity.texte }}</td>
-        </tr>
-        <tr>
-            <th>Lien</th>
-            <td>{{ entity.lien }}</td>
         </tr>
         <tr>
             <th>Websitecategorie</th>
@@ -39,10 +53,10 @@
             <th>Ville</th>
             <td>{{ entity.ville }}</td>
         </tr>
-    </tbody>
-</table>
+        </tbody>
+    </table>
 
-<ul class="record_actions">
+    <ul class="record_actions">
     {#
     <li>
         <a href="{{ path('annonces') }}">
@@ -61,5 +75,54 @@
         </form>
     </li>
 #}
-</ul>
+    </ul>
+</div>
 {% endblock body %}
+
+{% block javascripts %}
+{{parent()}}
+<script>
+    $(document).ready(function() {
+        $(".fancybox").click(function() {
+            alert($this);
+            preventDefault();
+        });
+    });
+</script>
+
+{#Script du bouton supprimer#}
+<script>
+    $(document).ready(function() {
+        {#
+        $('#btnRemove').click(function() {
+            var r = confirm("Voulez-vous vraiment supprimer l'annonce sélectionnée ?");
+            if (r == true) {
+                x = "You pressed OK!";
+            }
+        });
+        #}
+
+        $("#btnRemove").click(function() {
+            var id = "{{entity.id}}";            
+
+            confirmBox('Voulez-vous vraiment effacer l\'annonce ' + id + ' ?').then(function(answer) {//then will run if Yes or No is clicked
+                if (answer.toLowerCase() === "yes") {
+                    raiseInformation('Information', 'Classified ' + id + ' will be erased.', 1);
+                    $.ajax({
+                        url: "{{path('ajaxDeleteClassified')}}",
+                        type: "post",
+                        data: "id=" + id,
+                        success: function(data, textStatus, jqXHR) {
+                            //Notification de réussite
+                            raiseSuccess('Success', jqXHR.responseText);                            
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            raiseError(jqXHR.status + " " + jqXHR.statusText, jqXHR.responseText);
+                        }
+                    });
+                }
+            });
+        });
+    });
+</script>
+{% endblock javascripts %}

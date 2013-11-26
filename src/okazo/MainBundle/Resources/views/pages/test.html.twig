@@ -57,10 +57,17 @@
     </div>
     
         <div> 
-            <h2>Test paramètres via twig</h2>
+            <h2>Test paramètres via twig</h2>            
             {%for key, parameter in parameters%}
                 {{key}}:{{parameter}}</br>
             {%endfor%}            
+        </div>
+        
+        <div>
+            <h2>Chemins twig</h2>
+            app.request.requestUri: <img src="{{app.request.requestUri~'/uploads/test.png'}}"><br>
+            app.request.baseUrl: <img src="{{app.request.requestUri~'/uploads/test.png'}}"><br>
+            app.request.basePath: <img src="{{app.request.basePath~'/uploads/test.png'}}"><br>
         </div>
         
             

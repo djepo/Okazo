@@ -1,4 +1,4 @@
-<table cellspacing="0" cellpadding="0">
+<table class="table" cellspacing="0" cellpadding="0">
     <thead><tr>
             <th>id</th>
             <th>username</th>
@@ -8,39 +8,39 @@
             <th>facebookId</th>
             <th>firstname</th>
             <th>lastname</th>            
-    </tr></thead>
+        </tr></thead>
     <tbody>
         {% for user in users %}                        
         <tr>
-            <form>
-                <td>{{ user.id }}</td>
-                <td><input value="{{ user.username }}"></input></td>
-                <td><input value="{{ user.email }}"></input></td>
-                <td>{{ user.enabled ? '<i class="icon-ok"></i>Oui':'<i class="icon-remove"></i>Non'}}</td>
-                <td>
-                <select name="roles[]" id="select1" >
+    <form role="form" class="form-inline">
+        <td><p class="form-control-static">{{ user.id }}</p></td>
+        <td><input class="form-control" value="{{ user.username }}"></input></td>
+        <td><input  class="form-control" value="{{ user.email }}"></input></td>
+        <td>{{ user.enabled ? '<i class="icon-ok"></i>Oui':'<i class="icon-remove"></i>Non'}}</td>
+        <td>
+            <select  class='form-control' name="roles[]" id="select1" >
                     {% for key, role in roleHierarchy %}                                    
                         <option {{user.roles[0]==key?' SELECTED ':''}}  name="{{key}}" value="{{key}}">{{key}}</option>
                     {%endfor%}
-                </select>
-                </td>
+            </select>
+        </td>
                 {#<td><input value="{{ user.roles[0] }}"></input></td>#}
-                <td>
+        <td>
                     {%if user.facebookId %}                        
-                        <a href="#"><span class="tooltip" data-action="click" data-content="#tooltipcontentFacebook" title="This is a default (top) tooltip"><i class="icon-ok"></i>Oui</span></a>
-                        <!-- Tooltip Content -->
-                        <div class="tooltip-content" id="tooltipcontentFacebook">
-                            <h2>Détails Facebook</h2>
-                            <p>ID Facebook: {{user.facebookId}}</p>                            
-                        </div>
+            <a href="#"><span class="tooltip" data-action="click" data-content="#tooltipcontentFacebook" title="This is a default (top) tooltip"><i class="icon-ok"></i>Oui</span></a>
+            <!-- Tooltip Content -->
+            <div class="tooltip-content" id="tooltipcontentFacebook">
+                <h2>Détails Facebook</h2>
+                <p>ID Facebook: {{user.facebookId}}</p>                            
+            </div>
                     {%else%}
-                        <span class="tooltip" title="Compte utilisateur non lié à un compte Facebook"><i class="icon-remove"></i>Non</span>                        
+            <span class="tooltip" title="Compte utilisateur non lié à un compte Facebook"><i class="icon-remove"></i>Non</span>                        
                     {%endif%}
-            </td>
-                <td><input value="{{ user.firstname }}"></input></td>
-                <td><input value="{{ user.lastname }}"></input></td>                
-            </form>
-        </tr>                    
+        </td>
+        <td><input  class='form-control' value="{{ user.firstname }}"></input></td>
+        <td><input  class='form-control' value="{{ user.lastname }}"></input></td>                
+    </form>
+</tr>                    
         {% endfor %}
-    </tbody>
+</tbody>
 </table>

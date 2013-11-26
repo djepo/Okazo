@@ -14,7 +14,7 @@ use okazo\annoncesBundle\Form\AnnoncesType;
 /**
  * Annonces controller.
  *
- * @Route("/annonces")
+ * @Route("/classifieds")
  */
 class AnnoncesController extends Controller {
     /**
@@ -37,7 +37,7 @@ class AnnoncesController extends Controller {
     /**
      * Finds and displays a Annonces entity.
      *
-     * @Route("/{id}/show", name="annonces_show")
+     * @Route("/show/{id}", name="annonces_show")
      * @Template()
      */
     public function showAction($id) {
@@ -73,14 +73,24 @@ class AnnoncesController extends Controller {
         $form = $this->createForm(new AnnoncesType(), $annonce);
 
         if ($request->isMethod('POST')) {
+            
             $form->bind($request);
             if ($form->isValid()) {
-                $annonce->setId();
+                
                 $em = $this->getDoctrine()->getManager();
+                
+                $annonce->setId();
+                
                 $em->persist($annonce);
                 $em->flush();
 
                 return $this->redirect($this->generateUrl('annonces_show', array('id' => $annonce->getId())));
+            } else {
+                var_dump('form non valid');
+                return array(
+                    'entity' => $annonce,
+                    'form' => $form->createView(),
+                );
             }
         } else {
             return array(
@@ -122,7 +132,7 @@ class AnnoncesController extends Controller {
     /**
      * Displays a form to edit an existing Annonces entity.
      *
-     * @Route("/{id}/edit", name="annonces_edit")
+     * @Route("/edit/{id}", name="annonces_edit")
      * @Template()
      */
     public function editAction($id) {
@@ -147,7 +157,7 @@ class AnnoncesController extends Controller {
     /**
      * Edits an existing Annonces entity.
      *
-     * @Route("/{id}/update", name="annonces_update")
+     * @Route("/update/{id}", name="annonces_update")
      * @Method("POST")
      * @Template("okazoannoncesBundle:Annonces:edit.html.twig")
      */
@@ -181,7 +191,7 @@ class AnnoncesController extends Controller {
     /**
      * Deletes a Annonces entity.
      *
-     * @Route("/{id}/delete", name="annonces_delete")
+     * @Route("/delete/{id}", name="annonces_delete")
      * @Method("POST")
      */
     public function deleteAction(Request $request, $id) {

@@ -43,7 +43,7 @@ class country
     private $en;
 
     /**
-     *@ORM\OneToMany(targetEntity="city", mappedBy="id")     
+     *@ORM\OneToMany(targetEntity="city", mappedBy="country")     
      */
     private $cities;
 

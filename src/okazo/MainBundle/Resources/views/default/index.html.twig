@@ -30,14 +30,14 @@
         #}
         
         {# Liste des annonces #}
-        <div class="col-md-9{#col_9#}" style="{#width: 751px; float: left;#}" id="listeAnnonces">
+        <div class="col-sx-12 col-sm-12 col-md-9 col-lg-9" id="listeAnnonces">
         {%block listeAnnonces %}        
             {% include 'okazoannoncesBundle:annonces:listeAnnonces.html.twig' %}        
         {%endblock%}
         </div>        
 
         {# Colonne de droite #}
-        <div class="col-md-3{#col_3#} {#right hide-phone hide-tablet#}" id="colonneDroite" style="{#width: 250px; float: right;#}">
+        <div class="hidden-xs hidden-sm col-md-3 col-lg-3" id="colonneDroite">
             <div id="fb-root"></div>
             <script>
                 (function(d, s, id) {
@@ -56,23 +56,7 @@
                 /* on redéfini la taille du contenu */
                 .fb_iframe_widget, .fb_iframe_widget span, .fb_iframe_widget span iframe[style] { width: 100% !important; }
             </style>
-            <style>
-                /*tests de modif pour avoir un design de colonnes responsive*/
-                #listeAnnonces {
-                    /*width: 73.333333333333%;    /*Comme col_9*/                
-                }
-
-                /*full screen*/
-                @media all and (min-width: 1024px) and (max-width: 1280px) {
-                    #listeAnnonces {
-                        /*width: 73.333333333333%;    /*Comme col_9*/
-                    }
-                    #colonneDroite {
-                        /*width: 23.333333333333%;    /*Comme col_3 */
-                    }
-                }            
-            </style>
-            <div style="padding-top: 40px; padding-bottom: 0; padding-left: 0; padding-right: 0;" class="hide-phone fb-like-box" data-href="https://www.facebook.com/pages/Okazo/613317148699358" data-width="292" data-show-faces="true" data-stream="false" data-show-border="false" data-header="true"></div>
+            <div style="padding-top: 40px; padding-bottom: 0; padding-left: 0; padding-right: 0;" class="fb-like-box" data-href="https://www.facebook.com/pages/Okazo/613317148699358" data-width="292" data-show-faces="true" data-stream="false" data-show-border="false" data-header="true"></div>
 
             {# Publicité google du côté droit #}
             {% include 'okazoMainBundle:blocks:adsGoogleVerticalRight.html.twig' %}

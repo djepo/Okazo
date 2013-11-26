@@ -15,8 +15,10 @@
 html, body {
     height: 100%;
     /*full width with bootstrap*/
+    /*
     padding: 0 15px;
     margin: 0 -15px;
+    */
 }
 
 /*Modifications bootstrap*/
@@ -88,4 +90,26 @@ html, body {
     top:0;
     left: 0;
     z-index: 10000;
+}
+
+.gotop {
+    bottom: 5px;
+    position: fixed;
+    right: 5px;
+    z-index: 1339;
+}
+
+.gotop a {
+    background: url("img/go-top.png") no-repeat scroll center center rgba(0, 0, 0, 0);
+    cursor: pointer;
+    display: block;
+    font-size: 0;
+    height: 52px;
+    text-indent: -13337px;
+    width: 52px;    
+}
+
+.col-centered {
+    float:none;
+    margin: 0 auto;
 }

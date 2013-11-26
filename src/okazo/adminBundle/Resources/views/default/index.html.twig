@@ -1,20 +1,50 @@
 {% extends "okazoadminBundle::layout.html.twig" %}
 
 {% block adminContent %}
-<ul class="tabs left">
-    <li><a href="#tabr1"><i class="icon-group"></i>Administration Utilisateurs</a></li>
-    <li><a href="#tabr2"><i class="icon-book"></i>Administration Annonces</a></li>
-    <li><a href="#tabr3"><i class="icon-globe"></i>Administration Villes</a></li>
-    <li><a href="#tabr4">Autres</a></li>
-    <li><a href="#tabr5">Paramètres du site</a></li>
+<ul class="nav nav-tabs">
+    <li>
+        <a href="#tabr1" data-toggle="tab">Administration Utilisateurs</a>
+    </li>
+    <li><a href="#tabr2" data-toggle="tab">Administration Annonces</a></li>
+    <li><a href="#tabr3" data-toggle="tab">Administration Villes</a></li>
+    <li><a href="#tabr4" data-toggle="tab">Autres</a></li>
+    <li><a href="#tabr5" data-toggle="tab">Paramètres du site</a></li>
 </ul>
 
-<div id="tabr1" class="tab-content" style="overflow: auto; height: 580px;">
+<div class="tab-content">
+    <div class="tab-pane fade in active" id="tabr1">
         {{ render(controller('okazoadminBundle:admin:blockUserAdmin')) }}
+    </div>
+    <div class="tab-pane fade" id="tabr2">
+        {{ render(controller('okazoadminBundle:admin:blockAdsAdmin')) }}
+    </div>
+    <div class="tab-pane fade" id="tabr3">
+        <p>A implémenter</p>
+    </div>
+    <div class="tab-pane fade" id="tabr4">
+        <a href="{{path('adminClearCache')}}">clear Cache</a>
+        </br>
+        <a target="_blank" href="https://www.google.com/analytics/web/?hl=fr&pli=1#report/visitors-overview/a40959596w70297497p72481346/">Google Analytics</a>
+        </br>
+        <a href="{{path('testMail')}}">Test Mail</a>
+    </div>
+    <div class="tab-pane fade" id="tabr5">
+        {{ render(controller('okazoadminBundle:admin:blockWebsiteParameters')) }}
+    </div>
 </div>
+{#
+<div id="tabr1" class="tab-content" style="overflow: auto; height: 580px;">
+            {{ render(controller('okazoadminBundle:admin:blockUserAdmin')) }}
+        </div>
+#}
+{#
 <div id="tabr2" class="tab-content" style="overflow: auto; height: 580px;">
         {{ render(controller('okazoadminBundle:admin:blockAdsAdmin')) }}
 </div>
+#}
+
+
+{#
 <div id="tabr3" class="tab-content" style="overflow: auto; height: 580px;">
 
 </div>
@@ -28,7 +58,7 @@
 <div id="tabr5" class="tab-content" style="overflow: auto; height: 580px;"
          {{ render(controller('okazoadminBundle:admin:blockWebsiteParameters')) }}
 </div>
-
+#}
 <script>
     function raiseError(title, message, lifeDuration) {
         if (!lifeDuration) { lifeDuration=2000;}

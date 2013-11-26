@@ -1,13 +1,14 @@
 <div>
-    <form>
-        <fieldset>
-            {#<legend>Checkboxes</legend>#}
+    <form role="form" class="form">                    
             {%for key, param in parameters%}
                 {%if key!='id'%}
-            <input id="parameter_{{key}}" type="checkbox" name="{{key}}" value="{{param}}" {{param?'checked':''}}> {{key}}<br>
+                    <div class="checkbox">
+                        <label>
+                            <input id="parameter_{{key}}" type="checkbox" name="{{key}}" value="{{param}}" {{param?'checked':''}}> {{key}}
+                        </label>
+                    </div>
                 {%endif%}
-            {%endfor%}
-        </fieldset>
+            {%endfor%}        
     </form>
 </div>
 

@@ -37,7 +37,7 @@ class DefaultController extends Controller {
         $getLatitude = $request->get('lat', null);
         $getLongitude = $request->get('long', null);
         $getCategorieId = $request->get('cat', 0);
-
+                
         //Fin de détection des robots
         //Ajouter ici des fonctions de normalisation des paramètres get
         if (!$getPage) {
@@ -52,7 +52,9 @@ class DefaultController extends Controller {
             $getDistance = 0;
         }
         if ($this->get('okazo.tools')->isBot() === true) {
-            $this->container->get('okazo.log')->add("Exploration par Robot détectée dans okazo\MainBundle\Controller\indexAction()", "Exploration par robot");
+            if ($this->get('okazo.parameters')->getParameterValue('logBots')==true) {
+                $this->container->get('okazo.log')->add("Exploration par Robot détectée dans okazo\MainBundle\Controller\indexAction()", "Exploration par robot");
+            }
             $getDistance = 50000;
         }    //Si c'est un robot qui visite, on affiche toutes les annonces de la terre
         //   
